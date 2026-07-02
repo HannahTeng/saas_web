@@ -1,0 +1,200 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Dark data-console design tokens ─── */
+:root {
+  --void:   #050507;
+  --panel:  #0A0D12;
+  --edge:   #1B222C;
+  --accent: #00E5FF;
+  --fg:     #E6EDF3;
+  --mid:    #93A0AE;
+  --dim:    #525D69;
+  --ease:   cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: auto; } /* Lenis owns smooth scroll */
+
+body {
+  background-color: var(--void);
+  color: var(--fg);
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ─── Continuous background: fine grid over the whole document ───
+   One fixed layer under everything — sections never change background
+   color, so there are no jumps; local radial glows evolve on top. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(0, 229, 255, 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 229, 255, 0.028) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+/* ─── Scanlines: faint CRT texture over everything ─── */
+.scanlines::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 72;
+  pointer-events: none;
+  opacity: 0.05;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(230, 237, 243, 0.35) 3px,
+    transparent 4px
+  );
+}
+
+/* Scrollbar */
+::-webkit-scrollbar       { width: 3px; }
+::-webkit-scrollbar-track { background: var(--void); }
+::-webkit-scrollbar-thumb { background: var(--edge); border-radius: 2px; }
+
+/* Selection */
+::selection {
+  background: rgba(0, 229, 255, 0.25);
+  color: var(--fg);
+}
+
+/* Label / caption utility */
+.label {
+  font-family: var(--font-mono), monospace;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+/* [status] chip */
+.chip {
+  font-family: var(--font-mono), monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid rgba(0, 229, 255, 0.35);
+  background: rgba(0, 229, 255, 0.06);
+  padding: 2px 8px;
+  white-space: nowrap;
+}
+
+/* Panel surface with hairline border */
+.console-panel {
+  background: rgba(10, 13, 18, 0.72);
+  border: 1px solid var(--edge);
+  backdrop-filter: blur(2px);
+}
+
+/* Corner ticks (targeting-reticle corners on panels) */
+.corners { position: relative; }
+.corners::before,
+.corners::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-color: rgba(0, 229, 255, 0.5);
+  border-style: solid;
+  pointer-events: none;
+}
+.corners::before { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
+.corners::after  { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
+
+/* ─── Marquee ─── */
+@keyframes marqueeLeft {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marqueeLeft var(--marquee-speed, 30s) linear infinite;
+  will-change: transform;
+}
+
+/* ─── Cursor: hide native when the crosshair cursor is active ─── */
+@media (pointer: fine) {
+  body.cursor-host,
+  body.cursor-host a,
+  body.cursor-host button,
+  body.cursor-host [data-hover] {
+    cursor: none;
+  }
+}
+
+/* Crosshair cursor target-lock morph (root gets .is-locked over links) */
+.is-locked .cur-ring { width: 44px; height: 44px; opacity: 0; }
+.is-locked .cur-box  { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+.is-locked .cur-h    { width: 8px; }
+.is-locked .cur-v    { height: 8px; }
+
+/* ─── Live pulse dot (availability) ─── */
+@keyframes livePulse {
+  0%   { box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.5); }
+  70%  { box-shadow: 0 0 0 7px rgba(0, 229, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 229, 255, 0); }
+}
+.live-dot { animation: livePulse 2.2s ease-out infinite; }
+
+/* Blinking terminal caret */
+@keyframes caretBlink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+.caret { animation: caretBlink 1s steps(1) infinite; }
+
+/* ─── Route transition: terminal wipe on every navigation ───
+   app/template.tsx remounts per route, so these play on each transition. */
+@keyframes routeWipe {
+  0%   { transform: scaleY(1); }
+  100% { transform: scaleY(0); }
+}
+@keyframes routeFade {
+  0%   { opacity: 0; transform: translateY(14px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.route-wipe {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: var(--void);
+  border-bottom: 1px solid rgba(0, 229, 255, 0.4);
+  transform-origin: top;
+  animation: routeWipe 0.6s var(--ease) 0.25s forwards;
+  pointer-events: none;
+  display: flex;
+  align-items: flex-end;
+  padding: 24px;
+}
+.route-fade { animation: routeFade 0.7s var(--ease) 0.3s backwards; }
+
+/* Glitch text (used on hover / transitions) */
+@keyframes glitchShift {
+  0%, 100% { clip-path: inset(0 0 0 0); transform: translateX(0); }
+  20% { clip-path: inset(15% 0 60% 0); transform: translateX(-3px); }
+  40% { clip-path: inset(60% 0 10% 0); transform: translateX(3px); }
+  60% { clip-path: inset(30% 0 45% 0); transform: translateX(-2px); }
+  80% { clip-path: inset(75% 0 5% 0);  transform: translateX(2px); }
+}
+
+/* Reduced motion: kill CSS loops & transitions overlay */
+@media (prefers-reduced-motion: reduce) {
+  .scanlines::after,
+  .marquee-track,
+  .live-dot,
+  .caret { animation: none; }
+  .route-wipe { display: none; }
+  .route-fade { animation: none; }
+}
