@@ -5,11 +5,11 @@ import { usePathname, useRouter } from 'next/navigation'
 import { scrollToSection } from '@/components/providers/SmoothScroll'
 
 const links = [
-  { label: 'About', id: '#about', no: '01' },
-  { label: 'Work', id: '#work', no: '02' },
-  { label: 'Projects', id: '#projects', no: '03' },
-  { label: 'Skills', id: '#skills', no: '04' },
-  { label: 'Contact', id: '#contact', no: '05' },
+  { label: 'How it works', id: '#how', no: '01' },
+  { label: 'Proof', id: '#projects', no: '02' },
+  { label: 'About', id: '#about', no: '03' },
+  { label: 'Capabilities', id: '#skills', no: '04' },
+  { label: 'Start', id: '#contact', no: '05' },
 ]
 
 export default function Nav() {

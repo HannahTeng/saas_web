@@ -1,9 +1,8 @@
 import Hero from '@/components/Hero'
 import Marquee from '@/components/Marquee'
-import About from '@/components/About'
-import Telemetry from '@/components/Telemetry'
-import Experience from '@/components/Experience'
+import HowItWorks from '@/components/HowItWorks'
 import Projects from '@/components/Projects'
+import About from '@/components/About'
 import Skills from '@/components/Skills'
 import Contact from '@/components/Contact'
 
@@ -12,10 +11,9 @@ export default function Home() {
     <main>
       <Hero />
       <Marquee />
-      <About />
-      <Telemetry />
-      <Experience />
+      <HowItWorks />
       <Projects />
+      <About />
       <Skills />
       <Contact />
     </main>

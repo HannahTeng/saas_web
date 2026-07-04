@@ -114,12 +114,12 @@ export default function Projects() {
 
       <div className="max-w-6xl mx-auto w-full px-6 mb-8 md:mb-10">
         <p className="label mb-5">
-          <span className="text-accent">03 /</span> Projects&nbsp;&nbsp;<span className="chip">[case files: 4]</span>
+          <span className="text-accent">02 /</span> Proof&nbsp;&nbsp;<span className="chip">[case files: 4]</span>
         </p>
         <div className="flex items-end justify-between flex-wrap gap-4">
           <Decode
             as="h2"
-            text="Selected work"
+            text="Agents already at work"
             className="font-display font-medium text-4xl md:text-6xl text-fg tracking-tight"
           />
           <span className="hidden md:inline label !text-dim">scroll → the rail drives sideways</span>
