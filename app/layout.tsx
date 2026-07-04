@@ -10,22 +10,22 @@ const grotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-display', 
 const jetbrains = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono', display: 'swap' })
 
 export const metadata: Metadata = {
-  title: 'Hannah Teng — Data Scientist & Builder',
+  title: 'Hannah Teng — Agentic Workflows, Built For Your Industry',
   description:
-    'Zihan (Hannah) Teng — MSc Data Science in Health at UCLA. Building data & AI products end to end, from clinical NL-query agents to the dashboards and interfaces that ship them.',
+    'Turn the work your team repeats every day into an AI agent with a human approval step. Forward-deployed engineer Hannah Teng maps your workflow, encodes your rules, and deploys agents inside the tools you already use — logistics, clinical, education, and beyond.',
   keywords: [
     'Hannah Teng',
     'Zihan Teng',
-    'Data Scientist',
-    'Health Data Science',
-    'Forward Deployed Engineer',
     'Agentic AI',
-    'UCLA',
-    'Next.js',
+    'AI Agents',
+    'Workflow Automation',
+    'Human-in-the-loop',
+    'Forward Deployed Engineer',
+    'AI Consulting',
   ],
   openGraph: {
-    title: 'Hannah Teng — Data Scientist & Builder',
-    description: 'Health Data Science · Agentic AI · Frontend that ships',
+    title: 'Hannah Teng — Agentic Workflows, Built For Your Industry',
+    description: 'Your workflow, running itself — agents do the repetition, humans keep the judgment.',
     type: 'website',
   },
 }
