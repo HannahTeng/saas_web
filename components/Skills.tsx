@@ -4,21 +4,22 @@ import Decode from '@/components/ui/Decode'
 import Reveal from '@/components/ui/Reveal'
 
 const groups = [
-  { cat: 'Languages & Analysis', skills: ['Python', 'R', 'TypeScript', 'SQL', 'SAS', 'MATLAB'] },
-  { cat: 'Frontend / UX', skills: ['Next.js', 'React', 'React Native', 'Tailwind', 'ag-grid', 'Figma'] },
-  { cat: 'Agentic System Design', skills: ['Agent / Human Boundaries', 'Human-in-the-loop', 'Workflow Decomposition', 'Browser Automation', 'Escalation Design'] },
-  { cat: 'Machine Learning & Stats', skills: ['Survival Analysis', 'Mixed Models', 'Random Forest', 'LASSO', 'A/B Testing', 'scikit-learn'] },
-  { cat: 'Data Engineering & BI', skills: ['Pandas', 'ETL Pipelines', 'GeoPandas', 'Tableau', 'Power BI', 'ggplot2'] },
-  { cat: 'Delivery & Consulting', skills: ['Requirements Discovery', 'Epic-to-Story Scoping', 'Build-vs-Reuse', 'Client Consulting', 'US–China Delivery'] },
-]
-
-const certs = [
-  'Certified Data Management Professional (CDMP)®',
-  'ASA — Associate Professional Member',
-  'Google Data Analytics Professional Certificate',
-  'IBM Data Science Professional Certificate',
-  'IBM Business Analysis Professional Certificate',
-  'International Business Certificate — X-Culture',
+  {
+    cat: 'Agentic System Design',
+    skills: ['Agent / Human Boundaries', 'Human-in-the-loop', 'Workflow Decomposition', 'Escalation Design'],
+  },
+  {
+    cat: 'Connect to Anything',
+    skills: ['MCP Servers & APIs', 'OAuth-connected Apps', 'Browser Automation', 'Playwright · Firecrawl', 'No-API Systems'],
+  },
+  {
+    cat: 'Interfaces That Ship',
+    skills: ['Next.js · React', 'ag-grid Dashboards', 'React Native', 'Figma → Production'],
+  },
+  {
+    cat: 'Grounded in Data',
+    skills: ['Python · R · SQL', 'Statistical Modeling', 'A/B Testing', 'ETL Pipelines', 'Local LLMs (Ollama)'],
+  },
 ]
 
 export default function Skills() {
@@ -32,19 +33,18 @@ export default function Skills() {
       <div className="max-w-6xl mx-auto">
         <div className="mb-8 md:mb-10">
           <p className="label mb-5">
-            <span className="text-accent">04 /</span> Skills&nbsp;&nbsp;<span className="chip">[modules loaded]</span>
+            <span className="text-accent">04 /</span> Capabilities&nbsp;&nbsp;<span className="chip">[modules loaded]</span>
           </p>
           <Decode
             as="h2"
-            text="What I work with"
+            text="What your agent is built with"
             className="font-display font-medium text-4xl md:text-6xl text-fg tracking-tight"
           />
         </div>
 
-        {/* 2 per row on mobile, 3 on desktop — compact */}
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-px bg-edge border border-edge mb-10">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-edge border border-edge">
           {groups.map((g, i) => (
-            <Reveal key={g.cat} index={i % 3} className="bg-void p-3.5 sm:p-5 md:p-6">
+            <Reveal key={g.cat} index={i % 4} className="bg-void p-3.5 sm:p-5 md:p-6">
               <p className="font-mono text-[9px] md:text-[10px] tracking-[0.2em] uppercase text-accent mb-3 md:mb-4">
                 <span className="text-dim">$</span> {g.cat}
               </p>
@@ -62,18 +62,6 @@ export default function Skills() {
             </Reveal>
           ))}
         </div>
-
-        <Reveal className="console-panel corners p-6 md:p-8">
-          <p className="label !text-accent mb-6">Certifications &amp; Awards&nbsp;&nbsp;<span className="chip">[verified: 6]</span></p>
-          <div className="grid md:grid-cols-2 gap-x-10 gap-y-3">
-            {certs.map((c) => (
-              <div key={c} className="flex items-start gap-3 border-t border-edge pt-3">
-                <span className="text-accent mt-1 font-mono text-[10px]">▸</span>
-                <p className="font-display font-light text-mid text-sm">{c}</p>
-              </div>
-            ))}
-          </div>
-        </Reveal>
       </div>
     </section>
   )
