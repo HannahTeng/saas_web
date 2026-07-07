@@ -1,40 +1,56 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import ParticleField from '@/components/effects/ParticleField'
 import Magnetic from '@/components/ui/Magnetic'
-import Decode from '@/components/ui/Decode'
 import { gsap, ScrollTrigger, prefersReducedMotion } from '@/lib/anim'
 import { scrollToSection } from '@/components/providers/SmoothScroll'
 
+const TITLE_STATIC = 'Agent systems'
+const TITLE_TYPED = 'for real work.'
+
 export default function Hero() {
   const rootRef = useRef<HTMLDivElement>(null)
-  const glowARef = useRef<HTMLDivElement>(null)
-  const glowBRef = useRef<HTMLDivElement>(null)
   const hudRef = useRef<HTMLDivElement>(null)
+  const [typed, setTyped] = useState('')
+  const [doneTyping, setDoneTyping] = useState(false)
+
+  // ── Slow typewriter on the accent line ─────────────────────────────────
+  useEffect(() => {
+    if (prefersReducedMotion()) {
+      setTyped(TITLE_TYPED)
+      setDoneTyping(true)
+      return
+    }
+    let i = 0
+    let timer: number
+    const tick = () => {
+      i += 1
+      setTyped(TITLE_TYPED.slice(0, i))
+      if (i < TITLE_TYPED.length) {
+        timer = window.setTimeout(tick, 110)
+      } else {
+        setDoneTyping(true)
+      }
+    }
+    timer = window.setTimeout(tick, 900) // wait for the static line to settle
+    return () => window.clearTimeout(timer)
+  }, [])
 
   useEffect(() => {
     const root = rootRef.current!
-    const words = Array.from(root.querySelectorAll<HTMLElement>('.hero-word'))
     const fades = Array.from(root.querySelectorAll<HTMLElement>('.hero-fade'))
 
     if (prefersReducedMotion()) {
-      gsap.set([...words, ...fades], { y: 0, yPercent: 0, opacity: 1 })
+      gsap.set(fades, { opacity: 1, y: 0 })
       return
     }
 
-    gsap.set(words, { yPercent: 115 })
     gsap.set(fades, { opacity: 0, y: 18 })
+    const fallback = window.setTimeout(() => {
+      gsap.to(fades, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.1, delay: 0.25 })
+    }, 140)
 
-    const intro = () => {
-      const tl = gsap.timeline()
-      tl.to(words, { yPercent: 0, duration: 1, ease: 'power4.out', stagger: 0.09 })
-      tl.to(fades, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.09 }, '-=0.55')
-    }
-
-    const fallback = window.setTimeout(intro, 140)
-
-    // ── Parallax depth: layers exit at different speeds on scroll ─────────
     const st = ScrollTrigger.create({
       trigger: root,
       start: 'top top',
@@ -42,8 +58,6 @@ export default function Hero() {
       scrub: true,
       onUpdate: (self) => {
         const p = self.progress
-        if (glowARef.current) gsap.set(glowARef.current, { yPercent: p * 30 })
-        if (glowBRef.current) gsap.set(glowBRef.current, { yPercent: p * 18 })
         if (hudRef.current) gsap.set(hudRef.current, { yPercent: p * 45, opacity: 1 - p * 1.4 })
       },
     })
@@ -55,37 +69,16 @@ export default function Hero() {
   }, [])
 
   return (
-    <section ref={rootRef} className="relative min-h-[100dvh] w-full overflow-hidden flex items-center">
-      <div
-        aria-hidden
-        className="absolute inset-y-0 right-0 w-full md:w-[72vw] opacity-70 z-0"
-        style={{
-          backgroundImage:
-            'linear-gradient(90deg, rgba(246,248,251,1) 0%, rgba(246,248,251,0.82) 36%, rgba(246,248,251,0.16) 100%), url(/agent-glass.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center right',
-        }}
-      />
+    <section ref={rootRef} className="relative min-h-[100dvh] w-full overflow-hidden flex items-center justify-center">
+      {/* Ambient background: particle field + two soft glass orbs, no slabs */}
+      <ParticleField className="absolute inset-0 z-0 opacity-50" />
+      <div aria-hidden className="glass-orb orb-float hidden md:block z-[1]"
+        style={{ width: '170px', height: '170px', top: '14%', right: '10%' }} />
+      <div aria-hidden className="glass-orb orb-float-b hidden md:block z-[1]"
+        style={{ width: '72px', height: '72px', bottom: '18%', left: '12%' }} />
 
-      {/* ── Parallax layer 0: glass-blue workflow field ── */}
-      <ParticleField className="absolute inset-0 z-0 opacity-70" />
-
-      {/* ── Parallax layer 1: drifting glow blobs ── */}
-      <div
-        ref={glowARef}
-        aria-hidden
-        className="absolute -top-24 right-0 h-[52vh] w-[64vw] z-0"
-        style={{ background: 'linear-gradient(135deg, rgba(75,134,165,0.10), rgba(255,255,255,0))' }}
-      />
-      <div
-        ref={glowBRef}
-        aria-hidden
-        className="absolute bottom-0 left-0 h-[42vh] w-[58vw] z-0"
-        style={{ background: 'linear-gradient(20deg, rgba(255,255,255,0.72), rgba(246,248,251,0))' }}
-      />
-
-      {/* ── Parallax layer 2: HUD console chrome ── */}
-      <div ref={hudRef} aria-hidden className="absolute inset-0 z-[1] pointer-events-none">
+      {/* HUD chrome */}
+      <div ref={hudRef} aria-hidden className="absolute inset-0 z-[2] pointer-events-none">
         <div className="hero-fade absolute top-20 left-6 md:left-12 font-mono text-[9px] tracking-[0.24em] uppercase text-dim">
           34.0522°N&nbsp;&nbsp;118.2437°W&nbsp;&nbsp;·&nbsp;&nbsp;LOS ANGELES
         </div>
@@ -94,47 +87,31 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="relative z-10 max-w-6xl mx-auto w-full px-6 md:px-12 py-24 md:py-20 flex flex-col items-start gap-6">
-        <Decode
-          as="p"
-          onLoad
-          text="Enterprise agents · Personal knowledge systems · Agentic workflow design"
-          className="label !text-accent"
-        />
+      {/* Open, centered hero — no container panel */}
+      <div className="relative z-10 w-full max-w-3xl mx-auto px-6 py-28 flex flex-col items-center text-center gap-8 md:gap-10">
+        <p className="hero-fade label !text-accent">
+          Enterprise agents · Personal knowledge systems · Agentic workflow design
+        </p>
 
-        <h1 className="font-display font-medium text-fg leading-[1.02] tracking-tight text-4xl sm:text-5xl md:text-6xl lg:text-7xl max-w-3xl">
-          <span className="block overflow-hidden pb-[0.08em] -mb-[0.05em]">
-            <span className="hero-word inline-block">Agent systems</span>
-          </span>
-          <span className="block overflow-hidden pb-[0.08em] -mb-[0.05em]">
-            <span
-              className="hero-word inline-block text-accent"
-            >
-              for real work.
-            </span>
+        <h1 className="font-display font-semibold text-fg leading-[1.08] tracking-tight text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
+          {TITLE_STATIC}
+          <br />
+          <span className="text-accent">
+            {typed}
+            <span className={`type-caret ${doneTyping ? 'caret' : ''}`} aria-hidden />
           </span>
         </h1>
 
-        <p className="hero-fade font-display font-light text-mid text-sm md:text-lg max-w-2xl leading-relaxed">
-          Agent design and implementation for teams that need structured workflows, reliable
-          retrieval, approval controls, and practical deployment. From personal knowledge
-          dashboards to enterprise agent operations, the system is built around how work actually
-          moves.
+        <p className="hero-fade font-display font-normal text-mid text-base md:text-lg max-w-xl leading-relaxed">
+          Agent design and implementation for teams that need structured workflows,
+          reliable retrieval, approval controls, and practical deployment.
         </p>
 
-        <div className="hero-fade grid w-full max-w-3xl grid-cols-1 gap-2 border-y border-edge py-4 sm:grid-cols-3">
-          {['Workflow automation', 'Knowledge retrieval', 'Human approval'].map((item) => (
-            <div key={item} className="font-mono text-[10px] uppercase tracking-[0.18em] text-mid">
-              {item}
-            </div>
-          ))}
-        </div>
-
-        <div className="hero-fade flex flex-wrap items-center gap-3 mt-2">
+        <div className="hero-fade flex flex-wrap items-center justify-center gap-4">
           <Magnetic>
             <button
               onClick={() => scrollToSection('#contact')}
-              className="px-6 md:px-7 py-2.5 md:py-3 bg-accent text-white font-mono text-[11px] md:text-xs tracking-widest uppercase font-bold transition-all duration-300 hover:shadow-glow active:scale-[0.98]"
+              className="glass-btn glass-btn-tinted px-8 py-3.5 font-mono text-[11px] md:text-xs tracking-widest uppercase font-bold"
               data-hover
             >
               Start your agent
@@ -143,13 +120,21 @@ export default function Hero() {
           <Magnetic>
             <button
               onClick={() => scrollToSection('#how')}
-              className="px-6 md:px-7 py-2.5 md:py-3 bg-white/62 border border-edge text-mid font-mono text-[11px] md:text-xs tracking-widest uppercase transition-colors duration-300 hover:border-accent hover:text-accent active:scale-[0.98]"
+              className="glass-btn px-8 py-3.5 text-fg font-mono text-[11px] md:text-xs tracking-widest uppercase hover:text-accent"
               data-hover
             >
               See how it works ↓
             </button>
           </Magnetic>
-          <span className="hero-fade inline-flex items-center gap-2.5 md:ml-1 md:pl-4 md:border-l border-edge">
+        </div>
+
+        <div className="hero-fade flex flex-wrap items-center justify-center gap-x-8 gap-y-3 pt-2">
+          {['Workflow automation', 'Knowledge retrieval', 'Human approval'].map((item) => (
+            <span key={item} className="font-mono text-[10px] uppercase tracking-[0.18em] text-dim">
+              {item}
+            </span>
+          ))}
+          <span className="inline-flex items-center gap-2.5">
             <span className="w-1.5 h-1.5 rounded-full bg-accent live-dot" />
             <span className="label !text-mid">Taking new workflows</span>
           </span>
@@ -157,7 +142,7 @@ export default function Hero() {
       </div>
 
       {/* Scroll cue */}
-      <div className="hidden md:flex absolute bottom-8 left-12 flex-col items-start gap-2 z-10">
+      <div className="hidden md:flex absolute bottom-10 left-1/2 -translate-x-1/2 flex-col items-center gap-2 z-10">
         <span className="label text-dim">Scroll</span>
         <div className="w-px h-10 bg-gradient-to-b from-accent/60 to-transparent" />
       </div>
