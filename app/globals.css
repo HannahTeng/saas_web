@@ -4,13 +4,13 @@
 
 /* ─── Light breathing-glass design tokens ─── */
 :root {
-  --void:   #F6F8FB;
+  --void:   #FAF6F0;
   --panel:  #FFFFFF;
-  --edge:   #C8D6E1;
-  --accent: #4B86A5;
-  --fg:     #172333;
-  --mid:    #40566C;
-  --dim:    #6E7F91;
+  --edge:   #E3D8C9;
+  --accent: #C4703A;
+  --fg:     #2C241C;
+  --mid:    #5D5044;
+  --dim:    #96897A;
   --ease:   cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -20,8 +20,8 @@ html { scroll-behavior: auto; } /* Lenis owns smooth scroll */
 
 body {
   background:
-    linear-gradient(135deg, rgba(255,255,255,0.96) 0%, rgba(246,248,251,0.98) 42%, rgba(231,239,246,0.92) 100%),
-    linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(219,232,241,0.5) 100%);
+    linear-gradient(135deg, rgba(255,255,255,0.96) 0%, rgba(250,246,240,0.98) 42%, rgba(245,236,224,0.92) 100%),
+    linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(240,228,211,0.5) 100%);
   color: var(--fg);
   font-family: var(--font-display), system-ui, sans-serif;
   font-size: 16px;
@@ -39,8 +39,8 @@ body::before {
   pointer-events: none;
   background:
     linear-gradient(115deg, rgba(255,255,255,0.82) 0%, rgba(255,255,255,0) 38%),
-    linear-gradient(160deg, rgba(75,134,165,0.11) 0%, rgba(75,134,165,0) 54%),
-    linear-gradient(22deg, rgba(210,225,236,0) 0%, rgba(210,225,236,0.42) 100%);
+    linear-gradient(160deg, rgba(196,112,58,0.10) 0%, rgba(196,112,58,0) 54%),
+    linear-gradient(22deg, rgba(238,224,205,0) 0%, rgba(238,224,205,0.42) 100%);
 }
 
 /* Fixed atmospheric film, replacing the previous CRT scanline texture. */
@@ -52,8 +52,7 @@ body::before {
   pointer-events: none;
   opacity: 0.36;
   background-image:
-    linear-gradient(115deg, rgba(255,255,255,0.22), rgba(255,255,255,0) 36%),
-    repeating-linear-gradient(90deg, rgba(23,35,51,0.018) 0 1px, transparent 1px 84px);
+    linear-gradient(115deg, rgba(255,255,255,0.22), rgba(255,255,255,0) 36%);
   mix-blend-mode: multiply;
 }
 
@@ -64,7 +63,7 @@ body::before {
 
 /* Selection */
 ::selection {
-  background: rgba(75, 134, 165, 0.22);
+  background: rgba(196, 112, 58, 0.20);
   color: var(--fg);
 }
 
@@ -85,9 +84,10 @@ body::before {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--accent);
-  border: 1px solid rgba(75, 134, 165, 0.25);
+  border: 1px solid rgba(196, 112, 58, 0.25);
   background: rgba(255, 255, 255, 0.62);
-  padding: 2px 8px;
+  padding: 3px 10px;
+  border-radius: 9999px;
   white-space: nowrap;
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.75);
 }
@@ -96,27 +96,192 @@ body::before {
 .console-panel {
   background: rgba(255, 255, 255, 0.82);
   border: 1px solid var(--edge);
-  border-radius: 8px;
+  border-radius: 24px;
   backdrop-filter: blur(18px) saturate(1.18);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.82),
-    0 24px 70px rgba(44, 72, 96, 0.13);
+    0 24px 70px rgba(92, 68, 44, 0.13);
 }
 
-/* Corner ticks (targeting-reticle corners on panels) */
-.corners { position: relative; }
-.corners::before,
-.corners::after {
+/* ─── Liquid glass material ───
+   Crystal-clear panel: strong backdrop refraction, bright specular top edge,
+   and spectral (rainbow) highlights concentrated at edges/curves via a
+   conic-gradient border mask — never a uniform tint across the surface. */
+.liquid-glass {
+  position: relative;
+  border-radius: 20px;
+  background:
+    linear-gradient(120deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.18) 42%, rgba(255,255,255,0.42) 100%);
+  backdrop-filter: blur(26px) saturate(1.6);
+  -webkit-backdrop-filter: blur(26px) saturate(1.6);
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,0.95),
+    inset 0 -1px 1px rgba(255,255,255,0.35),
+    0 8px 32px rgba(92,68,44,0.10),
+    0 30px 80px rgba(92,68,44,0.12);
+}
+/* Iridescent rim: rainbow flare lives only in the 1.5px border ring */
+.liquid-glass::before {
   content: '';
   position: absolute;
-  width: 10px;
-  height: 10px;
-  border-color: rgba(75, 134, 165, 0.34);
-  border-style: solid;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(from 210deg at 50% 50%,
+    rgba(255,255,255,0.9) 0deg,
+    rgba(255,190,140,0.85) 40deg,
+    rgba(235,160,120,0.8) 80deg,
+    rgba(255,255,255,0.65) 130deg,
+    rgba(255,200,150,0.75) 190deg,
+    rgba(255,225,170,0.7) 240deg,
+    rgba(250,205,160,0.65) 290deg,
+    rgba(255,255,255,0.9) 360deg);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
   pointer-events: none;
 }
-.corners::before { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
-.corners::after  { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
+/* Curved specular streak + soft internal refraction caustic */
+.liquid-glass::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 60% at 8% 0%, rgba(255,255,255,0.65) 0%, rgba(255,255,255,0) 46%),
+    radial-gradient(60% 40% at 92% 100%, rgba(240,180,130,0.18) 0%, rgba(255,255,255,0) 60%),
+    linear-gradient(105deg, rgba(255,255,255,0) 42%, rgba(255,255,255,0.28) 48%, rgba(255,255,255,0) 54%);
+}
+
+/* Liquid-glass orb: a floating refractive sphere with spectral edge flares */
+.glass-orb {
+  position: absolute;
+  border-radius: 9999px;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.25) 22%, rgba(255,255,255,0.04) 46%, rgba(255,255,255,0.10) 100%);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow:
+    inset -6px -10px 24px rgba(230,180,130,0.25),
+    inset 4px 8px 18px rgba(255,255,255,0.85),
+    0 18px 50px rgba(92,68,44,0.14);
+  pointer-events: none;
+}
+.glass-orb::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: conic-gradient(from 140deg,
+    rgba(255,255,255,0.9), rgba(255,195,145,0.9) 70deg, rgba(240,170,120,0.85) 130deg,
+    rgba(255,255,255,0.4) 190deg, rgba(255,205,155,0.8) 250deg, rgba(250,220,170,0.75) 310deg,
+    rgba(255,255,255,0.9));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+.glass-orb::after {
+  content: '';
+  position: absolute;
+  top: 12%;
+  left: 16%;
+  width: 34%;
+  height: 22%;
+  border-radius: 9999px;
+  background: linear-gradient(160deg, rgba(255,255,255,0.95), rgba(255,255,255,0));
+  filter: blur(2px);
+  transform: rotate(-24deg);
+}
+
+@keyframes orbFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-16px) rotate(3deg); }
+}
+.orb-float   { animation: orbFloat 9s ease-in-out infinite; }
+.orb-float-b { animation: orbFloat 12s ease-in-out infinite reverse; }
+
+/* ─── Apple Liquid Glass buttons ───
+   Modeled on iOS 26 / visionOS glass controls: a clear capsule that refracts
+   the backdrop (heavy blur + saturation boost), a bright lensing rim that is
+   stronger on top and fades at the bottom, a soft specular sheen inside, and
+   a diffuse contact shadow. Press = slight scale + brighter fill. */
+.glass-btn {
+  position: relative;
+  isolation: isolate;
+  border-radius: 9999px;
+  border: none;
+  background: rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(24px) saturate(1.8);
+  -webkit-backdrop-filter: blur(24px) saturate(1.8);
+  box-shadow:
+    /* lensing rim: bright top edge, dimmer sides */
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.95),
+    inset 1px 0 1px rgba(255, 255, 255, 0.45),
+    inset -1px 0 1px rgba(255, 255, 255, 0.45),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.25),
+    /* inner depth */
+    inset 0 -8px 16px -8px rgba(92, 68, 44, 0.10),
+    /* contact shadow */
+    0 1px 2px rgba(92, 68, 44, 0.10),
+    0 10px 30px rgba(92, 68, 44, 0.14);
+  transition: background 0.35s var(--ease), box-shadow 0.35s var(--ease), transform 0.35s var(--ease);
+}
+/* specular sheen across the upper half of the capsule */
+.glass-btn::before {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(140% 90% at 50% -30%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.12) 48%, rgba(255,255,255,0) 60%);
+}
+.glass-btn:hover {
+  background: rgba(255, 255, 255, 0.42);
+  box-shadow:
+    inset 0 1.5px 1px rgba(255, 255, 255, 1),
+    inset 1px 0 1px rgba(255, 255, 255, 0.5),
+    inset -1px 0 1px rgba(255, 255, 255, 0.5),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.3),
+    inset 0 -8px 16px -8px rgba(92, 68, 44, 0.08),
+    0 1px 2px rgba(92, 68, 44, 0.10),
+    0 14px 38px rgba(92, 68, 44, 0.18);
+}
+.glass-btn:active { transform: scale(0.97); }
+
+/* Tinted variant: accent color suspended inside the same glass material */
+.glass-btn-tinted {
+  background: rgba(196, 112, 58, 0.72);
+  color: #fff;
+  box-shadow:
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.65),
+    inset 1px 0 1px rgba(255, 255, 255, 0.25),
+    inset -1px 0 1px rgba(255, 255, 255, 0.25),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.15),
+    inset 0 -10px 20px -8px rgba(122, 62, 24, 0.45),
+    0 1px 2px rgba(92, 68, 44, 0.12),
+    0 10px 30px rgba(160, 86, 40, 0.30);
+}
+.glass-btn-tinted::before {
+  background:
+    radial-gradient(140% 90% at 50% -30%, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.10) 48%, rgba(255,255,255,0) 60%);
+}
+.glass-btn-tinted:hover {
+  background: rgba(206, 122, 66, 0.80);
+  box-shadow:
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.75),
+    inset 1px 0 1px rgba(255, 255, 255, 0.3),
+    inset -1px 0 1px rgba(255, 255, 255, 0.3),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.18),
+    inset 0 -10px 20px -8px rgba(122, 62, 24, 0.40),
+    0 1px 2px rgba(92, 68, 44, 0.12),
+    0 14px 38px rgba(160, 86, 40, 0.36);
+}
+
+/* Corner ticks retired — panels are soft-rounded now */
+.corners { position: relative; }
 
 /* ─── Marquee ─── */
 @keyframes marqueeLeft {
@@ -130,11 +295,22 @@ body::before {
 
 /* ─── Live pulse dot (availability) ─── */
 @keyframes livePulse {
-  0%   { box-shadow: 0 0 0 0 rgba(75, 134, 165, 0.36); }
-  70%  { box-shadow: 0 0 0 7px rgba(75, 134, 165, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(75, 134, 165, 0); }
+  0%   { box-shadow: 0 0 0 0 rgba(196, 112, 58, 0.36); }
+  70%  { box-shadow: 0 0 0 7px rgba(196, 112, 58, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(196, 112, 58, 0); }
 }
 .live-dot { animation: livePulse 2.2s ease-out infinite; }
+
+/* Hero typewriter caret */
+.type-caret {
+  display: inline-block;
+  width: 0.06em;
+  height: 0.92em;
+  margin-left: 0.06em;
+  vertical-align: -0.08em;
+  background: var(--accent);
+  border-radius: 2px;
+}
 
 /* Blinking terminal caret */
 @keyframes caretBlink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
@@ -154,8 +330,8 @@ body::before {
   position: fixed;
   inset: 0;
   z-index: 90;
-  background: linear-gradient(135deg, #ffffff 0%, #eef4f8 100%);
-  border-bottom: 1px solid rgba(75, 134, 165, 0.22);
+  background: linear-gradient(135deg, #ffffff 0%, #f5ede1 100%);
+  border-bottom: 1px solid rgba(196, 112, 58, 0.20);
   transform-origin: top;
   animation: routeWipe 0.6s var(--ease) 0.25s forwards;
   pointer-events: none;
@@ -179,6 +355,8 @@ body::before {
   .scanlines::after,
   .marquee-track,
   .live-dot,
+  .orb-float,
+  .orb-float-b,
   .caret { animation: none; }
   .route-wipe { display: none; }
   .route-fade { animation: none; }

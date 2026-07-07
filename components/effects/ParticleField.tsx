@@ -69,7 +69,7 @@ export default function ParticleField({ className = '' }: { className?: string }
     const pGeo = new THREE.BufferGeometry()
     pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3))
     const pMat = new THREE.PointsMaterial({
-      color: 0x6f9cb6,
+      color: 0xc99a6f,
       size: CFG.pointSize,
       transparent: true,
       opacity: 0.35,
@@ -87,7 +87,7 @@ export default function ParticleField({ className = '' }: { className?: string }
     lAttr.setUsage(THREE.DynamicDrawUsage)
     lGeo.setAttribute('position', lAttr)
     const lMat = new THREE.LineBasicMaterial({
-      color: 0x6f9cb6,
+      color: 0xc99a6f,
       transparent: true,
       opacity: 0.075,
       depthWrite: false,
