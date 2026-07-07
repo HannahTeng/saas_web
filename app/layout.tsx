@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
-import { Space_Grotesk, JetBrains_Mono } from 'next/font/google'
+import { Inter, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import SmoothScroll from '@/components/providers/SmoothScroll'
 import Nav from '@/components/Nav'
 
-const grotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-display', display: 'swap' })
+const grotesk = Inter({ subsets: ['latin'], variable: '--font-display', display: 'swap' })
 const jetbrains = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono', display: 'swap' })
 
 export const metadata: Metadata = {
