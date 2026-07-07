@@ -20,7 +20,7 @@ function Card({ p, compact = false }: { p: Project; compact?: boolean }) {
     <Link
       href={`/work/${p.slug}`}
       data-hover
-      className={`group corners relative block console-panel h-full hover:border-accent/50 transition-colors duration-500 ${
+      className={`group relative block console-panel h-full hover:border-accent/50 transition-all duration-500 hover:-translate-y-1 ${
         compact ? 'p-4' : 'p-8 md:p-9'
       }`}
     >
@@ -53,7 +53,7 @@ function Card({ p, compact = false }: { p: Project; compact?: boolean }) {
       {!compact && (
         <div className="flex flex-wrap gap-1.5">
           {p.tags.map((tag) => (
-            <span key={tag} className="label border border-edge px-2.5 py-1 group-hover:border-accent/30 transition-colors">
+            <span key={tag} className="label border border-edge bg-white/50 px-2.5 py-1 group-hover:border-accent/30 transition-colors">
               {tag}
             </span>
           ))}
@@ -109,7 +109,7 @@ export default function Projects() {
       <div
         aria-hidden
         className="absolute top-0 right-1/4 w-[40vw] h-[50vh] -z-[1] pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse, rgba(0,229,255,0.055) 0%, transparent 70%)' }}
+        style={{ background: 'linear-gradient(120deg, transparent, rgba(75,134,165,0.08) 70%, transparent)' }}
       />
 
       <div className="max-w-6xl mx-auto w-full px-6 mb-8 md:mb-10">
@@ -120,7 +120,7 @@ export default function Projects() {
           <Decode
             as="h2"
             text="Agents already at work"
-            className="font-display font-medium text-4xl md:text-6xl text-fg tracking-tight"
+            className="font-display font-medium text-3xl md:text-5xl text-fg tracking-tight"
           />
           <span className="hidden md:inline label !text-dim">scroll → the rail drives sideways</span>
         </div>

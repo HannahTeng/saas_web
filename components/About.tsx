@@ -31,11 +31,11 @@ const deployments = [
 
 export default function About() {
   return (
-    <section id="about" className="relative py-14 md:py-20 px-6">
+    <section id="about" className="relative py-20 md:py-28 px-6">
       <div
         aria-hidden
         className="absolute top-0 left-1/3 w-[50vw] h-[40vh] -z-[1] pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse, rgba(0,229,255,0.05) 0%, transparent 70%)' }}
+        style={{ background: 'linear-gradient(120deg, rgba(255,255,255,0.7), rgba(75,134,165,0.08) 58%, transparent)' }}
       />
       <div className="max-w-6xl mx-auto">
         <p className="label mb-6 md:mb-8">
@@ -84,9 +84,9 @@ export default function About() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-edge border border-edge mt-10 md:mt-12">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 mt-12 md:mt-14">
           {stats.map((s, i) => (
-            <Reveal key={i} index={i} className="bg-void p-5 md:p-7">
+            <Reveal key={i} index={i} className="console-panel p-5 md:p-7">
               <p className="font-mono font-medium text-3xl md:text-4xl text-accent leading-none">
                 {s.el}
               </p>

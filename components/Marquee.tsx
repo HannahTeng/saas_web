@@ -15,7 +15,7 @@ const ITEMS = [
 ]
 
 /**
- * Data-stream ticker. Kinetic type: the track skews and stretches with the
+ * Kinetic ticker. The track skews and stretches with the
  * page's scroll velocity, so fast scrolling visibly bends the stream.
  */
 export default function Marquee() {
@@ -54,7 +54,7 @@ export default function Marquee() {
   return (
     <div
       ref={wrapRef}
-      className="relative z-10 border-y border-edge bg-panel/60 py-3.5 md:py-4 overflow-hidden select-none"
+      className="relative z-10 border-y border-edge bg-white/54 backdrop-blur-xl py-3.5 md:py-4 overflow-hidden select-none"
       aria-hidden
     >
       <div

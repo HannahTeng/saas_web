@@ -6,7 +6,7 @@ import * as THREE from 'three'
 /* ────────────────────────────────────────────────────────────────────────
    ParticleField — Three.js points + connection lines ("data cloud")
    ------------------------------------------------------------------------
-   A drifting cloud of cyan points; nearby points are joined by faint lines,
+   A drifting cloud of glass-blue points; nearby points are joined by faint lines,
    forming a live network graph. The cloud reacts to:
      • mouse — a repulsion field pushes points away from the pointer, and the
        whole cloud tilts toward it;
@@ -69,13 +69,13 @@ export default function ParticleField({ className = '' }: { className?: string }
     const pGeo = new THREE.BufferGeometry()
     pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3))
     const pMat = new THREE.PointsMaterial({
-      color: 0x00e5ff,
+      color: 0x6f9cb6,
       size: CFG.pointSize,
       transparent: true,
-      opacity: 0.85,
+      opacity: 0.35,
       sizeAttenuation: true,
       depthWrite: false,
-      blending: THREE.AdditiveBlending,
+      blending: THREE.NormalBlending,
     })
     const points = new THREE.Points(pGeo, pMat)
     scene.add(points)
@@ -87,11 +87,11 @@ export default function ParticleField({ className = '' }: { className?: string }
     lAttr.setUsage(THREE.DynamicDrawUsage)
     lGeo.setAttribute('position', lAttr)
     const lMat = new THREE.LineBasicMaterial({
-      color: 0x00e5ff,
+      color: 0x6f9cb6,
       transparent: true,
-      opacity: 0.13,
+      opacity: 0.075,
       depthWrite: false,
-      blending: THREE.AdditiveBlending,
+      blending: THREE.NormalBlending,
     })
     const lines = new THREE.LineSegments(lGeo, lMat)
     scene.add(lines)

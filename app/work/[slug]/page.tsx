@@ -24,7 +24,7 @@ export default function WorkPage({ params }: { params: { slug: string } }) {
       <div
         aria-hidden
         className="absolute top-0 right-0 w-[50vw] h-[50vh] -z-[1] pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse, rgba(0,229,255,0.07) 0%, transparent 70%)' }}
+        style={{ background: 'linear-gradient(120deg, rgba(75,134,165,0.1), transparent 70%)' }}
       />
       <div className="max-w-4xl mx-auto">
         <Link
@@ -43,7 +43,7 @@ export default function WorkPage({ params }: { params: { slug: string } }) {
             target="_blank"
             rel="noopener noreferrer"
             data-hover
-            className="font-mono text-[11px] uppercase tracking-[0.18em] text-mid border border-edge px-5 py-2.5 hover:border-accent hover:text-accent transition-colors duration-300"
+            className="font-mono text-[11px] uppercase tracking-[0.18em] text-mid bg-white/58 border border-edge px-5 py-2.5 hover:border-accent hover:text-accent transition-colors duration-300"
           >
             View on GitHub ↗
           </a>

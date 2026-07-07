@@ -2,15 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Dark data-console design tokens ─── */
+/* ─── Light breathing-glass design tokens ─── */
 :root {
-  --void:   #050507;
-  --panel:  #0A0D12;
-  --edge:   #1B222C;
-  --accent: #00E5FF;
-  --fg:     #E6EDF3;
-  --mid:    #93A0AE;
-  --dim:    #525D69;
+  --void:   #F6F8FB;
+  --panel:  #FFFFFF;
+  --edge:   #C8D6E1;
+  --accent: #4B86A5;
+  --fg:     #172333;
+  --mid:    #40566C;
+  --dim:    #6E7F91;
   --ease:   cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -19,7 +19,9 @@
 html { scroll-behavior: auto; } /* Lenis owns smooth scroll */
 
 body {
-  background-color: var(--void);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.96) 0%, rgba(246,248,251,0.98) 42%, rgba(231,239,246,0.92) 100%),
+    linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(219,232,241,0.5) 100%);
   color: var(--fg);
   font-family: var(--font-display), system-ui, sans-serif;
   font-size: 16px;
@@ -29,36 +31,30 @@ body {
   overflow-x: hidden;
 }
 
-/* ─── Continuous background: fine grid over the whole document ───
-   One fixed layer under everything — sections never change background
-   color, so there are no jumps; local radial glows evolve on top. */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   z-index: -2;
   pointer-events: none;
-  background-image:
-    linear-gradient(rgba(0, 229, 255, 0.028) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 229, 255, 0.028) 1px, transparent 1px);
-  background-size: 56px 56px;
+  background:
+    linear-gradient(115deg, rgba(255,255,255,0.82) 0%, rgba(255,255,255,0) 38%),
+    linear-gradient(160deg, rgba(75,134,165,0.11) 0%, rgba(75,134,165,0) 54%),
+    linear-gradient(22deg, rgba(210,225,236,0) 0%, rgba(210,225,236,0.42) 100%);
 }
 
-/* ─── Scanlines: faint CRT texture over everything ─── */
+/* Fixed atmospheric film, replacing the previous CRT scanline texture. */
 .scanlines::after {
   content: '';
   position: fixed;
   inset: 0;
   z-index: 72;
   pointer-events: none;
-  opacity: 0.05;
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent 0px,
-    transparent 2px,
-    rgba(230, 237, 243, 0.35) 3px,
-    transparent 4px
-  );
+  opacity: 0.36;
+  background-image:
+    linear-gradient(115deg, rgba(255,255,255,0.22), rgba(255,255,255,0) 36%),
+    repeating-linear-gradient(90deg, rgba(23,35,51,0.018) 0 1px, transparent 1px 84px);
+  mix-blend-mode: multiply;
 }
 
 /* Scrollbar */
@@ -68,7 +64,7 @@ body::before {
 
 /* Selection */
 ::selection {
-  background: rgba(0, 229, 255, 0.25);
+  background: rgba(75, 134, 165, 0.22);
   color: var(--fg);
 }
 
@@ -89,17 +85,22 @@ body::before {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--accent);
-  border: 1px solid rgba(0, 229, 255, 0.35);
-  background: rgba(0, 229, 255, 0.06);
+  border: 1px solid rgba(75, 134, 165, 0.25);
+  background: rgba(255, 255, 255, 0.62);
   padding: 2px 8px;
   white-space: nowrap;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.75);
 }
 
-/* Panel surface with hairline border */
+/* Panel surface with frosted hairline border */
 .console-panel {
-  background: rgba(10, 13, 18, 0.72);
+  background: rgba(255, 255, 255, 0.82);
   border: 1px solid var(--edge);
-  backdrop-filter: blur(2px);
+  border-radius: 8px;
+  backdrop-filter: blur(18px) saturate(1.18);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.82),
+    0 24px 70px rgba(44, 72, 96, 0.13);
 }
 
 /* Corner ticks (targeting-reticle corners on panels) */
@@ -110,7 +111,7 @@ body::before {
   position: absolute;
   width: 10px;
   height: 10px;
-  border-color: rgba(0, 229, 255, 0.5);
+  border-color: rgba(75, 134, 165, 0.34);
   border-style: solid;
   pointer-events: none;
 }
@@ -127,27 +128,11 @@ body::before {
   will-change: transform;
 }
 
-/* ─── Cursor: hide native when the crosshair cursor is active ─── */
-@media (pointer: fine) {
-  body.cursor-host,
-  body.cursor-host a,
-  body.cursor-host button,
-  body.cursor-host [data-hover] {
-    cursor: none;
-  }
-}
-
-/* Crosshair cursor target-lock morph (root gets .is-locked over links) */
-.is-locked .cur-ring { width: 44px; height: 44px; opacity: 0; }
-.is-locked .cur-box  { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
-.is-locked .cur-h    { width: 8px; }
-.is-locked .cur-v    { height: 8px; }
-
 /* ─── Live pulse dot (availability) ─── */
 @keyframes livePulse {
-  0%   { box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.5); }
-  70%  { box-shadow: 0 0 0 7px rgba(0, 229, 255, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(0, 229, 255, 0); }
+  0%   { box-shadow: 0 0 0 0 rgba(75, 134, 165, 0.36); }
+  70%  { box-shadow: 0 0 0 7px rgba(75, 134, 165, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(75, 134, 165, 0); }
 }
 .live-dot { animation: livePulse 2.2s ease-out infinite; }
 
@@ -169,8 +154,8 @@ body::before {
   position: fixed;
   inset: 0;
   z-index: 90;
-  background: var(--void);
-  border-bottom: 1px solid rgba(0, 229, 255, 0.4);
+  background: linear-gradient(135deg, #ffffff 0%, #eef4f8 100%);
+  border-bottom: 1px solid rgba(75, 134, 165, 0.22);
   transform-origin: top;
   animation: routeWipe 0.6s var(--ease) 0.25s forwards;
   pointer-events: none;

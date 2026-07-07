@@ -11,13 +11,12 @@ type Props = {
   className?: string
   /** seconds before the decode starts once triggered */
   delay?: number
-  /** wait for `preloader:done` instead of a ScrollTrigger */
+  /** run on initial load instead of waiting for a ScrollTrigger */
   onLoad?: boolean
 }
 
 /**
- * Decode — terminal-decryption text effect. Characters churn through random
- * glyphs and lock into place left → right, like a cipher resolving.
+ * Decode — text resolves left to right with a light technical feel.
  * Falls back to static text under prefers-reduced-motion.
  */
 export default function Decode({ text, as = 'h2', className = '', delay = 0, onLoad = false }: Props) {
@@ -70,7 +69,7 @@ export default function Decode({ text, as = 'h2', className = '', delay = 0, onL
     if (onLoad) {
       const done = () => run()
       window.addEventListener('preloader:done', done, { once: true })
-      timeout = window.setTimeout(run, 2800) // fallback if preloader absent
+      timeout = window.setTimeout(run, 120)
       return () => {
         window.removeEventListener('preloader:done', done)
         window.clearTimeout(timeout)

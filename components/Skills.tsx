@@ -3,61 +3,52 @@
 import Decode from '@/components/ui/Decode'
 import Reveal from '@/components/ui/Reveal'
 
-const groups = [
+const rows = [
   {
-    cat: 'Agentic System Design',
-    skills: ['Agent / Human Boundaries', 'Human-in-the-loop', 'Workflow Decomposition', 'Escalation Design'],
+    title: 'Agent logic',
+    body: 'Agent / human boundaries, workflow decomposition, escalation design, and the approval layer that keeps judgment with the operator.',
   },
   {
-    cat: 'Connect to Anything',
-    skills: ['MCP Servers & APIs', 'OAuth-connected Apps', 'Browser Automation', 'Playwright · Firecrawl', 'No-API Systems'],
+    title: 'Tool connection',
+    body: 'MCP servers, APIs, OAuth-connected apps, browser automation, spreadsheets, portals, and no-API systems.',
   },
   {
-    cat: 'Interfaces That Ship',
-    skills: ['Next.js · React', 'ag-grid Dashboards', 'React Native', 'Figma → Production'],
-  },
-  {
-    cat: 'Grounded in Data',
-    skills: ['Python · R · SQL', 'Statistical Modeling', 'A/B Testing', 'ETL Pipelines', 'Local LLMs (Ollama)'],
+    title: 'Knowledge retrieval',
+    body: 'Python, SQL, ETL pipelines, local LLMs, statistical modeling, and RAG retrieval for personal or team knowledge bases.',
   },
 ]
 
 export default function Skills() {
   return (
-    <section id="skills" className="relative py-14 md:py-20 px-6">
+    <section id="skills" className="relative px-6 py-20 md:py-24">
       <div
         aria-hidden
-        className="absolute bottom-0 left-1/4 w-[50vw] h-[45vh] -z-[1] pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse, rgba(0,229,255,0.05) 0%, transparent 70%)' }}
+        className="absolute bottom-0 left-1/4 h-[45vh] w-[50vw] -z-[1] pointer-events-none"
+        style={{ background: 'linear-gradient(120deg, transparent, rgba(75,134,165,0.08), rgba(255,255,255,0.7))' }}
       />
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-8 md:mb-10">
-          <p className="label mb-5">
-            <span className="text-accent">04 /</span> Capabilities&nbsp;&nbsp;<span className="chip">[modules loaded]</span>
+
+      <div className="mx-auto max-w-6xl">
+        <div className="grid gap-8 md:grid-cols-[0.8fr_1.2fr] md:items-end">
+          <p className="label">
+            <span className="text-accent">04 /</span> Build system
           </p>
           <Decode
             as="h2"
-            text="What your agent is built with"
-            className="font-display font-medium text-4xl md:text-6xl text-fg tracking-tight"
+            text="The technical layer stays quiet."
+            className="font-display text-3xl font-medium leading-tight tracking-tight text-fg md:text-5xl"
           />
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-edge border border-edge">
-          {groups.map((g, i) => (
-            <Reveal key={g.cat} index={i % 4} className="bg-void p-3.5 sm:p-5 md:p-6">
-              <p className="font-mono text-[9px] md:text-[10px] tracking-[0.2em] uppercase text-accent mb-3 md:mb-4">
-                <span className="text-dim">$</span> {g.cat}
-              </p>
-              <div className="flex flex-wrap gap-1.5 md:gap-2">
-                {g.skills.map((s) => (
-                  <span
-                    key={s}
-                    data-hover
-                    className="font-mono text-[9px] md:text-[11px] text-mid bg-panel border border-edge px-2 py-0.5 md:px-2.5 md:py-1 hover:border-accent hover:text-accent hover:shadow-glowSm transition-all duration-200"
-                  >
-                    {s}
-                  </span>
-                ))}
+        <div className="mt-12 divide-y divide-edge border-y border-edge">
+          {rows.map((row, i) => (
+            <Reveal key={row.title} index={i}>
+              <div className="grid gap-4 py-7 md:grid-cols-[0.35fr_1fr] md:py-9">
+                <h3 className="font-display text-xl font-medium tracking-tight text-fg md:text-2xl">
+                  {row.title}
+                </h3>
+                <p className="max-w-3xl font-display text-base font-light leading-relaxed text-mid md:text-[17px]">
+                  {row.body}
+                </p>
               </div>
             </Reveal>
           ))}

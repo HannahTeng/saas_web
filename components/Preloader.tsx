@@ -12,7 +12,7 @@ const BOOT_LINES = [
 ]
 
 /**
- * Terminal-boot preloader: monospace boot log types in line by line while a
+ * Light boot preloader: monospace boot log types in line by line while a
  * progress counter runs 000→100, then the whole console wipes upward.
  * Dispatches `preloader:done` so the Hero can begin its intro.
  */
@@ -71,7 +71,7 @@ export default function Preloader() {
   return (
     <div
       ref={rootRef}
-      className="fixed inset-0 z-[85] bg-void flex flex-col justify-between px-6 py-8 md:px-14 md:py-12 border-b border-accent/30"
+      className="fixed inset-0 z-[85] bg-void flex flex-col justify-between px-6 py-8 md:px-14 md:py-12 border-b border-accent/20"
       aria-hidden
     >
       <div className="flex justify-between items-start font-mono text-[10px] tracking-[0.3em] uppercase text-dim">

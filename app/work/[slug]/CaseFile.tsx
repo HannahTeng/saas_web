@@ -22,9 +22,9 @@ export default function CaseFile({ p }: { p: Project }) {
 
       {/* console metadata readout */}
       <Reveal index={1} className="mt-10">
-        <div className="console-panel corners grid grid-cols-2 md:grid-cols-4 gap-px bg-edge border border-edge">
+        <div className="console-panel grid grid-cols-2 md:grid-cols-4 gap-px bg-edge border border-edge overflow-hidden">
           {p.meta.map((m) => (
-            <div key={m.k} className="bg-void p-4">
+            <div key={m.k} className="bg-white/70 p-4">
               <p className="label mb-1.5">{m.k}</p>
               <p className="font-mono text-[11px] md:text-xs text-fg leading-snug">{m.v}</p>
             </div>
@@ -45,7 +45,7 @@ export default function CaseFile({ p }: { p: Project }) {
           {p.tags.map((tag) => (
             <span
               key={tag}
-              className="font-mono text-[10px] md:text-xs text-mid border border-edge px-3 py-1.5 hover:border-accent hover:text-accent transition-colors duration-200"
+              className="font-mono text-[10px] md:text-xs text-mid bg-white/58 border border-edge px-3 py-1.5 hover:border-accent hover:text-accent transition-colors duration-200"
               data-hover
             >
               {tag}

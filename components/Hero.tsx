@@ -32,9 +32,7 @@ export default function Hero() {
       tl.to(fades, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.09 }, '-=0.55')
     }
 
-    const done = () => intro()
-    window.addEventListener('preloader:done', done, { once: true })
-    const fallback = window.setTimeout(intro, 2800)
+    const fallback = window.setTimeout(intro, 140)
 
     // ── Parallax depth: layers exit at different speeds on scroll ─────────
     const st = ScrollTrigger.create({
@@ -51,29 +49,39 @@ export default function Hero() {
     })
 
     return () => {
-      window.removeEventListener('preloader:done', done)
       window.clearTimeout(fallback)
       st.kill()
     }
   }, [])
 
   return (
-    <section ref={rootRef} className="relative min-h-svh w-full overflow-hidden flex items-center">
-      {/* ── Parallax layer 0: WebGL data-cloud (points + link lines) ── */}
-      <ParticleField className="absolute inset-0 z-0" />
+    <section ref={rootRef} className="relative min-h-[100dvh] w-full overflow-hidden flex items-center">
+      <div
+        aria-hidden
+        className="absolute inset-y-0 right-0 w-full md:w-[72vw] opacity-70 z-0"
+        style={{
+          backgroundImage:
+            'linear-gradient(90deg, rgba(246,248,251,1) 0%, rgba(246,248,251,0.82) 36%, rgba(246,248,251,0.16) 100%), url(/agent-glass.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center right',
+        }}
+      />
+
+      {/* ── Parallax layer 0: glass-blue workflow field ── */}
+      <ParticleField className="absolute inset-0 z-0 opacity-70" />
 
       {/* ── Parallax layer 1: drifting glow blobs ── */}
       <div
         ref={glowARef}
         aria-hidden
-        className="absolute -top-32 -right-24 w-[45vw] h-[45vw] rounded-full z-0"
-        style={{ background: 'radial-gradient(circle, rgba(0,229,255,0.10) 0%, transparent 65%)' }}
+        className="absolute -top-24 right-0 h-[52vh] w-[64vw] z-0"
+        style={{ background: 'linear-gradient(135deg, rgba(75,134,165,0.10), rgba(255,255,255,0))' }}
       />
       <div
         ref={glowBRef}
         aria-hidden
-        className="absolute bottom-0 -left-32 w-[38vw] h-[38vw] rounded-full z-0"
-        style={{ background: 'radial-gradient(circle, rgba(0,229,255,0.06) 0%, transparent 65%)' }}
+        className="absolute bottom-0 left-0 h-[42vh] w-[58vw] z-0"
+        style={{ background: 'linear-gradient(20deg, rgba(255,255,255,0.72), rgba(246,248,251,0))' }}
       />
 
       {/* ── Parallax layer 2: HUD console chrome ── */}
@@ -86,7 +94,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="relative z-10 max-w-5xl mx-auto w-full px-6 md:px-12 py-24 md:py-16 flex flex-col items-start gap-6">
+      <div className="relative z-10 max-w-6xl mx-auto w-full px-6 md:px-12 py-24 md:py-20 flex flex-col items-start gap-6">
         <Decode
           as="p"
           onLoad
@@ -94,14 +102,13 @@ export default function Hero() {
           className="label !text-accent"
         />
 
-        <h1 className="font-display font-medium text-fg leading-[0.9] tracking-[-0.03em] text-[12vw] sm:text-7xl md:text-8xl lg:text-9xl">
+        <h1 className="font-display font-medium text-fg leading-[1.02] tracking-tight text-4xl sm:text-5xl md:text-6xl lg:text-7xl max-w-3xl">
           <span className="block overflow-hidden pb-[0.08em] -mb-[0.05em]">
             <span className="hero-word inline-block">Your workflow,</span>
           </span>
           <span className="block overflow-hidden pb-[0.08em] -mb-[0.05em]">
             <span
               className="hero-word inline-block text-accent"
-              style={{ textShadow: '0 0 32px rgba(0,229,255,0.35)' }}
             >
               running itself.
             </span>
@@ -120,7 +127,7 @@ export default function Hero() {
           <Magnetic>
             <button
               onClick={() => scrollToSection('#contact')}
-              className="px-6 md:px-7 py-2.5 md:py-3 bg-accent text-void font-mono text-[11px] md:text-xs tracking-widest uppercase font-bold transition-all duration-300 hover:shadow-glow"
+              className="px-6 md:px-7 py-2.5 md:py-3 bg-accent text-white font-mono text-[11px] md:text-xs tracking-widest uppercase font-bold transition-all duration-300 hover:shadow-glow active:scale-[0.98]"
               data-hover
             >
               Start your agent
@@ -129,7 +136,7 @@ export default function Hero() {
           <Magnetic>
             <button
               onClick={() => scrollToSection('#how')}
-              className="px-6 md:px-7 py-2.5 md:py-3 border border-edge text-mid font-mono text-[11px] md:text-xs tracking-widest uppercase transition-colors duration-300 hover:border-accent hover:text-accent"
+              className="px-6 md:px-7 py-2.5 md:py-3 bg-white/62 border border-edge text-mid font-mono text-[11px] md:text-xs tracking-widest uppercase transition-colors duration-300 hover:border-accent hover:text-accent active:scale-[0.98]"
               data-hover
             >
               See how it works ↓

@@ -2,8 +2,6 @@ import type { Metadata } from 'next'
 import { Space_Grotesk, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import SmoothScroll from '@/components/providers/SmoothScroll'
-import Cursor from '@/components/effects/Cursor'
-import Preloader from '@/components/Preloader'
 import Nav from '@/components/Nav'
 
 const grotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-display', display: 'swap' })
@@ -33,10 +31,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${grotesk.variable} ${jetbrains.variable}`}>
-      {/* `.scanlines` overlays a faint CRT texture; `cursor-host` toggled by Cursor */}
       <body className="scanlines">
-        <Cursor />
-        <Preloader />
         <SmoothScroll>
           <Nav />
           {children}

@@ -55,7 +55,7 @@ export default function Nav() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-void/80 backdrop-blur-md border-b border-edge' : ''
+        scrolled ? 'bg-white/72 backdrop-blur-xl border-b border-edge shadow-glowSm' : ''
       }`}
     >
       <nav className="max-w-6xl mx-auto px-6 h-[60px] flex items-center justify-between">
@@ -83,7 +83,7 @@ export default function Nav() {
             <li key={l.label}>
               <button
                 onClick={() => go(l.id)}
-                className="group font-mono text-[11px] uppercase tracking-[0.18em] text-mid hover:text-accent transition-colors duration-300"
+                className="group font-mono text-[11px] uppercase tracking-[0.16em] text-mid hover:text-accent transition-colors duration-300"
                 data-hover
               >
                 <span className="text-accent/50 mr-1 group-hover:text-accent transition-colors">{l.no}</span>
@@ -124,7 +124,7 @@ export default function Nav() {
       </div>
 
       {menuOpen && (
-        <div className="md:hidden bg-void/95 backdrop-blur-md border-b border-edge px-6 pb-6">
+        <div className="md:hidden bg-white/92 backdrop-blur-xl border-b border-edge px-6 pb-6 shadow-glow">
           <ul className="flex flex-col gap-4 pt-4">
             {links.map((l) => (
               <li key={l.label}>

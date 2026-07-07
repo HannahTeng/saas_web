@@ -6,12 +6,11 @@ import Magnetic from '@/components/ui/Magnetic'
 
 export default function Contact() {
   return (
-    <section id="contact" className="relative pt-10 md:pt-14 pb-16 md:pb-20 px-6 overflow-hidden">
-      {/* strongest glow of the page — the console "powers up" at the end */}
+    <section id="contact" className="relative pt-16 md:pt-20 pb-16 md:pb-24 px-6 overflow-hidden">
       <div
         aria-hidden
         className="absolute inset-x-0 bottom-0 h-[70vh] -z-[1] pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at 50% 100%, rgba(0,229,255,0.10) 0%, transparent 65%)' }}
+        style={{ background: 'linear-gradient(0deg, rgba(75,134,165,0.13) 0%, rgba(246,248,251,0) 68%)' }}
       />
       <div className="max-w-6xl mx-auto">
         <p className="label mb-6">
@@ -21,7 +20,7 @@ export default function Contact() {
         <Decode
           as="h2"
           text="Let’s build something."
-          className="font-display font-medium text-5xl sm:text-7xl md:text-8xl tracking-tight leading-[0.95] mb-8"
+          className="font-display font-medium text-4xl sm:text-5xl md:text-6xl tracking-tight leading-tight mb-8"
         />
 
         <Reveal index={1}>
@@ -62,7 +61,7 @@ export default function Contact() {
                   target={s.href.startsWith('http') ? '_blank' : undefined}
                   rel="noopener noreferrer"
                   data-hover
-                  className="inline-block font-mono text-[11px] uppercase tracking-[0.18em] text-mid border border-edge px-5 py-2.5 hover:border-accent hover:text-accent hover:shadow-glowSm transition-all duration-300"
+                  className="inline-block font-mono text-[11px] uppercase tracking-[0.18em] text-mid bg-white/58 border border-edge px-5 py-2.5 hover:border-accent hover:text-accent hover:shadow-glowSm transition-all duration-300"
                 >
                   {s.label}
                 </a>

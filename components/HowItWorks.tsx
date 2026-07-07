@@ -2,67 +2,79 @@
 
 import Decode from '@/components/ui/Decode'
 import Reveal from '@/components/ui/Reveal'
-import WordFill from '@/components/ui/WordFill'
 
-const steps = [
+const tracks = [
   {
     no: '01',
-    cmd: 'map',
-    title: 'We map your workflow',
-    body: 'I sit with the people who actually do the work — a dispatcher, a data manager, a broker — and walk through a real day. We find the part that repeats: the lookups, the filings, the copy-paste between systems. No tech talk required; you describe the work, I translate it.',
-    footer: 'you explain once — I do the listening',
+    label: 'Enterprise agent',
+    title: 'Agents for the work your team repeats.',
+    body:
+      'For logistics, brokerage, clinical, education, and operations teams: I map the workflow, encode the rules, connect the tools you already use, and keep approval with the human operator.',
+    points: ['Workflow mapping', 'Human approval layer', 'ERP, portal, spreadsheet, and no-API integration'],
   },
   {
     no: '02',
-    cmd: 'encode',
-    title: 'Your rules become the agent',
-    body: 'Your thresholds, exceptions, and judgment calls get written into the agent as explicit rules — like a dispatcher’s real load limits (100 CBM / 44,000 lb) becoming decision logic. The agent connects to the tools you already use: spreadsheets, ERPs, email, portals — with or without an API.',
-    footer: 'nothing changes about how you work — the agent adapts to you',
-  },
-  {
-    no: '03',
-    cmd: 'deploy',
-    title: 'You approve, the agent executes',
-    body: 'The agent proposes; you click approve. Every action stays visible and reversible, and the judgment calls remain yours. It starts on one workflow, proves itself, then grows — and I stay embedded with your team until it runs on its own.',
-    footer: 'you stay in control — always',
+    label: 'Personal agent',
+    title: 'A private workspace for knowledge, search, and decisions.',
+    body:
+      'For individuals and small teams: I build a personal agent dashboard with a knowledge base, RAG search, document retrieval, and lightweight automations around your daily information flow.',
+    points: ['Personal knowledge base', 'RAG query and retrieval', 'Agent dashboard setup'],
   },
 ]
 
 export default function HowItWorks() {
   return (
-    <section id="how" className="relative py-14 md:py-20 px-6">
+    <section id="how" className="relative px-6 py-20 md:py-24">
       <div
         aria-hidden
-        className="absolute top-0 left-1/3 w-[50vw] h-[40vh] -z-[1] pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse, rgba(0,229,255,0.05) 0%, transparent 70%)' }}
+        className="absolute right-0 top-12 h-[52vh] w-[58vw] -z-[1] pointer-events-none"
+        style={{ background: 'linear-gradient(135deg, rgba(75,134,165,0.10), rgba(255,255,255,0))' }}
       />
-      <div className="max-w-6xl mx-auto">
-        <p className="label mb-6 md:mb-8">
-          <span className="text-accent">01 /</span> How it works&nbsp;&nbsp;<span className="chip">[3 steps]</span>
-        </p>
 
-        <WordFill
-          text="Any repetitive knowledge work — in any industry — can run as an agent with a human approval step."
-          className="font-display font-light text-3xl sm:text-4xl md:text-6xl leading-[1.12] tracking-tight max-w-5xl"
-        />
+      <div className="mx-auto max-w-6xl">
+        <div className="grid gap-8 md:grid-cols-[0.8fr_1.2fr] md:items-end">
+          <p className="label">
+            <span className="text-accent">01 /</span> Agent systems
+          </p>
+          <Decode
+            as="h2"
+            text="Two ways to make agents useful."
+            className="font-display text-3xl font-medium leading-tight tracking-tight text-fg md:text-5xl"
+          />
+        </div>
 
-        <div className="grid md:grid-cols-3 gap-px bg-edge border border-edge mt-10 md:mt-14">
-          {steps.map((s, i) => (
-            <Reveal key={s.no} index={i} className="bg-void p-6 md:p-8 flex flex-col">
-              <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-dim mb-5">
-                <span className="text-accent">[{s.no}]</span> $ {s.cmd}
-              </p>
-              <Decode
-                as="h3"
-                text={s.title}
-                className="font-display font-medium text-xl md:text-2xl text-fg tracking-tight leading-tight mb-4"
-              />
-              <p className="font-display font-light text-mid text-sm md:text-[15px] leading-relaxed flex-1">
-                {s.body}
-              </p>
-              <p className="font-mono text-[10px] tracking-[0.14em] uppercase text-accent mt-6 pt-4 border-t border-edge">
-                ▸ {s.footer}
-              </p>
+        <div className="mt-12 grid gap-6 md:grid-cols-2">
+          {tracks.map((track, i) => (
+            <Reveal
+              key={track.label}
+              index={i}
+              className="console-panel min-h-[420px] p-7 md:p-10"
+            >
+              <div className="flex h-full flex-col">
+                <div className="mb-12 flex items-center justify-between gap-4">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">
+                    {track.no}
+                  </span>
+                  <span className="label !text-dim">{track.label}</span>
+                </div>
+
+                <h3 className="max-w-lg font-display text-3xl font-medium leading-tight tracking-tight text-fg md:text-4xl">
+                  {track.title}
+                </h3>
+                <p className="mt-6 max-w-xl font-display text-base font-light leading-relaxed text-mid md:text-[17px]">
+                  {track.body}
+                </p>
+
+                <div className="mt-auto grid gap-3 pt-10">
+                  {track.points.map((point) => (
+                    <div key={point} className="border-t border-edge pt-3">
+                      <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-mid">
+                        {point}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </Reveal>
           ))}
         </div>
