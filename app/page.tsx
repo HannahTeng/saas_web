@@ -1,21 +1,29 @@
+import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
-import Marquee from '@/components/Marquee'
-import HowItWorks from '@/components/HowItWorks'
-import Projects from '@/components/Projects'
-import About from '@/components/About'
-import Skills from '@/components/Skills'
-import Contact from '@/components/Contact'
+import TrustBadges from '@/components/TrustBadges'
+import ProblemSolution from '@/components/ProblemSolution'
+import FounderSection from '@/components/FounderSection'
+import FeaturedTestimonial from '@/components/FeaturedTestimonial'
+import CaseStudies from '@/components/CaseStudies'
+import TestimonialCarousel from '@/components/TestimonialCarousel'
+import CTASection from '@/components/CTASection'
+import Footer from '@/components/Footer'
 
 export default function Home() {
   return (
-    <main>
-      <Hero />
-      <Marquee />
-      <HowItWorks />
-      <Projects />
-      <About />
-      <Skills />
-      <Contact />
-    </main>
+    <>
+      <Navbar />
+      <main>
+        <Hero />
+        <TrustBadges />
+        <ProblemSolution />
+        <FounderSection />
+        <FeaturedTestimonial />
+        <CaseStudies />
+        <TestimonialCarousel />
+        <CTASection />
+      </main>
+      <Footer />
+    </>
   )
 }

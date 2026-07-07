@@ -1,30 +1,30 @@
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
-  content: [
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
+  content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}', './lib/**/*.{ts,tsx}'],
   theme: {
     extend: {
-      colors: {
-        void:   '#050507', // page background
-        panel:  '#0A0D12', // raised surfaces
-        deep:   '#07090D', // slightly raised over void
-        edge:   '#1B222C', // hairline borders
-        accent: '#00E5FF', // the one electric accent
-        fg:     '#E6EDF3', // bright text
-        mid:    '#93A0AE', // secondary text
-        dim:    '#525D69', // tertiary / labels
-      },
       fontFamily: {
-        display: ['var(--font-display)', 'system-ui', 'sans-serif'],
-        mono:    ['var(--font-mono)', 'SFMono-Regular', 'Consolas', 'monospace'],
+        sans: ['Inter Variable', 'Inter', 'system-ui', 'sans-serif'],
       },
-      boxShadow: {
-        glow:    '0 0 24px rgba(0,229,255,0.18)',
-        glowSm:  '0 0 10px rgba(0,229,255,0.25)',
+      colors: {
+        surface: '#111111',
+        'surface-2': '#141414',
+        accent: '#F59E0B',
+      },
+      animation: {
+        'marquee-left': 'marquee-left 34s linear infinite',
+        'marquee-right': 'marquee-right 38s linear infinite',
+      },
+      keyframes: {
+        'marquee-left': {
+          from: { transform: 'translateX(0)' },
+          to: { transform: 'translateX(-50%)' },
+        },
+        'marquee-right': {
+          from: { transform: 'translateX(-50%)' },
+          to: { transform: 'translateX(0)' },
+        },
       },
     },
   },
