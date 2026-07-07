@@ -98,30 +98,37 @@ export default function Hero() {
         <Decode
           as="p"
           onLoad
-          text="Agentic workflows · Forward-deployed · Built by Hannah Teng"
+          text="Enterprise agents · Personal knowledge systems · Agentic workflow design"
           className="label !text-accent"
         />
 
         <h1 className="font-display font-medium text-fg leading-[1.02] tracking-tight text-4xl sm:text-5xl md:text-6xl lg:text-7xl max-w-3xl">
           <span className="block overflow-hidden pb-[0.08em] -mb-[0.05em]">
-            <span className="hero-word inline-block">Your workflow,</span>
+            <span className="hero-word inline-block">Agent systems</span>
           </span>
           <span className="block overflow-hidden pb-[0.08em] -mb-[0.05em]">
             <span
               className="hero-word inline-block text-accent"
             >
-              running itself.
+              for real work.
             </span>
           </span>
         </h1>
 
         <p className="hero-fade font-display font-light text-mid text-sm md:text-lg max-w-2xl leading-relaxed">
-          The task your team repeats every day — filing, checking, matching, dispatching — can
-          become an AI agent that does the repetitive part and hands you the decision. I sit with
-          your team, learn how the work actually flows, and deploy an agent around it. No API?
-          I connect to whatever you already use — spreadsheets, ERPs, portals, even
-          browser-only systems. You approve; the agent executes.
+          Agent design and implementation for teams that need structured workflows, reliable
+          retrieval, approval controls, and practical deployment. From personal knowledge
+          dashboards to enterprise agent operations, the system is built around how work actually
+          moves.
         </p>
+
+        <div className="hero-fade grid w-full max-w-3xl grid-cols-1 gap-2 border-y border-edge py-4 sm:grid-cols-3">
+          {['Workflow automation', 'Knowledge retrieval', 'Human approval'].map((item) => (
+            <div key={item} className="font-mono text-[10px] uppercase tracking-[0.18em] text-mid">
+              {item}
+            </div>
+          ))}
+        </div>
 
         <div className="hero-fade flex flex-wrap items-center gap-3 mt-2">
           <Magnetic>

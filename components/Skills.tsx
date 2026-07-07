@@ -10,7 +10,7 @@ const rows = [
   },
   {
     title: 'Tool connection',
-    body: 'MCP servers, APIs, OAuth-connected apps, browser automation, spreadsheets, portals, and no-API systems.',
+    body: 'MCP servers, APIs, OAuth-connected apps, browser automation, spreadsheets, portals, and operational software already in use.',
   },
   {
     title: 'Knowledge retrieval',
