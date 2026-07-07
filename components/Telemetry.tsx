@@ -119,7 +119,7 @@ export default function Telemetry() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="relative px-6 py-14 md:py-0 md:min-h-svh md:flex md:items-center overflow-hidden">
+    <section ref={sectionRef} className="relative px-6 py-24 md:py-0 md:min-h-svh md:flex md:items-center overflow-hidden">
       {/* evolving glow, no bg jump */}
       <div
         aria-hidden

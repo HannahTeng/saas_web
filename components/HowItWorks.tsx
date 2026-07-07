@@ -1,6 +1,5 @@
 'use client'
 
-import Decode from '@/components/ui/Decode'
 import Reveal from '@/components/ui/Reveal'
 
 const tracks = [
@@ -24,23 +23,14 @@ const tracks = [
 
 export default function HowItWorks() {
   return (
-    <section id="how" className="relative px-6 py-20 md:py-24">
-      <div
-        aria-hidden
-        className="absolute right-0 top-12 h-[52vh] w-[58vw] -z-[1] pointer-events-none"
-        style={{ background: 'linear-gradient(135deg, rgba(75,134,165,0.10), rgba(255,255,255,0))' }}
-      />
+    <section id="how" className="relative px-6 py-28 md:py-36">
 
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-8 md:grid-cols-[0.8fr_1.2fr] md:items-end">
           <p className="label">
             <span className="text-accent">01 /</span> Product design
           </p>
-          <Decode
-            as="h2"
-            text="Agent products with clear operating models."
-            className="font-display text-3xl font-medium leading-tight tracking-tight text-fg md:text-5xl"
-          />
+          <h2 className="font-display text-3xl font-medium leading-tight tracking-tight text-fg md:text-5xl">Agent products with clear operating models.</h2>
         </div>
 
         <div className="mt-12 grid gap-6 md:grid-cols-2">

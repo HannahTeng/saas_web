@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from 'react'
 import Link from 'next/link'
-import Decode from '@/components/ui/Decode'
 import Reveal from '@/components/ui/Reveal'
 import { gsap } from '@/lib/anim'
 import { projects, type Project } from '@/lib/projects'
@@ -105,23 +104,14 @@ export default function Projects() {
   }, [])
 
   return (
-    <section ref={sectionRef} id="projects" className="relative py-14 md:py-0 md:min-h-svh md:flex md:flex-col md:justify-center overflow-hidden">
-      <div
-        aria-hidden
-        className="absolute top-0 right-1/4 w-[40vw] h-[50vh] -z-[1] pointer-events-none"
-        style={{ background: 'linear-gradient(120deg, transparent, rgba(75,134,165,0.08) 70%, transparent)' }}
-      />
+    <section ref={sectionRef} id="projects" className="relative py-24 md:py-0 md:min-h-svh md:flex md:flex-col md:justify-center overflow-hidden">
 
       <div className="max-w-6xl mx-auto w-full px-6 mb-8 md:mb-10">
         <p className="label mb-5">
           <span className="text-accent">02 /</span> Proof&nbsp;&nbsp;<span className="chip">[case files: 4]</span>
         </p>
         <div className="flex items-end justify-between flex-wrap gap-4">
-          <Decode
-            as="h2"
-            text="Agents already at work"
-            className="font-display font-medium text-3xl md:text-5xl text-fg tracking-tight"
-          />
+          <h2 className="font-display font-medium text-3xl md:text-5xl text-fg tracking-tight">Agents already at work</h2>
           <span className="hidden md:inline label !text-dim">scroll → the rail drives sideways</span>
         </div>
       </div>

@@ -1,6 +1,5 @@
 'use client'
 import { useState } from 'react'
-import Decode from '@/components/ui/Decode'
 import Reveal from '@/components/ui/Reveal'
 
 const work = [
@@ -118,7 +117,7 @@ export default function Experience() {
   const items = tab === 'work' ? work : research
 
   return (
-    <section id="work" className="relative py-14 md:py-20 px-6">
+    <section id="work" className="relative py-24 md:py-32 px-6">
       <div
         aria-hidden
         className="absolute top-1/4 -left-40 w-[45vw] h-[60vh] -z-[1] pointer-events-none"
@@ -130,11 +129,7 @@ export default function Experience() {
             <p className="label mb-5">
               <span className="text-accent">02 /</span> Experience&nbsp;&nbsp;<span className="chip">[deploy history]</span>
             </p>
-            <Decode
-              as="h2"
-              text="Where I’ve built"
-              className="font-display font-medium text-4xl md:text-6xl text-fg tracking-tight"
-            />
+            <h2 className="font-display font-medium text-4xl md:text-6xl text-fg tracking-tight">Where I’ve built</h2>
           </div>
 
           <div className="flex border border-edge overflow-hidden">

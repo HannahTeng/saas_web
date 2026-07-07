@@ -1,6 +1,5 @@
 'use client'
 
-import Decode from '@/components/ui/Decode'
 import Reveal from '@/components/ui/Reveal'
 
 const rows = [
@@ -20,23 +19,14 @@ const rows = [
 
 export default function Skills() {
   return (
-    <section id="skills" className="relative px-6 py-20 md:py-24">
-      <div
-        aria-hidden
-        className="absolute bottom-0 left-1/4 h-[45vh] w-[50vw] -z-[1] pointer-events-none"
-        style={{ background: 'linear-gradient(120deg, transparent, rgba(75,134,165,0.08), rgba(255,255,255,0.7))' }}
-      />
+    <section id="skills" className="relative px-6 py-28 md:py-36">
 
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-8 md:grid-cols-[0.8fr_1.2fr] md:items-end">
           <p className="label">
             <span className="text-accent">04 /</span> Build system
           </p>
-          <Decode
-            as="h2"
-            text="The technical layer stays quiet."
-            className="font-display text-3xl font-medium leading-tight tracking-tight text-fg md:text-5xl"
-          />
+          <h2 className="font-display text-3xl font-medium leading-tight tracking-tight text-fg md:text-5xl">The technical layer stays quiet.</h2>
         </div>
 
         <div className="mt-12 divide-y divide-edge border-y border-edge">

@@ -1,27 +1,17 @@
 'use client'
 
-import Decode from '@/components/ui/Decode'
 import Reveal from '@/components/ui/Reveal'
 import Magnetic from '@/components/ui/Magnetic'
 
 export default function Contact() {
   return (
-    <section id="contact" className="relative pt-16 md:pt-20 pb-16 md:pb-24 px-6 overflow-hidden">
-      <div
-        aria-hidden
-        className="absolute inset-x-0 bottom-0 h-[70vh] -z-[1] pointer-events-none"
-        style={{ background: 'linear-gradient(0deg, rgba(75,134,165,0.13) 0%, rgba(246,248,251,0) 68%)' }}
-      />
+    <section id="contact" className="relative pt-28 md:pt-36 pb-28 md:pb-40 px-6 overflow-hidden">
       <div className="max-w-6xl mx-auto">
         <p className="label mb-6">
           <span className="text-accent">05 /</span> Contact&nbsp;&nbsp;<span className="chip">[channel open]</span>
         </p>
 
-        <Decode
-          as="h2"
-          text="Let’s build something."
-          className="font-display font-medium text-4xl sm:text-5xl md:text-6xl tracking-tight leading-tight mb-8"
-        />
+        <h2 className="font-display font-medium text-4xl sm:text-5xl md:text-6xl tracking-tight leading-tight mb-8">Let’s build something.</h2>
 
         <Reveal index={1}>
           <p className="font-display font-light text-mid text-lg max-w-xl leading-relaxed mb-10">

@@ -21,11 +21,6 @@ export default function WorkPage({ params }: { params: { slug: string } }) {
 
   return (
     <main className="relative min-h-svh px-6 pt-28 pb-16 md:pt-32">
-      <div
-        aria-hidden
-        className="absolute top-0 right-0 w-[50vw] h-[50vh] -z-[1] pointer-events-none"
-        style={{ background: 'linear-gradient(120deg, rgba(75,134,165,0.1), transparent 70%)' }}
-      />
       <div className="max-w-4xl mx-auto">
         <Link
           href="/#projects"

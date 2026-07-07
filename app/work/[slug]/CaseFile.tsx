@@ -1,6 +1,5 @@
 'use client'
 
-import Decode from '@/components/ui/Decode'
 import Reveal from '@/components/ui/Reveal'
 import type { Project } from '@/lib/projects'
 
@@ -11,11 +10,7 @@ export default function CaseFile({ p }: { p: Project }) {
       <p className="font-mono text-[10px] tracking-[0.24em] uppercase text-accent mb-3">
         case_file://{p.no}&nbsp;&nbsp;·&nbsp;&nbsp;[{p.status}]
       </p>
-      <Decode
-        as="h1"
-        text={p.title}
-        className="font-display font-medium text-4xl sm:text-5xl md:text-6xl text-fg tracking-tight leading-[1.02]"
-      />
+      <h1 className="font-display font-medium text-4xl sm:text-5xl md:text-6xl text-fg tracking-tight leading-[1.02]">{p.title}</h1>
       <p className="font-mono text-[11px] md:text-xs uppercase tracking-[0.14em] text-dim mt-4">
         {p.subtitle}
       </p>

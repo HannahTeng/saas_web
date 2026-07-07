@@ -1,6 +1,5 @@
 'use client'
 
-import Decode from '@/components/ui/Decode'
 import Reveal from '@/components/ui/Reveal'
 import Counter from '@/components/ui/Counter'
 
@@ -31,12 +30,7 @@ const deployments = [
 
 export default function About() {
   return (
-    <section id="about" className="relative py-20 md:py-28 px-6">
-      <div
-        aria-hidden
-        className="absolute top-0 left-1/3 w-[50vw] h-[40vh] -z-[1] pointer-events-none"
-        style={{ background: 'linear-gradient(120deg, rgba(255,255,255,0.7), rgba(75,134,165,0.08) 58%, transparent)' }}
-      />
+    <section id="about" className="relative py-28 md:py-36 px-6">
       <div className="max-w-6xl mx-auto">
         <p className="label mb-6 md:mb-8">
           <span className="text-accent">03 /</span> Who builds this&nbsp;&nbsp;<span className="chip">[operator]</span>
@@ -44,11 +38,7 @@ export default function About() {
 
         <div className="grid md:grid-cols-[1fr_1fr] gap-8 md:gap-12 items-start">
           <div className="space-y-5">
-            <Decode
-              as="h2"
-              text="I deploy with your team, not at it."
-              className="font-display font-medium text-3xl md:text-4xl text-fg tracking-tight leading-tight"
-            />
+            <h2 className="font-display font-medium text-3xl md:text-4xl text-fg tracking-tight leading-tight">I deploy with your team, not at it.</h2>
             <Reveal index={1}>
               <p className="font-display font-light text-mid text-[15px] leading-relaxed">
                 I&apos;m Hannah Teng — a forward-deployed engineer. That means I don&apos;t build
