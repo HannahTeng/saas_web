@@ -9,26 +9,8 @@ const STATS = [
 export default function FounderSection() {
   return (
     <section className="py-20 md:py-32 px-6">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
-        {/* Placeholder portrait — swap for a next/image photo when available */}
-        <FadeIn>
-          <div
-            aria-label="Portrait of Hannah Teng (placeholder)"
-            role="img"
-            className="relative aspect-[4/5] rounded-2xl border border-white/[0.06] overflow-hidden flex items-center justify-center"
-            style={{
-              background:
-                'radial-gradient(ellipse at 30% 20%, rgba(245,158,11,0.18) 0%, transparent 55%), linear-gradient(160deg, #141414 0%, #0A0A0A 100%)',
-            }}
-          >
-            <span className="text-7xl font-bold tracking-tight text-white/10 select-none">HT</span>
-            <span className="absolute bottom-4 left-4 text-xs text-gray-600">
-              Forward-deployed · Los Angeles
-            </span>
-          </div>
-        </FadeIn>
-
-        <div>
+      <div className="max-w-3xl mx-auto">
+        <div className="text-center md:text-left">
           <FadeIn>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
               Hi, I&apos;m <em className="em-accent">Hannah</em>
@@ -53,7 +35,7 @@ export default function FounderSection() {
           </FadeIn>
 
           <FadeIn delay={0.2}>
-            <dl className="mt-10 grid grid-cols-3 gap-6">
+            <dl className="mt-10 grid grid-cols-3 gap-4 md:gap-6">
               {STATS.map((s) => (
                 <div key={s.label}>
                   <dt className="sr-only">{s.label}</dt>

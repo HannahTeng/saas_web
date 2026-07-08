@@ -8,10 +8,12 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
   @apply bg-black text-white antialiased;
+  overflow-x: clip;
 }
 
 ::selection {
@@ -23,6 +25,11 @@ body {
   /* Warm italic emphasis inside headings */
   .em-accent {
     @apply italic bg-gradient-to-r from-amber-300 via-amber-400 to-orange-500 bg-clip-text text-transparent;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    padding: 0 0.1em 0.08em;
+    margin: 0 -0.04em -0.08em;
+    overflow: visible;
   }
 
   /* Fade masks on the marquee edges */

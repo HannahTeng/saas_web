@@ -7,7 +7,13 @@ const CHECKLIST = [
   'A fast-track to your first deployed, human-approved agent',
 ]
 
-const AVATAR_NAMES = ['Dispatch Ops', 'Clinical DM', 'Customs Broker', 'Edu Team', 'Ecom Ops']
+const AVATAR_NAMES = ['Dispatch Ops', 'Clinical DM', 'Customs Broker', 'Edu Team', 'Traceability']
+
+const STATS = [
+  { value: '5', label: 'Industry cases' },
+  { value: '10+', label: 'Platform surfaces shipped' },
+  { value: '1M+', label: 'Records modeled' },
+]
 
 function Check() {
   return (
@@ -19,18 +25,46 @@ function Check() {
 
 export default function CTASection() {
   return (
-    <section id="contact" className="relative py-20 md:py-32 px-6 overflow-hidden scroll-mt-16">
+    <section id="contact" className="relative py-20 md:py-32 px-6 scroll-mt-16">
       <div
         aria-hidden
-        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[60rem] h-[30rem] pointer-events-none"
+        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[min(60rem,140vw)] h-[30rem] pointer-events-none overflow-hidden"
         style={{
           background:
             'radial-gradient(ellipse at 50% 100%, rgba(245,158,11,0.09) 0%, rgba(59,130,246,0.04) 50%, transparent 75%)',
         }}
       />
 
-      <div className="relative max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
+      <div className="relative max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-start">
         <div>
+          <FadeIn>
+            <div className="mb-12 border-b border-white/5 pb-10">
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+                Hi, I&apos;m <em className="em-accent">Hannah</em>
+              </h2>
+              <p className="mt-6 text-gray-400 leading-relaxed">
+                I&apos;m Hannah Teng — a forward-deployed engineer. That means I don&apos;t build
+                from an office and hand you a login: I sit with your dispatchers, brokers, and data
+                managers, learn the workflow from the people who run it, and stay embedded until the
+                agent genuinely carries the load.
+              </p>
+              <p className="mt-4 text-gray-400 leading-relaxed">
+                Every deployment so far — real dispatcher thresholds turned into agent rules, a
+                clinical agent running inside researchers&apos; existing platform — followed the same
+                principle: the agent adapts to your work, never the other way around.
+              </p>
+              <dl className="mt-8 grid grid-cols-3 gap-4 md:gap-6">
+                {STATS.map((s) => (
+                  <div key={s.label}>
+                    <dt className="sr-only">{s.label}</dt>
+                    <dd className="text-2xl md:text-3xl font-bold text-white">{s.value}</dd>
+                    <p className="mt-1 text-xs md:text-sm text-gray-500 leading-snug">{s.label}</p>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </FadeIn>
+
           <FadeIn>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
               Let&apos;s build <em className="em-accent">something.</em>
@@ -88,7 +122,7 @@ export default function CTASection() {
                   <Avatar key={n} name={n} className="w-8 h-8 border-2 border-[#111] -ml-2" />
                 ))}
               </div>
-              <p className="ml-3 text-sm text-gray-500">Deployed across 4 industries</p>
+              <p className="ml-3 text-sm text-gray-500">10+ platform surfaces shipped</p>
             </div>
           </div>
         </FadeIn>

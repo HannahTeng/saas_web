@@ -3,7 +3,7 @@ import FadeIn from '@/components/FadeIn'
 const BADGES = [
   'Human-in-the-loop',
   'Works with or without APIs',
-  'Deployed in 4 industries',
+  '5 industry cases',
   'You approve every action',
 ]
 

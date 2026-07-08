@@ -79,4 +79,21 @@ export const projects: Project[] = [
       { k: 'tier', v: 'National-level hackathon' },
     ],
   },
+  {
+    slug: 'regulated-traceability-agents',
+    no: '05',
+    title: 'Multi-Agent Traceability From Factory to Retail Scan',
+    subtitle: 'Regulated tobacco · Supply chain traceability · Compliance agents',
+    description:
+      'Architected a multi-agent traceability system for a regulated tobacco client, spanning the full supply chain from factory production to retail scan. Designed a 3-tier agent structure (Ingest / Query / Compliance) orchestrated by a central routing agent to handle event ingestion, natural-language chain queries, and anomaly detection for duplicate scans and route violations.',
+    tags: ['Traceability', 'Supply Chain', 'Compliance', 'Multi-agent System'],
+    highlight: 'Architected',
+    status: 'ARCHITECTED',
+    meta: [
+      { k: 'industry', v: 'Regulated tobacco supply chain' },
+      { k: 'scope', v: 'Factory production → retail scan' },
+      { k: 'architecture', v: 'Ingest · Query · Compliance agents' },
+      { k: 'controls', v: 'Duplicate scans · route violations' },
+    ],
+  },
 ]

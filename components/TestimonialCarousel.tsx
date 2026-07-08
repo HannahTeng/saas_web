@@ -7,7 +7,7 @@ type Testimonial = {
   quote: string
 }
 
-// Placeholder testimonials — one voice per industry Hannah has deployed in.
+// Placeholder testimonials — one voice per industry case.
 const ROW_A: Testimonial[] = [
   {
     name: 'Placeholder Dispatcher',
@@ -29,9 +29,9 @@ const ROW_A: Testimonial[] = [
   },
   {
     name: 'Placeholder Founder',
-    role: 'Founder · E-commerce Ops',
+    role: 'Founder · Regulated Supply Chain',
     quote:
-      'No API on half our systems — spreadsheets, portals, browser-only tools. The agent connects to all of it. We approve; it executes.',
+      'The traceability plan covered factory production through retail scan, with agents for ingestion, chain queries, and compliance checks.',
   },
 ]
 
@@ -64,14 +64,14 @@ const ROW_B: Testimonial[] = [
 
 function Card({ t }: { t: Testimonial }) {
   return (
-    <figure className="w-[350px] shrink-0 rounded-2xl bg-[#111] border border-white/[0.06] p-6 transition-colors hover:border-white/[0.12]">
-      <Avatar name={t.name} className="w-12 h-12" />
-      <blockquote className="mt-4 text-sm text-gray-300 leading-relaxed">
+    <figure className="w-[290px] md:w-[320px] shrink-0 rounded-xl bg-[#111] border border-white/[0.06] p-4 md:p-5 transition-colors hover:border-white/[0.12]">
+      <Avatar name={t.name} className="w-9 h-9" />
+      <blockquote className="mt-3 text-xs md:text-sm text-gray-300 leading-relaxed">
         &ldquo;{t.quote}&rdquo;
       </blockquote>
-      <figcaption className="mt-4">
+      <figcaption className="mt-3">
         <p className="text-white font-medium text-sm">{t.name}</p>
-        <p className="text-gray-500 text-sm">{t.role}</p>
+        <p className="text-gray-500 text-xs md:text-sm">{t.role}</p>
       </figcaption>
     </figure>
   )
@@ -81,7 +81,7 @@ function Row({ items, direction }: { items: Testimonial[]; direction: 'left' | '
   const anim = direction === 'left' ? 'animate-marquee-left' : 'animate-marquee-right'
   return (
     <div className="marquee-mask overflow-hidden pause-on-hover">
-      <div className={`marquee-row ${anim} flex w-max gap-6 pr-6`}>
+      <div className={`marquee-row ${anim} flex w-max gap-4 pr-4`}>
         {[...items, ...items].map((t, i) => (
           <Card key={`${t.name}-${i}`} t={t} />
         ))}
@@ -92,19 +92,19 @@ function Row({ items, direction }: { items: Testimonial[]; direction: 'left' | '
 
 export default function TestimonialCarousel() {
   return (
-    <section className="py-20 md:py-32 overflow-hidden">
+    <section className="py-12 md:py-20 overflow-hidden">
       <FadeIn className="text-center px-6">
-        <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+        <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
           What the operators <em className="em-accent">say</em>
         </h2>
-        <p className="mt-4 text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
+        <p className="mt-3 text-sm md:text-base text-gray-400 max-w-2xl mx-auto">
           Dispatchers, brokers, data managers, educators — the people who run the workflows the
           agents now carry. (Placeholder voices.)
         </p>
       </FadeIn>
 
       <FadeIn delay={0.15}>
-        <div className="mt-12 space-y-6">
+        <div className="mt-8 space-y-4">
           <Row items={ROW_A} direction="left" />
           <Row items={ROW_B} direction="right" />
         </div>

@@ -1,15 +1,15 @@
 import FadeIn from '@/components/FadeIn'
 import Avatar from '@/components/Avatar'
 
-const AVATAR_NAMES = ['Dispatch Ops', 'Clinical DM', 'Customs Broker', 'Edu Team', 'Ecom Ops']
+const AVATAR_NAMES = ['Dispatch Ops', 'Clinical DM', 'Customs Broker', 'Edu Team', 'Traceability']
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden">
+    <section className="relative">
       {/* Faint radial orbs for depth */}
       <div
         aria-hidden
-        className="absolute -top-40 left-1/2 -translate-x-1/2 w-[70rem] h-[40rem] pointer-events-none"
+        className="absolute -top-40 left-1/2 -translate-x-1/2 w-[min(70rem,140vw)] h-[40rem] pointer-events-none overflow-hidden"
         style={{
           background:
             'radial-gradient(ellipse at center, rgba(245,158,11,0.08) 0%, rgba(139,92,246,0.05) 40%, transparent 70%)',
@@ -24,7 +24,7 @@ export default function Hero() {
         </FadeIn>
 
         <FadeIn delay={0.1}>
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] tracking-tight max-w-4xl mx-auto">
+          <h1 className="mx-auto max-w-4xl text-balance px-1 text-[clamp(3rem,12vw,4.5rem)] md:text-6xl lg:text-7xl font-bold leading-[1.12] tracking-tight">
             Your workflow, <em className="em-accent">running itself.</em>
           </h1>
         </FadeIn>
@@ -46,7 +46,7 @@ export default function Hero() {
                 <Avatar key={n} name={n} className="w-8 h-8 border-2 border-black -ml-2" />
               ))}
             </div>
-            <p className="ml-3 text-sm text-gray-500">Deployed across 4 industries</p>
+            <p className="ml-3 text-sm text-gray-500">10+ platform surfaces shipped</p>
           </div>
         </FadeIn>
 
