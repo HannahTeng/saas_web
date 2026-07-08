@@ -25,7 +25,10 @@ export default function Hero() {
 
         <FadeIn delay={0.1}>
           <h1 className="mx-auto max-w-4xl text-balance px-1 text-[clamp(3rem,12vw,4.5rem)] md:text-6xl lg:text-7xl font-bold leading-[1.12] tracking-tight">
-            Your workflow, <em className="em-accent">running itself.</em>
+            Your workflow,{' '}
+            <span className="typing-shell">
+              <em className="em-accent typing-text">running itself.</em>
+            </span>
           </h1>
         </FadeIn>
 

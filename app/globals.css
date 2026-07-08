@@ -32,6 +32,26 @@ body {
     overflow: visible;
   }
 
+  .typing-shell {
+    display: inline-block;
+    min-width: 15ch;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: bottom;
+  }
+
+  .typing-text {
+    display: inline-block;
+    width: 0;
+    max-width: max-content;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 0.055em solid rgba(245, 158, 11, 0.9);
+    animation:
+      type-hero 1.35s steps(15, end) 0.25s forwards,
+      type-caret 0.75s step-end 0.25s infinite;
+  }
+
   /* Fade masks on the marquee edges */
   .marquee-mask {
     mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
@@ -43,9 +63,33 @@ body {
   }
 }
 
+@keyframes type-hero {
+  from {
+    width: 0;
+  }
+  to {
+    width: 15ch;
+  }
+}
+
+@keyframes type-caret {
+  0%,
+  100% {
+    border-color: transparent;
+  }
+  50% {
+    border-color: rgba(245, 158, 11, 0.9);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .marquee-row {
     animation: none !important;
+  }
+  .typing-text {
+    width: auto;
+    animation: none !important;
+    border-right: 0;
   }
   html {
     scroll-behavior: auto;

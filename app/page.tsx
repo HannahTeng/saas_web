@@ -2,7 +2,6 @@ import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
 import TrustBadges from '@/components/TrustBadges'
 import ProblemSolution from '@/components/ProblemSolution'
-import FeaturedTestimonial from '@/components/FeaturedTestimonial'
 import CaseStudies from '@/components/CaseStudies'
 import TestimonialCarousel from '@/components/TestimonialCarousel'
 import CTASection from '@/components/CTASection'
@@ -16,7 +15,6 @@ export default function Home() {
         <Hero />
         <TrustBadges />
         <ProblemSolution />
-        <FeaturedTestimonial />
         <CaseStudies />
         <TestimonialCarousel />
         <CTASection />
