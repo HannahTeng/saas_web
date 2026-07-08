@@ -107,13 +107,13 @@ export default function CTASection() {
             </p>
 
             <form
-              action="https://formsubmit.co/hannahteng777@gmail.com"
+              action="https://formsubmit.co/6b47f16c7f6b9c2ab14b5f318ada11e1"
               method="POST"
               className="mt-8 space-y-4"
             >
               <input type="hidden" name="_subject" value="New AI agent workflow request" />
               <input type="hidden" name="_template" value="table" />
-              <input type="hidden" name="_captcha" value="false" />
+              <input type="hidden" name="_captcha" value="true" />
               <input type="text" name="_honey" className="hidden" tabIndex={-1} autoComplete="off" />
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
