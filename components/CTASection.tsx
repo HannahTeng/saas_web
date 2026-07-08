@@ -15,6 +15,13 @@ const STATS = [
   { value: '1M+', label: 'Records modeled' },
 ]
 
+const PROJECT_INPUTS = [
+  'Workflow you want automated',
+  'Screen recording or written steps',
+  'Test account, test data, or sample files',
+  'Exception rules and human review points',
+]
+
 function Check() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden className="mt-1 shrink-0 text-amber-400">
@@ -92,16 +99,119 @@ export default function CTASection() {
         <FadeIn delay={0.2}>
           <div className="rounded-2xl bg-[#111]/80 border border-white/[0.06] p-8 md:p-10 backdrop-blur-sm">
             <h3 className="text-2xl font-semibold text-white leading-snug">
-              You know the work. Now let&apos;s make it run itself.
+              Start with the workflow. I&apos;ll send back a concrete plan.
             </h3>
-            <a
-              href="mailto:hannahteng777@gmail.com"
-              className="mt-8 block w-full text-center bg-white text-black font-medium px-6 py-4 rounded-full hover:bg-gray-200 transition-colors"
+            <p className="mt-4 text-sm leading-relaxed text-gray-400">
+              Best for rule-clear, repetitive workflows. I keep a human approval step where judgment
+              or risk matters.
+            </p>
+
+            <form
+              action="https://formsubmit.co/hannahteng777@gmail.com"
+              method="POST"
+              className="mt-8 space-y-4"
             >
-              Start your agent →
-            </a>
+              <input type="hidden" name="_subject" value="New AI agent workflow request" />
+              <input type="hidden" name="_template" value="table" />
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="text" name="_honey" className="hidden" tabIndex={-1} autoComplete="off" />
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <label className="block">
+                  <span className="text-xs font-medium uppercase tracking-wider text-gray-500">
+                    Name
+                  </span>
+                  <input
+                    required
+                    name="name"
+                    type="text"
+                    autoComplete="name"
+                    className="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white outline-none transition-colors placeholder:text-gray-600 focus:border-amber-400/70"
+                    placeholder="Your name"
+                  />
+                </label>
+                <label className="block">
+                  <span className="text-xs font-medium uppercase tracking-wider text-gray-500">
+                    Email
+                  </span>
+                  <input
+                    required
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    className="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white outline-none transition-colors placeholder:text-gray-600 focus:border-amber-400/70"
+                    placeholder="you@company.com"
+                  />
+                </label>
+              </div>
+
+              <label className="block">
+                <span className="text-xs font-medium uppercase tracking-wider text-gray-500">
+                  Company / team
+                </span>
+                <input
+                  name="company"
+                  type="text"
+                  autoComplete="organization"
+                  className="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white outline-none transition-colors placeholder:text-gray-600 focus:border-amber-400/70"
+                  placeholder="Company, department, or team"
+                />
+              </label>
+
+              <label className="block">
+                <span className="text-xs font-medium uppercase tracking-wider text-gray-500">
+                  What should the agent do?
+                </span>
+                <textarea
+                  required
+                  name="workflow"
+                  rows={5}
+                  className="mt-2 w-full resize-none rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white outline-none transition-colors placeholder:text-gray-600 focus:border-amber-400/70"
+                  placeholder="Example: query, download, organize, fill forms, generate results, then wait for approval."
+                />
+              </label>
+
+              <div className="rounded-xl border border-white/10 bg-black/30 p-4">
+                <p className="text-xs font-medium uppercase tracking-wider text-gray-500">
+                  Helpful materials
+                </p>
+                <div className="mt-3 grid gap-2">
+                  {PROJECT_INPUTS.map((item) => (
+                    <label key={item} className="flex items-start gap-3 text-sm text-gray-300">
+                      <input
+                        type="checkbox"
+                        name="available_materials"
+                        value={item}
+                        className="mt-0.5 h-4 w-4 rounded border-white/20 bg-black text-amber-400 focus:ring-amber-400/40"
+                      />
+                      <span>{item}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <label className="block">
+                <span className="text-xs font-medium uppercase tracking-wider text-gray-500">
+                  Notes, timeline, or budget range
+                </span>
+                <textarea
+                  name="notes"
+                  rows={3}
+                  className="mt-2 w-full resize-none rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white outline-none transition-colors placeholder:text-gray-600 focus:border-amber-400/70"
+                  placeholder="Include platforms, urgency, and what must stay manual."
+                />
+              </label>
+
+              <button
+                type="submit"
+                className="w-full rounded-full bg-white px-6 py-4 text-center font-medium text-black transition-colors hover:bg-gray-200"
+              >
+                Send workflow request →
+              </button>
+            </form>
             <p className="mt-4 text-sm text-gray-500 text-center">
-              Taking new workflows · limited embedded engagements
+              Sends to hannahteng777@gmail.com · third-party model, server, account, and tool fees
+              are quoted separately
             </p>
 
             <figure className="mt-8 pt-6 border-t border-white/5">
