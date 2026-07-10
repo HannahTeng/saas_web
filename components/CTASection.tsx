@@ -53,9 +53,9 @@ export default function CTASection() {
         </FadeIn>
 
         <FadeIn delay={0.12}>
-          <details className="intake-panel group mx-auto max-w-3xl rounded-[1.75rem] border border-white/[0.1] bg-[#0b1019]/85 backdrop-blur-xl shadow-[0_28px_100px_rgba(0,0,0,0.5)]">
-            <summary className="flex cursor-pointer list-none flex-col items-center justify-between gap-5 p-5 text-center marker:hidden sm:flex-row sm:p-6 sm:text-left md:p-7">
-              <div className="min-w-0">
+          <details className="intake-panel group mx-auto w-full max-w-3xl overflow-hidden rounded-[1.75rem] border border-white/[0.1] bg-[#0b1019]/85 backdrop-blur-xl shadow-[0_28px_100px_rgba(0,0,0,0.5)]">
+            <summary className="flex w-full cursor-pointer list-none flex-col items-center justify-between gap-5 overflow-hidden p-5 text-center marker:hidden sm:flex-row sm:p-6 sm:text-left md:p-7">
+              <div className="w-full min-w-0 sm:flex-1">
                 <p className="text-xs font-medium uppercase tracking-[0.24em] text-sky-300/80">
                   {zh ? '项目需求表' : 'Project intake'}
                 </p>
@@ -67,7 +67,7 @@ export default function CTASection() {
                     ? '准备好后展开填写。我会把范围、风险和审批节点整理成清晰的实施路径。'
                     : 'Open the brief when you’re ready. Scope, risks, and approval points come back as a concrete build path.'}
                 </p>
-                <div className="mobile-row-scroll mt-4 flex w-full max-w-full flex-nowrap justify-start gap-2 overflow-x-auto pb-1 sm:mt-5 sm:flex-wrap sm:overflow-visible sm:pb-0">
+                <div className="mobile-row-scroll mt-4 flex w-full min-w-0 max-w-full flex-nowrap justify-start gap-2 overflow-x-auto overscroll-x-contain pb-1 sm:mt-5 sm:flex-wrap sm:overflow-visible sm:pb-0">
                   {startPaths.map((path) => (
                     <span
                       key={path}
