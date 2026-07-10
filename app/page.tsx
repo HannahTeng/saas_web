@@ -1,11 +1,10 @@
 import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
-import TrustBadges from '@/components/TrustBadges'
-import ProblemSolution from '@/components/ProblemSolution'
-import CaseStudies from '@/components/CaseStudies'
+import AgentServices from '@/components/AgentServices'
 import TestimonialCarousel from '@/components/TestimonialCarousel'
 import CTASection from '@/components/CTASection'
 import Footer from '@/components/Footer'
+import QuickContact from '@/components/QuickContact'
 
 export default function Home() {
   return (
@@ -13,12 +12,11 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        <TrustBadges />
-        <ProblemSolution />
-        <CaseStudies />
+        <AgentServices />
         <TestimonialCarousel />
         <CTASection />
       </main>
+      <QuickContact />
       <Footer />
     </>
   )
