@@ -1,10 +1,22 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { useLanguage } from '@/components/LanguageProvider'
 
 export default function QuickContact() {
   const { language } = useLanguage()
   const zh = language === 'zh'
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const hero = document.getElementById('top')
+    if (!hero) { setVisible(true); return }
+    const observer = new IntersectionObserver(([entry]) => setVisible(!entry.isIntersecting))
+    observer.observe(hero)
+    return () => observer.disconnect()
+  }, [])
+
+  if (!visible) return null
 
   return (
     <details className="quick-contact group fixed bottom-4 right-4 z-40 w-[min(22rem,calc(100vw-2rem))] rounded-2xl border border-white/10 bg-[#0b1019]/95 shadow-[0_24px_80px_rgba(0,0,0,0.55)] backdrop-blur-xl">

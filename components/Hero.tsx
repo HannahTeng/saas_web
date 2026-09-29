@@ -1,69 +1,35 @@
 'use client'
 
-import FadeIn from '@/components/FadeIn'
 import { useLanguage } from '@/components/LanguageProvider'
+import styles from './Landing.module.css'
 
 export default function Hero() {
   const { language } = useLanguage()
   const zh = language === 'zh'
 
   return (
-    <section className="hero-field relative overflow-hidden border-b border-white/10">
-      <div aria-hidden className="hero-orbit hero-orbit-one" />
-      <div aria-hidden className="hero-orbit hero-orbit-two" />
-      <div className="relative max-w-6xl mx-auto px-6 pt-28 md:pt-40 pb-16 md:pb-24">
-        <div className="mx-auto max-w-4xl text-center">
-          <FadeIn>
-            <p className="text-xs font-medium text-amber-300/80 uppercase tracking-[0.3em]">
-              {zh ? '为真实工作定制的 AI Agent' : 'Custom agents for real work'}
-            </p>
-          </FadeIn>
-
-          <FadeIn delay={0.1}>
-            <h1 className={`mx-auto mt-5 max-w-5xl font-bold leading-[1.02] tracking-[-0.045em] md:text-6xl lg:text-7xl ${zh ? 'text-[clamp(2.45rem,10vw,4.5rem)]' : 'text-[clamp(2.8rem,11vw,4.75rem)]'}`}>
-              {zh ? '为你的工作打造' : 'Your work deserves an agent'}{' '}
-              <span key={language} className="hero-typing-shell">
-                <em className="em-accent hero-typing-text">
-                  {zh ? '专属 Agent。' : 'built around it.'}
-                </em>
-              </span>
-            </h1>
-          </FadeIn>
-
-          <FadeIn delay={0.2}>
-            <p className="mx-auto mt-7 max-w-2xl text-base md:text-lg text-gray-400 leading-relaxed">
-              {zh
-                ? '为个人打造私人 AI 助手，为企业搭建 Agent 工作流。围绕你的知识、工具与审批规则构建。'
-                : 'Private assistants for individuals. Agentic workflows for companies. Built around your knowledge, tools, and approvals.'}
-            </p>
-          </FadeIn>
-
-          <FadeIn delay={0.3}>
-            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <a
-                href="#contact"
-                className="inline-flex items-center justify-center rounded-full bg-white px-7 py-3.5 text-sm font-medium text-black transition-colors hover:bg-gray-200"
-              >
-                {zh ? '开始定制 Agent →' : 'Start your agent →'}
-              </a>
-              <a
-                href="#agent-types"
-                className="inline-flex items-center justify-center rounded-full border border-white/15 px-6 py-3.5 text-sm text-white transition-colors hover:bg-white/5"
-              >
-                {zh ? '查看 Agent 形态 ↓' : 'Explore agent forms ↓'}
-              </a>
-            </div>
-          </FadeIn>
-
-          <FadeIn delay={0.48}>
-            <div className="mx-auto mt-10 flex max-w-3xl flex-wrap items-center justify-center gap-2 border-t border-white/[0.08] pt-6 text-xs text-gray-500">
-              <span>{zh ? '你的知识' : 'Your knowledge'}</span><span className="text-gray-700">→</span>
-              <span>{zh ? '你的工具' : 'Your tools'}</span><span className="text-gray-700">→</span>
-              <span className="rounded-full border border-sky-300/20 bg-sky-300/[0.06] px-3 py-1.5 text-sky-200">{zh ? '你的 Agent' : 'Your agent'}</span>
-              <span className="text-gray-700">→</span><span>{zh ? '你的审批' : 'Your approval'}</span>
-            </div>
-          </FadeIn>
+    <section id="top" className={styles.hero} aria-labelledby="hero-heading">
+      <div className={styles.heroCopy}>
+        <p className={`${styles.badge} ${styles.appear}`}>
+          <svg width="18" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="M12 2.6c.55 0 .88.55 1.08 2.1.62 4.7 1.52 5.6 6.22 6.22 1.55.2 2.1.53 2.1 1.08s-.55.88-2.1 1.08c-4.7.62-5.6 1.52-6.22 6.22-.2 1.55-.53 2.1-1.08 2.1s-.88-.55-1.08-2.1c-.62-4.7-1.52-5.6-6.22-6.22C3.15 12.88 2.6 12.55 2.6 12s.55-.88 2.1-1.08c4.7-.62 5.6-1.52 6.22-6.22.2-1.55.53-2.1 1.08-2.1Z" /></svg>
+          {zh ? '为真实工作定制的 AI Agent' : 'Custom agents for real work'}
+        </p>
+        <h1 id="hero-heading" className={styles.headline}>
+          <span><span className={styles.appear}>{zh ? '为你的工作打造' : <>Your work deserves <em>AI agents</em></>}</span></span>
+          <span><span className={styles.appear}>{zh ? '专属 Agent。' : 'built around it.'}</span></span>
+        </h1>
+        <p className={`${styles.lede} ${styles.appear}`}>
+          {zh ? '为个人打造私人 AI 助手，为企业搭建 Agent 工作流。围绕你的知识、工具与审批规则构建。' : 'Private assistants for individuals. Agentic workflows for companies. Built around your knowledge, tools, and approvals.'}
+        </p>
+        <div className={`${styles.actions} ${styles.appear}`}>
+          <a href="#contact" className={`${styles.button} ${styles.solid}`}>{zh ? '开始定制 Agent' : 'Start your agent'}</a>
+          <a href="#agent-types" className={`${styles.button} ${styles.ghost}`}>{zh ? '查看 Agent 形态' : 'Explore agent forms'}</a>
         </div>
+      </div>
+      <div className={`${styles.principles} ${styles.appear}`} aria-label={zh ? '构建原则' : 'Built around your work'}>
+        <span><svg viewBox="0 0 24 24" fill="none" aria-hidden><rect x="3" y="3" width="7" height="18" rx="3.5" fill="currentColor" opacity=".65"/><rect x="14" y="3" width="7" height="18" rx="3.5" fill="currentColor" opacity=".3"/><path d="M9 12h6" stroke="currentColor" strokeWidth="2"/></svg>{zh ? '连接你的知识' : 'Connected to your knowledge'}</span>
+        <span><svg viewBox="0 0 24 24" fill="none" aria-hidden><rect x="3" y="3" width="18" height="18" rx="5" fill="currentColor"/><path d="m8 12 3 3 5-6" stroke="#111" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>{zh ? '融入现有工具' : 'Works inside your existing tools'}</span>
+        <span><svg viewBox="0 0 24 24" fill="none" aria-hidden><path d="m12 3 8 3v6c0 4-5 8-8 9-3-1-8-5-8-9V6l8-3Z" stroke="currentColor" strokeWidth="1.5"/><path d="m8 12 3 3 5-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>{zh ? '关键决策由人审批' : 'Human approval where it matters'}</span>
       </div>
     </section>
   )
