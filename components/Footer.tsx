@@ -12,12 +12,12 @@ export default function Footer() {
         <div className="flex flex-col items-center gap-6 text-center md:flex-row md:justify-between md:text-left">
           <div className="flex items-center gap-3">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
-              <rect x="1" y="1" width="22" height="22" rx="6" stroke="#F59E0B" strokeWidth="1.5" />
+              <rect x="1" y="1" width="22" height="22" rx="6" stroke="#d4d4d4" strokeWidth="1.5" />
               <path d="M8 6.5v11M16 6.5v11M8 12h8" stroke="white" strokeWidth="1.8" strokeLinecap="round" />
             </svg>
             <div>
               <p className="font-semibold text-white leading-tight">Hannah Teng</p>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-neutral-500">
                 {zh ? '重复工作交给 Agent，关键判断留给人。' : 'Agents do the repetition. Humans keep the judgment.'}
               </p>
             </div>
@@ -29,7 +29,7 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"
-              className="text-gray-500 hover:text-white transition-colors"
+              className="text-neutral-500 hover:text-white transition-colors"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
                 <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.75 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.53-2.55-.29-5.23-1.28-5.23-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.78 0c2.21-1.49 3.18-1.18 3.18-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.41.35.77 1.05.77 2.12v3.14c0 .3.21.66.8.55A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z" />
@@ -40,7 +40,7 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn (placeholder)"
-              className="text-gray-500 hover:text-white transition-colors"
+              className="text-neutral-500 hover:text-white transition-colors"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
                 <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45Z" />
@@ -48,7 +48,7 @@ export default function Footer() {
             </a>
             <a
               href="mailto:hannahteng777@gmail.com"
-              className="text-sm text-gray-500 hover:text-white transition-colors"
+              className="text-sm text-neutral-500 hover:text-white transition-colors"
             >
               hannahteng777@gmail.com
             </a>
@@ -56,8 +56,8 @@ export default function Footer() {
         </div>
 
         <div className="mt-8 flex flex-col items-center justify-between gap-3 border-t border-white/5 pt-5 text-center sm:flex-row sm:text-left md:mt-10 md:pt-6">
-          <p className="text-sm text-gray-600">© 2026 Zihan (Hannah) Teng. {zh ? '保留所有权利。' : 'All rights reserved.'}</p>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-neutral-600">© 2026 Zihan (Hannah) Teng. {zh ? '保留所有权利。' : 'All rights reserved.'}</p>
+          <p className="text-sm text-neutral-600">
             {zh ? '2026 年 8 月起开放 FDE、数据科学与 AI 产品全职机会' : 'Open to full-time FDE, data science & AI-product roles from August 2026'}
           </p>
         </div>

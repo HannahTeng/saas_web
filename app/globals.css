@@ -4,10 +4,9 @@
 
 :root {
   color-scheme: dark;
-  --page-bg: #06080d;
-  --panel-bg: #0b1019;
-  --warm: #f5c56b;
-  --cool: #8bd8ff;
+  --page-bg: #000000;
+  --panel-bg: #0b0b0b;
+  --accent: #d4d4d4;
 }
 
 html {
@@ -22,14 +21,14 @@ body {
 }
 
 ::selection {
-  background: rgba(245, 158, 11, 0.3);
+  background: rgba(220, 220, 220, 0.3);
   color: #fff;
 }
 
 @layer utilities {
-  /* Warm italic emphasis inside headings */
+  /* Silver italic emphasis inside headings */
   .em-accent {
-    @apply italic bg-gradient-to-r from-amber-200 via-amber-300 to-sky-200 bg-clip-text text-transparent;
+    @apply italic bg-gradient-to-r from-neutral-200 via-neutral-300 to-neutral-200 bg-clip-text text-transparent;
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
     padding: 0 0.1em 0.08em;
@@ -47,7 +46,7 @@ body {
     display: inline-block;
     white-space: nowrap;
     clip-path: inset(0 100% 0 0);
-    border-right: 0.045em solid rgba(186, 230, 253, 0.8);
+    border-right: 0.045em solid rgba(220, 220, 220, 0.8);
     animation:
       hero-type-fast 0.55s steps(14, end) 0.05s forwards,
       hero-caret 0.45s step-end 0.05s 2;
@@ -65,18 +64,18 @@ body {
 }
 
 .section-kicker {
-  @apply text-xs font-medium uppercase tracking-[0.28em] text-gray-500;
+  @apply text-xs font-medium uppercase tracking-[0.28em] text-neutral-500;
 }
 
 .hero-field {
   background:
-    radial-gradient(circle at 50% 18%, rgba(92, 176, 230, 0.1), transparent 32rem),
+    radial-gradient(circle at 50% 18%, rgba(220, 220, 220, 0.1), transparent 32rem),
     linear-gradient(180deg, rgba(255, 255, 255, 0.015), transparent 55%);
 }
 
 .hero-orbit {
   position: absolute;
-  border: 1px solid rgba(139, 216, 255, 0.09);
+  border: 1px solid rgba(220, 220, 220, 0.09);
   border-radius: 999px;
   pointer-events: none;
   will-change: transform;
@@ -96,7 +95,7 @@ body {
   height: 12rem;
   left: calc(50% - 16rem);
   top: 11rem;
-  border-color: rgba(245, 197, 107, 0.08);
+  border-color: rgba(220, 220, 220, 0.08);
   transform: rotate(10deg);
   animation: orbit-drift-two 17s ease-in-out infinite alternate;
 }
@@ -105,7 +104,7 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(245, 197, 107, 0.08), rgba(92, 176, 230, 0.025) 55%, transparent);
+  background: linear-gradient(135deg, rgba(220, 220, 220, 0.08), rgba(220, 220, 220, 0.025) 55%, transparent);
   opacity: 0;
   transition: opacity 350ms ease;
 }
@@ -121,25 +120,25 @@ body {
 }
 
 .agent-type-row.is-active {
-  background: linear-gradient(90deg, rgba(139, 216, 255, 0.07), transparent 82%);
+  background: linear-gradient(90deg, rgba(220, 220, 220, 0.07), transparent 82%);
 }
 
 .agent-type-row.is-active .agent-icon {
-  color: rgb(186 230 253);
-  border-color: rgba(125, 211, 252, 0.25);
-  background: rgba(125, 211, 252, 0.06);
+  color: rgb(220 220 220);
+  border-color: rgba(220, 220, 220, 0.25);
+  background: rgba(220, 220, 220, 0.06);
 }
 
 .agent-console::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 90% 8%, rgba(125, 211, 252, 0.08), transparent 16rem);
+  background: radial-gradient(circle at 90% 8%, rgba(220, 220, 220, 0.08), transparent 16rem);
   pointer-events: none;
 }
 
 .agent-status-dot {
-  box-shadow: 0 0 0 5px rgba(253, 230, 138, 0.07);
+  box-shadow: 0 0 0 5px rgba(220, 220, 220, 0.07);
   animation: status-breathe 2.8s ease-in-out infinite;
 }
 
@@ -148,7 +147,7 @@ body {
 }
 
 .intake-glow {
-  background: radial-gradient(ellipse at 50% 100%, rgba(125, 211, 252, 0.1), rgba(245, 197, 107, 0.035) 44%, transparent 72%);
+  background: radial-gradient(ellipse at 50% 100%, rgba(220, 220, 220, 0.1), rgba(220, 220, 220, 0.035) 44%, transparent 72%);
 }
 
 .intake-panel {
@@ -157,12 +156,16 @@ body {
 
 .intake-panel:hover,
 .intake-panel[open] {
-  border-color: rgba(125, 211, 252, 0.2);
-  box-shadow: 0 32px 110px rgba(0, 0, 0, 0.55), 0 0 60px rgba(125, 211, 252, 0.035);
+  border-color: rgba(220, 220, 220, 0.2);
+  box-shadow: 0 32px 110px rgba(0, 0, 0, 0.55), 0 0 60px rgba(220, 220, 220, 0.035);
 }
 
 .agent-input:focus {
-  box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.07);
+  box-shadow: 0 0 0 3px rgba(220, 220, 220, 0.07);
+}
+
+.intake-panel input[type='checkbox'] {
+  accent-color: var(--accent);
 }
 
 @keyframes orbit-drift {
@@ -174,11 +177,11 @@ body {
 }
 
 @keyframes status-breathe {
-  50% { box-shadow: 0 0 0 8px rgba(253, 230, 138, 0.025); }
+  50% { box-shadow: 0 0 0 8px rgba(220, 220, 220, 0.025); }
 }
 
 @keyframes flow-nudge {
-  50% { transform: translateX(3px); color: rgba(186, 230, 253, 0.7); }
+  50% { transform: translateX(3px); color: rgba(220, 220, 220, 0.7); }
 }
 
 @keyframes hero-type-fast {
@@ -187,7 +190,7 @@ body {
 
 @keyframes hero-caret {
   0%, 100% { border-color: transparent; }
-  50% { border-color: rgba(186, 230, 253, 0.8); }
+  50% { border-color: rgba(220, 220, 220, 0.8); }
 }
 
 @media (max-width: 767px) {

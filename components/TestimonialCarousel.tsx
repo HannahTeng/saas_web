@@ -104,12 +104,12 @@ function Card({ t }: { t: Testimonial }) {
   return (
     <figure className="w-[78vw] max-w-[290px] md:w-[320px] md:max-w-none shrink-0 rounded-xl bg-[#111] border border-white/[0.06] p-4 md:p-5 transition-colors hover:border-white/[0.12]">
       <Avatar name={t.name} className="w-9 h-9" />
-      <blockquote className="mt-3 text-xs md:text-sm text-gray-300 leading-relaxed">
+      <blockquote className="mt-3 text-xs md:text-sm text-neutral-300 leading-relaxed">
         &ldquo;{t.quote}&rdquo;
       </blockquote>
       <figcaption className="mt-3">
         <p className="text-white font-medium text-sm">{t.name}</p>
-        <p className="text-gray-500 text-xs md:text-sm">{t.role}</p>
+        <p className="text-neutral-500 text-xs md:text-sm">{t.role}</p>
       </figcaption>
     </figure>
   )
@@ -140,7 +140,7 @@ export default function TestimonialCarousel() {
           {zh ? '一线使用者' : 'What operators'}{' '}
           <em className="em-accent">{zh ? '怎么说' : 'say'}</em>
         </h2>
-        <p className="mt-3 text-sm md:text-base text-gray-400 max-w-2xl mx-auto">
+        <p className="mt-3 text-sm md:text-base text-neutral-400 max-w-2xl mx-auto">
           {zh
             ? '来自尔湾、圣地亚哥、新泽西与杭州的一线岗位视角。'
             : 'Perspectives from operators in Irvine, San Diego, New Jersey, and Hangzhou.'}

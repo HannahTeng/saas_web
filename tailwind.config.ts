@@ -10,7 +10,7 @@ const config: Config = {
       colors: {
         surface: '#111111',
         'surface-2': '#141414',
-        accent: '#F59E0B',
+        accent: 'var(--accent)',
       },
       animation: {
         'marquee-left': 'marquee-left 34s linear infinite',
