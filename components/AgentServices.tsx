@@ -201,7 +201,7 @@ export default function AgentServices() {
                         active ? 'is-active' : ''
                       } ${index > 0 ? 'border-t border-white/10 md:border-l md:border-t-0' : ''}`}
                     >
-                      <span className="text-xs text-neutral-300/80">{item.number}</span>
+                      <span className="text-xs text-amber-300/80">{item.number}</span>
                       <span>
                         <span className="text-[11px] font-medium uppercase tracking-[0.22em] text-neutral-500">
                           {item.eyebrow}
@@ -251,7 +251,7 @@ export default function AgentServices() {
                             active ? 'is-active' : ''
                           } ${index < 2 ? 'border-r border-white/10 md:border-r-0' : ''}`}
                         >
-                          <span className="hidden text-xs text-neutral-300/70 md:block">{item.number}</span>
+                          <span className="hidden text-xs text-amber-300/70 md:block">{item.number}</span>
                           <span className="agent-icon grid h-11 w-11 place-items-center rounded-full border border-white/10 text-neutral-300 transition-colors">
                             <span className="h-5 w-5"><AgentIcon type={key} /></span>
                           </span>
@@ -272,10 +272,10 @@ export default function AgentServices() {
               </FadeIn>
 
               <FadeIn delay={0.1}>
-                <div className="agent-console relative min-h-[27rem] overflow-hidden rounded-2xl border border-white/10 bg-[#0b0b0b]/90 shadow-[0_28px_90px_rgba(0,0,0,0.42)] md:min-h-[30rem] md:rounded-3xl">
+                <div className="agent-console relative min-h-[27rem] overflow-hidden rounded-2xl border border-white/10 bg-[#0b1019]/90 shadow-[0_28px_90px_rgba(0,0,0,0.42)] md:min-h-[30rem] md:rounded-3xl">
                   <div className="flex items-center justify-between border-b border-white/[0.08] px-5 py-4 text-xs text-neutral-500">
                     <span className="inline-flex items-center gap-2 text-neutral-300">
-                      <span className="agent-status-dot h-1.5 w-1.5 rounded-full bg-neutral-300" />
+                      <span className="agent-status-dot h-1.5 w-1.5 rounded-full bg-amber-300" />
                       {zh ? 'Agent 已就绪' : 'Agent ready'}
                     </span>
                     <span>{audienceCopy[audience].workspace}</span>
@@ -290,10 +290,10 @@ export default function AgentServices() {
                       transition={{ duration: reduceMotion ? 0 : 0.35, ease: [0.16, 1, 0.3, 1] }}
                       className="p-5 text-center md:p-10 md:text-left"
                     >
-                      <div className="mx-auto grid h-12 w-12 place-items-center rounded-xl border border-neutral-300/20 bg-neutral-300/[0.07] text-neutral-200 md:mx-0 md:h-14 md:w-14 md:rounded-2xl">
+                      <div className="mx-auto grid h-12 w-12 place-items-center rounded-xl border border-sky-300/20 bg-sky-300/[0.07] text-sky-200 md:mx-0 md:h-14 md:w-14 md:rounded-2xl">
                         <span className="h-6 w-6"><AgentIcon type={agentType} /></span>
                       </div>
-                      <p className="mt-9 text-[11px] font-medium uppercase tracking-[0.22em] text-neutral-300/80">
+                      <p className="mt-9 text-[11px] font-medium uppercase tracking-[0.22em] text-sky-300/80">
                         {selected.label}
                       </p>
                       <h3 className="mt-3 max-w-lg text-2xl font-semibold tracking-tight text-white md:text-3xl">

@@ -9,6 +9,7 @@ type Particle = {
   jitter: number
   size: number
   shade: number
+  tone: number
   dx: number
   dy: number
 }
@@ -20,12 +21,14 @@ export default function ParticleField() {
   useEffect(() => {
     const canvas = ref.current
     const hero = canvas?.closest('section')
+    const heading = hero?.querySelector('#hero-heading')
     const context = canvas?.getContext('2d', { alpha: true })
     if (!canvas || !context || !hero) return
 
     const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)')
     let width = 0
     let height = 0
+    let clearY = 0
     let particles: Particle[] = []
     let frame = 0
     let lastTime = 0
@@ -51,7 +54,7 @@ export default function ParticleField() {
       pointer.x += (pointer.targetX - pointer.x) * damping
       pointer.y += (pointer.targetY - pointer.y) * damping
       pointer.strength += ((pointerActive && !motionPreference.matches ? 1 : 0) - pointer.strength) * .08
-      const buckets: number[][] = Array.from({ length: 8 }, () => [])
+      const buckets: number[][] = Array.from({ length: 16 }, () => [])
 
       for (const point of particles) {
         const { u, v, jitter } = point
@@ -71,15 +74,19 @@ export default function ParticleField() {
         const divisor = Math.max(distance, 1)
         point.dx += (mx / divisor * force - point.dx) * .09
         point.dy += (my / divisor * force + ripple - point.dy) * .09
-        const brightness = .45 + Math.sin(time * .6 + u * 5 + v * 2) * .09
+        // Fade before the heading, even when the viewport is short or text wraps.
+        const readability = Math.max(0, Math.min(1, (clearY - y - point.dy) / 90))
+        if (!readability) continue
+        const brightness = .38 + Math.sin(time * .6 + u * 5 + v * 2) * .07
         const fade = Math.max(.1, 1 - Math.abs(v) * .8)
-        const bucket = Math.min(7, Math.max(0, Math.floor((brightness * fade + influence * .25) * 8)))
+        const bucket = point.tone * 8 + Math.min(7, Math.max(0, Math.floor((brightness * fade + influence * .18) * readability * 8)))
         buckets[bucket].push(x + point.dx, y + point.dy, point.size)
       }
 
       // Batch points by luminance to avoid thousands of canvas state changes.
       buckets.forEach((points, index) => {
-        context.fillStyle = `rgba(232,232,232,${(index + 1) / 10})`
+        const color = index < 8 ? '139,216,255' : '245,197,107'
+        context.fillStyle = `rgba(${color},${(index % 8 + 1) / 12})`
         context.beginPath()
         for (let i = 0; i < points.length; i += 3) {
           const [x, y, radius] = [points[i], points[i + 1], points[i + 2]]
@@ -117,6 +124,7 @@ export default function ParticleField() {
       const rect = canvas.getBoundingClientRect()
       width = rect.width
       height = rect.height
+      clearY = heading ? heading.getBoundingClientRect().top - rect.top - 32 : height * .5
       const ratio = Math.min(window.devicePixelRatio || 1, width <= 900 ? 1.5 : 2)
       canvas.width = Math.round(width * ratio)
       canvas.height = Math.round(height * ratio)
@@ -129,6 +137,7 @@ export default function ParticleField() {
         jitter: noise(index + 3) - .5,
         size: .45 + noise(index + 5) * .72,
         shade: noise(index + 11) * tau,
+        tone: noise(index + 17) > .88 ? 1 : 0,
         dx: 0,
         dy: 0,
       }))
@@ -154,6 +163,7 @@ export default function ParticleField() {
     })
 
     resizeObserver.observe(canvas)
+    if (heading?.parentElement) resizeObserver.observe(heading.parentElement)
     visibilityObserver.observe(canvas)
     hero.addEventListener('pointermove', move, { passive: true })
     hero.addEventListener('pointerleave', leave)

@@ -1,14 +1,14 @@
-// Placeholder avatar: deterministic silver-gradient circle with initials.
+// Placeholder avatar: deterministic yellow-blue gradient circle with initials.
 // No external image requests — swap for next/image portraits when real
 // photos are available.
 
 const GRADIENTS = [
-  'linear-gradient(135deg, #242424, #626262)',
-  'linear-gradient(135deg, #343434, #737373)',
-  'linear-gradient(135deg, #1f1f1f, #525252)',
-  'linear-gradient(135deg, #292929, #696969)',
-  'linear-gradient(135deg, #303030, #777777)',
-  'linear-gradient(135deg, #222222, #585858)',
+  'linear-gradient(135deg, #15384b, #386b85)',
+  'linear-gradient(135deg, #4d3919, #806126)',
+  'linear-gradient(135deg, #17344a, #497795)',
+  'linear-gradient(135deg, #504022, #7c6230)',
+  'linear-gradient(135deg, #143a49, #3f7188)',
+  'linear-gradient(135deg, #443923, #826b35)',
 ]
 
 type Props = {

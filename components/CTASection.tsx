@@ -53,10 +53,10 @@ export default function CTASection() {
         </FadeIn>
 
         <FadeIn delay={0.12}>
-          <details className="intake-panel group mx-auto w-full max-w-3xl overflow-hidden rounded-[1.75rem] border border-white/[0.1] bg-[#0b0b0b]/85 backdrop-blur-xl shadow-[0_28px_100px_rgba(0,0,0,0.5)]">
+          <details className="intake-panel group mx-auto w-full max-w-3xl overflow-hidden rounded-[1.75rem] border border-white/[0.1] bg-[#0b1019]/85 backdrop-blur-xl shadow-[0_28px_100px_rgba(0,0,0,0.5)]">
             <summary className="flex w-full cursor-pointer list-none flex-col items-center justify-between gap-5 overflow-hidden p-5 text-center marker:hidden sm:flex-row sm:p-6 sm:text-left md:p-7">
               <div className="w-full min-w-0 sm:flex-1">
-                <p className="text-xs font-medium uppercase tracking-[0.24em] text-neutral-300/80">
+                <p className="text-xs font-medium uppercase tracking-[0.24em] text-sky-300/80">
                   {zh ? '项目需求表' : 'Project intake'}
                 </p>
                 <h3 className="mt-3 text-xl md:text-2xl font-semibold text-white leading-snug">
@@ -78,7 +78,7 @@ export default function CTASection() {
                   ))}
                 </div>
               </div>
-              <span className="intake-plus grid h-11 w-11 shrink-0 place-items-center rounded-full border border-white/10 bg-white/[0.03] text-2xl leading-none text-white transition-all duration-300 group-hover:border-neutral-300/30 group-open:rotate-45 group-open:bg-neutral-300/[0.08]">
+              <span className="intake-plus grid h-11 w-11 shrink-0 place-items-center rounded-full border border-white/10 bg-white/[0.03] text-2xl leading-none text-white transition-all duration-300 group-hover:border-sky-300/30 group-open:rotate-45 group-open:bg-sky-300/[0.08]">
                 +
               </span>
             </summary>
@@ -104,7 +104,7 @@ export default function CTASection() {
                       name="name"
                       type="text"
                       autoComplete="name"
-                      className="agent-input mt-2 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white outline-none transition-colors placeholder:text-neutral-600 focus:border-neutral-300/60"
+                      className="agent-input mt-2 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white outline-none transition-colors placeholder:text-neutral-600 focus:border-sky-300/60"
                       placeholder={zh ? '你的姓名' : 'Your name'}
                     />
                   </label>
@@ -117,7 +117,7 @@ export default function CTASection() {
                       name="email"
                       type="email"
                       autoComplete="email"
-                      className="agent-input mt-2 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white outline-none transition-colors placeholder:text-neutral-600 focus:border-neutral-300/60"
+                      className="agent-input mt-2 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white outline-none transition-colors placeholder:text-neutral-600 focus:border-sky-300/60"
                       placeholder="you@company.com"
                     />
                   </label>
@@ -131,7 +131,7 @@ export default function CTASection() {
                     name="company"
                     type="text"
                     autoComplete="organization"
-                    className="agent-input mt-2 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white outline-none transition-colors placeholder:text-neutral-600 focus:border-neutral-300/60"
+                    className="agent-input mt-2 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white outline-none transition-colors placeholder:text-neutral-600 focus:border-sky-300/60"
                     placeholder={zh ? '公司、部门或团队' : 'Company, department, or team'}
                   />
                 </label>
@@ -144,7 +144,7 @@ export default function CTASection() {
                     required
                     name="workflow"
                     rows={4}
-                    className="agent-input mt-2 w-full resize-none rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white outline-none transition-colors placeholder:text-neutral-600 focus:border-neutral-300/60"
+                    className="agent-input mt-2 w-full resize-none rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white outline-none transition-colors placeholder:text-neutral-600 focus:border-sky-300/60"
                     placeholder={zh ? '例如：检索内部知识、起草回复、整理文件、填写表单，或等待人工审批。' : 'Example: search internal knowledge, draft replies, organize files, fill forms, or wait for approval.'}
                   />
                 </label>
@@ -160,7 +160,7 @@ export default function CTASection() {
                           type="checkbox"
                           name="available_materials"
                           value={item}
-                          className="mt-0.5 h-4 w-4 rounded border-white/20 bg-black text-neutral-400 focus:ring-neutral-400/40"
+                          className="mt-0.5 h-4 w-4 rounded border-white/20 bg-black text-sky-400 focus:ring-sky-400/40"
                         />
                         <span>{item}</span>
                       </label>
@@ -175,14 +175,14 @@ export default function CTASection() {
                   <textarea
                     name="notes"
                     rows={3}
-                    className="agent-input mt-2 w-full resize-none rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white outline-none transition-colors placeholder:text-neutral-600 focus:border-neutral-300/60"
+                    className="agent-input mt-2 w-full resize-none rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white outline-none transition-colors placeholder:text-neutral-600 focus:border-sky-300/60"
                     placeholder={zh ? '可补充使用平台、紧急程度，以及必须保留人工处理的环节。' : 'Include platforms, urgency, and what must stay manual.'}
                   />
                 </label>
 
                 <button
                   type="submit"
-                  className="w-full rounded-full bg-white px-6 py-4 text-center font-medium text-black transition-all hover:bg-neutral-50 hover:shadow-[0_0_40px_rgba(220,220,220,0.14)]"
+                  className="w-full rounded-full bg-white px-6 py-4 text-center font-medium text-black transition-all hover:bg-sky-50 hover:shadow-[0_0_40px_rgba(125,211,252,0.14)]"
                 >
                   {zh ? '发送需求 →' : 'Send request →'}
                 </button>

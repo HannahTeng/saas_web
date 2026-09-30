@@ -17,8 +17,25 @@ export default function Hero() {
           {zh ? '为真实工作定制的 AI Agent' : 'Custom agents for real work'}
         </p>
         <h1 id="hero-heading" className={styles.headline}>
-          <span><span className={styles.appear}>{zh ? '为你的工作打造' : <>Your work deserves <em>AI agents</em></>}</span></span>
-          <span><span className={styles.appear}>{zh ? '专属 Agent。' : 'built around it.'}</span></span>
+          <span>
+            <span className={styles.appear}>
+              {zh ? '为你的工作打造' : <>
+                Your work deserves{' '}
+                <em key={language} className={styles.typed}>
+                  <span className={styles.typeMeasure}>AI agents</span>
+                  <span className={styles.typeText} aria-hidden="true">AI agents</span>
+                </em>
+              </>}
+            </span>
+          </span>
+          <span>
+            <span className={styles.appear}>
+              {zh ? <em key={language} className={styles.typed}>
+                <span className={styles.typeMeasure}>专属 Agent。</span>
+                <span className={styles.typeText} aria-hidden="true">专属 Agent。</span>
+              </em> : 'built around it.'}
+            </span>
+          </span>
         </h1>
         <p className={`${styles.lede} ${styles.appear}`}>
           {zh ? '为个人打造私人 AI 助手，为企业搭建 Agent 工作流。围绕你的知识、工具与审批规则构建。' : 'Private assistants for individuals. Agentic workflows for companies. Built around your knowledge, tools, and approvals.'}
