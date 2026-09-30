@@ -1,14 +1,28 @@
 'use client'
 
+import { useRef } from 'react'
+import { motion, useScroll, type MotionStyle } from 'framer-motion'
 import { useLanguage } from '@/components/LanguageProvider'
 import styles from './Landing.module.css'
 
 export default function Hero() {
   const { language } = useLanguage()
   const zh = language === 'zh'
+  const heroRef = useRef<HTMLElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  })
 
   return (
-    <section id="top" className={styles.hero} aria-labelledby="hero-heading">
+    <motion.section
+      ref={heroRef}
+      id="top"
+      className={styles.hero}
+      aria-labelledby="hero-heading"
+      style={{ '--scroll-progress': scrollYProgress } as MotionStyle}
+    >
+      <div className={styles.heroArt} aria-hidden="true" />
       <div className={styles.heroCopy}>
         <p className={`${styles.badge} ${styles.appear}`}>
           <svg width="18" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="M12 2.6c.55 0 .88.55 1.08 2.1.62 4.7 1.52 5.6 6.22 6.22 1.55.2 2.1.53 2.1 1.08s-.55.88-2.1 1.08c-4.7.62-5.6 1.52-6.22 6.22-.2 1.55-.53 2.1-1.08 2.1s-.88-.55-1.08-2.1c-.62-4.7-1.52-5.6-6.22-6.22C3.15 12.88 2.6 12.55 2.6 12s.55-.88 2.1-1.08c4.7-.62 5.6-1.52 6.22-6.22.2-1.55.53-2.1 1.08-2.1Z" /></svg>
@@ -31,6 +45,6 @@ export default function Hero() {
         <span><svg viewBox="0 0 24 24" fill="none" aria-hidden><rect x="3" y="3" width="18" height="18" rx="5" fill="currentColor"/><path d="m8 12 3 3 5-6" stroke="#111" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>{zh ? '融入现有工具' : 'Works inside your existing tools'}</span>
         <span><svg viewBox="0 0 24 24" fill="none" aria-hidden><path d="m12 3 8 3v6c0 4-5 8-8 9-3-1-8-5-8-9V6l8-3Z" stroke="currentColor" strokeWidth="1.5"/><path d="m8 12 3 3 5-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>{zh ? '关键决策由人审批' : 'Human approval where it matters'}</span>
       </div>
-    </section>
+    </motion.section>
   )
 }

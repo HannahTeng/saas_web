@@ -3,6 +3,7 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { useState } from 'react'
 import FadeIn from '@/components/FadeIn'
+import ScrollReveal from '@/components/ScrollReveal'
 import { useLanguage } from '@/components/LanguageProvider'
 
 type Audience = 'individuals' | 'companies'
@@ -179,12 +180,12 @@ export default function AgentServices() {
     <>
       <section id="agent-types" className="relative scroll-mt-16 border-b border-white/[0.07] px-4 py-14 sm:px-6 md:py-28">
         <div className="mx-auto max-w-6xl">
-          <FadeIn className="mx-auto max-w-3xl text-center md:mx-0 md:text-left">
+          <ScrollReveal className="mx-auto max-w-3xl text-center md:mx-0 md:text-left">
             <p className="section-kicker">{zh ? '两种开始方式' : 'Two ways to start'}</p>
             <h2 className="mt-4 text-3xl font-bold tracking-tight md:text-5xl">
               {zh ? '同一套定制服务，为不同的工作主体而设计。' : 'One service, shaped around who is doing the work.'}
             </h2>
-          </FadeIn>
+          </ScrollReveal>
 
           <div className="mt-8 grid grid-cols-2 border-y border-white/10 md:mt-10">
             {(Object.entries(audienceCopy) as [Audience, (typeof audienceCopy)[Audience]][]).map(
