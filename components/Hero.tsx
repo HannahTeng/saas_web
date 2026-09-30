@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
+import Image from 'next/image'
 import { motion, useScroll, type MotionStyle } from 'framer-motion'
 import { useLanguage } from '@/components/LanguageProvider'
 import styles from './Landing.module.css'
@@ -22,7 +23,16 @@ export default function Hero() {
       aria-labelledby="hero-heading"
       style={{ '--scroll-progress': scrollYProgress } as MotionStyle}
     >
-      <div className={styles.heroArt} aria-hidden="true" />
+      <div className={styles.heroArt} aria-hidden="true">
+        <Image
+          src="/images/hero-particles.jpg"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className={styles.heroArtImage}
+        />
+      </div>
       <div className={styles.heroCopy}>
         <p className={`${styles.badge} ${styles.appear}`}>
           <svg width="18" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="M12 2.6c.55 0 .88.55 1.08 2.1.62 4.7 1.52 5.6 6.22 6.22 1.55.2 2.1.53 2.1 1.08s-.55.88-2.1 1.08c-4.7.62-5.6 1.52-6.22 6.22-.2 1.55-.53 2.1-1.08 2.1s-.88-.55-1.08-2.1c-.62-4.7-1.52-5.6-6.22-6.22C3.15 12.88 2.6 12.55 2.6 12s.55-.88 2.1-1.08c4.7-.62 5.6-1.52 6.22-6.22.2-1.55.53-2.1 1.08-2.1Z" /></svg>
