@@ -41,10 +41,17 @@
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  mask-image: linear-gradient(to bottom, transparent, #000 9%, #000 65%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 9%, #000 65%, transparent 100%);
 }
-.particleCanvas { display: block; width: 100%; height: 100%; }
+.heroVideo {
+  --hero-art-clear-y: clamp(120px, 28svh, 320px);
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #000;
+  mask-image: linear-gradient(to bottom, transparent, #000 9%, #000 max(9%, calc(var(--hero-art-clear-y) - 90px)), transparent var(--hero-art-clear-y));
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 9%, #000 max(9%, calc(var(--hero-art-clear-y) - 90px)), transparent var(--hero-art-clear-y));
+}
 .heroCopy { align-self: end; justify-self: center; width: 100%; max-width: 908px; padding: 70px 24px 85px; text-align: center; }
 .badge { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 22px; padding: 8px 14px; border: 1px solid rgba(139,216,255,.16); border-radius: 5px; background: rgba(139,216,255,.05); color: #bae6fd; font-size: 12.5px; letter-spacing: -.01em; }
 .badge svg { color: var(--warm); }
