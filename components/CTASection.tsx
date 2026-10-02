@@ -85,7 +85,7 @@ export default function CTASection() {
 
             <div className="border-t border-white/10 px-4 pb-5 sm:px-6 sm:pb-6 md:px-7 md:pb-7">
               <form
-                action="https://formsubmit.co/6b47f16c7f6b9c2ab14b5f318ada11e1"
+                action="https://formsubmit.co/support@flowact.net"
                 method="POST"
                 className="mt-6 space-y-4"
               >
@@ -189,8 +189,8 @@ export default function CTASection() {
               </form>
               <p className="mt-4 text-xs text-neutral-500 text-center">
                 {zh
-                  ? '将发送至 hannahteng777@gmail.com。第三方模型、服务器、账号及工具费用将单独报价。'
-                  : 'Sends to hannahteng777@gmail.com. Third-party model, server, account, and tool fees are quoted separately.'}
+                  ? '将发送至 support@flowact.net。第三方模型、服务器、账号及工具费用将单独报价。'
+                  : 'Sends to support@flowact.net. Third-party model, server, account, and tool fees are quoted separately.'}
               </p>
             </div>
           </details>

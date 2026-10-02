@@ -34,7 +34,7 @@ export default function QuickContact() {
       </summary>
 
       <form
-        action="https://formsubmit.co/6b47f16c7f6b9c2ab14b5f318ada11e1"
+        action="https://formsubmit.co/support@flowact.net"
         method="POST"
         className="space-y-3 border-t border-white/10 px-4 pb-4 pt-4"
       >
@@ -77,7 +77,7 @@ export default function QuickContact() {
           {zh ? '发送留言 →' : 'Send message →'}
         </button>
         <p className="text-center text-[11px] leading-relaxed text-neutral-600">
-          {zh ? '无需公开私人手机号' : 'No private phone number is exposed'}
+          {zh ? '发送至 support@flowact.net' : 'Sends to support@flowact.net'}
         </p>
       </form>
     </details>
