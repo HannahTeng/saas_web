@@ -178,16 +178,16 @@ export default function AgentServices() {
 
   return (
     <>
-      <section id="agent-types" className="relative scroll-mt-16 border-b border-white/[0.07] px-4 py-14 sm:px-6 md:py-28">
+      <section id="agent-types" className="relative scroll-mt-16 border-b border-line/[0.07] px-4 py-14 sm:px-6 md:py-28">
         <div className="mx-auto max-w-6xl">
           <ScrollReveal className="mx-auto max-w-3xl text-center md:mx-0 md:text-left">
             <p className="section-kicker">{zh ? '两种开始方式' : 'Two ways to start'}</p>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight md:text-5xl">
+            <h2 className="mt-4 text-3xl font-medium tracking-tight md:text-5xl">
               {zh ? '同一套定制服务，为不同的工作主体而设计。' : 'One service, shaped around who is doing the work.'}
             </h2>
           </ScrollReveal>
 
-          <div className="mt-8 grid grid-cols-2 border-y border-white/10 md:mt-10">
+          <div className="mt-8 grid grid-cols-2 border-y border-line/10 md:mt-10">
             {(Object.entries(audienceCopy) as [Audience, (typeof audienceCopy)[Audience]][]).map(
               ([key, item], index) => {
                 const active = audience === key
@@ -199,17 +199,17 @@ export default function AgentServices() {
                       aria-pressed={active}
                       className={`audience-lane relative grid h-full w-full grid-cols-1 content-start justify-items-center gap-2 overflow-hidden px-3 py-5 text-center transition-colors md:grid-cols-[2.5rem_1fr] md:justify-items-stretch md:gap-4 md:px-8 md:py-9 md:text-left ${
                         active ? 'is-active' : ''
-                      } ${index > 0 ? 'border-t border-white/10 md:border-l md:border-t-0' : ''}`}
+                      } ${index > 0 ? 'border-t border-line/10 md:border-l md:border-t-0' : ''}`}
                     >
-                      <span className="text-xs text-amber-300/80">{item.number}</span>
+                      <span className="text-xs text-subtle">{item.number}</span>
                       <span>
-                        <span className="text-[11px] font-medium uppercase tracking-[0.22em] text-neutral-500">
+                        <span className="text-xs font-medium tracking-wide text-subtle">
                           {item.eyebrow}
                         </span>
-                        <strong className="mt-1 block text-base font-semibold text-white md:mt-2 md:text-2xl">
+                        <strong className="mt-1 block text-base font-semibold text-primary md:mt-2 md:text-2xl">
                           {item.title}
                         </strong>
-                        <span className="mt-2 block max-w-md text-xs leading-relaxed text-neutral-400 md:mt-3 md:text-base">
+                        <span className="mt-2 block max-w-md text-xs leading-relaxed text-muted md:mt-3 md:text-base">
                           {item.body}
                         </span>
                       </span>
@@ -221,14 +221,14 @@ export default function AgentServices() {
           </div>
 
           <div className="mt-14 md:mt-28">
-            <FadeIn className="grid gap-4 text-center md:grid-cols-[1.1fr_0.9fr] md:items-end md:gap-6 md:text-left">
+            <FadeIn className="text-center md:text-left">
               <div>
                 <p className="section-kicker">{zh ? '你的 Agent 可以是什么' : 'What your agent can be'}</p>
-                <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight md:text-5xl">
+                <h2 className="mt-4 max-w-2xl text-3xl font-medium tracking-tight md:text-5xl">
                   {zh ? '选择工作界面，保留同一套智能。' : 'Choose the surface. Keep the intelligence.'}
                 </h2>
               </div>
-              <p className="mx-auto max-w-lg text-sm leading-relaxed text-neutral-400 md:mx-0 md:text-base">
+              <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-muted md:mx-0 md:text-base">
                 {zh
                   ? '界面跟随任务而定：检索知识、操作浏览器，或在本机安全执行。多数系统会组合多种形态。'
                   : 'The interface follows the job: retrieve knowledge, operate a browser, or work securely on your machine. Most systems combine more than one.'}
@@ -237,7 +237,7 @@ export default function AgentServices() {
 
             <div className="mt-8 grid gap-5 lg:mt-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-6">
               <FadeIn>
-                <div className="grid grid-cols-3 border-y border-white/10 md:block md:border-b-0">
+                <div className="grid grid-cols-3 border-y border-line/10 md:block md:border-b-0">
                   {(Object.entries(agentTypeCopy) as [AgentType, (typeof agentTypeCopy)[AgentType]][]).map(
                     ([key, item], index) => {
                       const active = agentType === key
@@ -247,21 +247,21 @@ export default function AgentServices() {
                           type="button"
                           onClick={() => setAgentType(key)}
                           aria-pressed={active}
-                          className={`agent-type-row group grid w-full grid-cols-1 justify-items-center gap-2 px-2 py-4 text-center transition-all md:grid-cols-[2rem_2.75rem_1fr_auto] md:items-center md:justify-items-stretch md:gap-3 md:border-b md:border-white/10 md:px-1 md:py-5 md:text-left ${
+                          className={`agent-type-row group grid w-full grid-cols-1 justify-items-center gap-2 px-2 py-4 text-center transition-all md:grid-cols-[2rem_2.75rem_1fr_auto] md:items-center md:justify-items-stretch md:gap-3 md:border-b md:border-line/10 md:px-1 md:py-5 md:text-left ${
                             active ? 'is-active' : ''
-                          } ${index < 2 ? 'border-r border-white/10 md:border-r-0' : ''}`}
+                          } ${index < 2 ? 'border-r border-line/10 md:border-r-0' : ''}`}
                         >
-                          <span className="hidden text-xs text-amber-300/70 md:block">{item.number}</span>
-                          <span className="agent-icon grid h-11 w-11 place-items-center rounded-full border border-white/10 text-neutral-300 transition-colors">
+                          <span className="hidden text-xs text-subtle md:block">{item.number}</span>
+                          <span className="agent-icon grid h-11 w-11 place-items-center rounded-lg border border-line/15 text-copy transition-colors">
                             <span className="h-5 w-5"><AgentIcon type={key} /></span>
                           </span>
                           <span>
-                            <strong className="block text-xs font-medium leading-tight text-white sm:text-sm md:text-base">{item.name}</strong>
-                            <span className="mt-1 hidden text-sm leading-relaxed text-neutral-500 md:block">
+                            <strong className="block text-xs font-medium leading-tight text-primary sm:text-sm md:text-base">{item.name}</strong>
+                            <span className="mt-1 hidden text-sm leading-relaxed text-subtle md:block">
                               {item.summary}
                             </span>
                           </span>
-                          <span className="hidden text-neutral-600 transition-all group-hover:translate-x-1 group-hover:text-neutral-300 md:block">
+                          <span className="hidden text-subtle transition-all group-hover:translate-x-1 group-hover:text-copy md:block">
                             →
                           </span>
                         </button>
@@ -272,10 +272,10 @@ export default function AgentServices() {
               </FadeIn>
 
               <FadeIn delay={0.1}>
-                <div className="agent-console relative min-h-[27rem] overflow-hidden rounded-2xl border border-white/10 bg-[#0b1019]/90 shadow-[0_28px_90px_rgba(0,0,0,0.42)] md:min-h-[30rem] md:rounded-3xl">
-                  <div className="flex items-center justify-between border-b border-white/[0.08] px-5 py-4 text-xs text-neutral-500">
-                    <span className="inline-flex items-center gap-2 text-neutral-300">
-                      <span className="agent-status-dot h-1.5 w-1.5 rounded-full bg-amber-300" />
+                <div className="agent-console relative flex min-h-[27rem] flex-col overflow-hidden rounded-2xl border border-line/15 bg-panel md:min-h-[30rem]">
+                  <div className="flex items-center justify-between border-b border-line/[0.08] px-5 py-4 text-xs text-subtle">
+                    <span className="inline-flex items-center gap-2 text-copy">
+                      <span className="agent-status-dot h-1.5 w-1.5 rounded-full" />
                       {zh ? 'Agent 已就绪' : 'Agent ready'}
                     </span>
                     <span>{audienceCopy[audience].workspace}</span>
@@ -290,23 +290,23 @@ export default function AgentServices() {
                       transition={{ duration: reduceMotion ? 0 : 0.35, ease: [0.16, 1, 0.3, 1] }}
                       className="p-5 text-center md:p-10 md:text-left"
                     >
-                      <div className="mx-auto grid h-12 w-12 place-items-center rounded-xl border border-sky-300/20 bg-sky-300/[0.07] text-sky-200 md:mx-0 md:h-14 md:w-14 md:rounded-2xl">
+                      <div className="mx-auto grid h-12 w-12 place-items-center rounded-lg border border-line/15 bg-line/[0.025] text-copy md:mx-0 md:h-14 md:w-14">
                         <span className="h-6 w-6"><AgentIcon type={agentType} /></span>
                       </div>
-                      <p className="mt-9 text-[11px] font-medium uppercase tracking-[0.22em] text-sky-300/80">
+                      <p className="mt-9 text-xs font-medium tracking-wide text-subtle">
                         {selected.label}
                       </p>
-                      <h3 className="mt-3 max-w-lg text-2xl font-semibold tracking-tight text-white md:text-3xl">
+                      <h3 className="mt-3 max-w-lg text-2xl font-semibold tracking-tight text-primary md:text-3xl">
                         {selected.title}
                       </h3>
-                      <p className="mt-4 max-w-xl text-sm leading-relaxed text-neutral-400 md:text-base">
+                      <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted md:text-base">
                         {selected.body}
                       </p>
-                      <div className="mt-7 flex flex-wrap items-center justify-center gap-2 text-xs text-neutral-400 md:mt-9 md:justify-start">
+                      <div className="mt-7 flex flex-wrap items-center justify-center gap-2 text-xs text-muted md:mt-9 md:justify-start">
                         {selected.flow.map((step, index) => (
                           <span key={step} className="contents">
                             {index > 0 && <span className="flow-arrow text-neutral-700">→</span>}
-                            <span className="rounded-full border border-white/10 bg-white/[0.025] px-3 py-2">
+                            <span className="rounded-md border border-line/10 bg-line/[0.025] px-3 py-2">
                               {step}
                             </span>
                           </span>
@@ -315,7 +315,7 @@ export default function AgentServices() {
                     </motion.div>
                   </AnimatePresence>
 
-                  <div className="absolute inset-x-0 bottom-0 flex flex-wrap justify-between gap-3 border-t border-white/[0.08] bg-black/20 px-5 py-4 text-xs text-neutral-500">
+                  <div className="mt-auto flex flex-wrap justify-between gap-3 border-t border-line/[0.08] bg-black/20 px-5 py-4 text-xs text-subtle">
                     <span>◇ {zh ? '权限始终可见' : 'Permissions stay visible'}</span>
                     <span>↶ {zh ? '操作始终可撤销' : 'Actions stay reversible'}</span>
                   </div>
@@ -326,17 +326,17 @@ export default function AgentServices() {
         </div>
       </section>
 
-      <section id="how-it-works" className="scroll-mt-16 border-b border-white/[0.07] px-4 py-14 sm:px-6 md:py-28">
+      <section id="how-it-works" className="scroll-mt-16 border-b border-line/[0.07] px-4 py-14 sm:px-6 md:py-28">
         <div className="mx-auto max-w-6xl">
           <FadeIn>
-            <div className="grid gap-7 border-y border-white/10 py-8 md:grid-cols-2 md:items-start md:gap-20 md:py-10">
+            <div className="grid gap-7 border-y border-line/10 py-8 md:grid-cols-2 md:items-start md:gap-20 md:py-10">
               <div className="text-center md:text-left">
                 <p className="section-kicker">{zh ? '生产级原则' : 'Production principles'}</p>
-                <h2 className="mt-4 max-w-xl text-3xl font-bold tracking-tight md:text-4xl">
+                <h2 className="mt-4 max-w-xl text-3xl font-medium tracking-tight md:text-4xl">
                   {zh ? '让 Agent 适应工作，而不是让工作迁就 Agent。' : 'The agent adapts to the work. The work does not adapt to the agent.'}
                 </h2>
               </div>
-              <dl className="mobile-row-scroll flex snap-x snap-mandatory gap-3 overflow-x-auto pb-3 md:block md:divide-y md:divide-white/10 md:border-t md:border-white/10 md:pb-0">
+              <dl className="mobile-row-scroll flex snap-x snap-mandatory gap-3 overflow-x-auto pb-3 md:block md:divide-y md:divide-line/10 md:border-t md:border-line/10 md:pb-0">
                 {(zh
                   ? [
                       ['可见', '每一次操作和信息来源都可以检查。'],
@@ -350,9 +350,9 @@ export default function AgentServices() {
                       ['Private', 'Access follows the minimum permissions required.'],
                       ['Compatible', 'The system works with tools already in place.'],
                     ]).map(([term, description]) => (
-                  <div key={term} className="w-[68vw] max-w-[15rem] shrink-0 snap-start border border-white/[0.08] bg-white/[0.02] p-4 text-center text-sm md:grid md:w-auto md:max-w-none md:grid-cols-[6rem_1fr] md:gap-4 md:border-0 md:bg-transparent md:px-0 md:py-4 md:text-left">
-                    <dt className="font-medium text-white">{term}</dt>
-                    <dd className="mt-2 leading-relaxed text-neutral-500 md:mt-0">{description}</dd>
+                  <div key={term} className="w-[68vw] max-w-[15rem] shrink-0 snap-start border border-line/[0.08] bg-line/[0.02] p-4 text-center text-sm md:grid md:w-auto md:max-w-none md:grid-cols-[6rem_1fr] md:gap-4 md:border-0 md:bg-transparent md:px-0 md:py-4 md:text-left">
+                    <dt className="font-medium text-primary">{term}</dt>
+                    <dd className="mt-2 leading-relaxed text-subtle md:mt-0">{description}</dd>
                   </div>
                 ))}
               </dl>

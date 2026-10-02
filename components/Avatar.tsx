@@ -1,15 +1,5 @@
-// Placeholder avatar: deterministic yellow-blue gradient circle with initials.
-// No external image requests — swap for next/image portraits when real
-// photos are available.
-
-const GRADIENTS = [
-  'linear-gradient(135deg, #15384b, #386b85)',
-  'linear-gradient(135deg, #4d3919, #806126)',
-  'linear-gradient(135deg, #17344a, #497795)',
-  'linear-gradient(135deg, #504022, #7c6230)',
-  'linear-gradient(135deg, #143a49, #3f7188)',
-  'linear-gradient(135deg, #443923, #826b35)',
-]
+// Anonymized testimonials use initials in neutral tones, with no photo claims.
+const TONES = ['#30302e', '#393936', '#42423e', '#2b2b29']
 
 type Props = {
   name: string
@@ -28,8 +18,8 @@ export default function Avatar({ name, className = 'w-8 h-8' }: Props) {
   return (
     <span
       aria-hidden
-      className={`${className} inline-flex shrink-0 items-center justify-center rounded-full text-[10px] font-semibold text-white/90 select-none`}
-      style={{ background: GRADIENTS[hash % GRADIENTS.length] }}
+      className={`${className} inline-flex shrink-0 items-center justify-center rounded-full text-[10px] font-semibold border border-line/10 text-copy select-none`}
+      style={{ background: TONES[hash % TONES.length] }}
     >
       {initials}
     </span>

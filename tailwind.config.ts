@@ -10,7 +10,15 @@ const config: Config = {
       colors: {
         surface: '#111111',
         'surface-2': '#141414',
-        accent: 'var(--accent)',
+        page: 'var(--page-bg)',
+        panel: 'rgb(var(--panel-rgb) / <alpha-value>)',
+        primary: 'var(--text-primary)',
+        copy: 'var(--text-copy)',
+        muted: 'var(--text-muted)',
+        subtle: 'var(--text-subtle)',
+        accent: 'rgb(var(--accent-rgb) / <alpha-value>)',
+        line: 'rgb(var(--line-rgb) / <alpha-value>)',
+        control: 'var(--control-border)',
       },
       animation: {
         'marquee-left': 'marquee-left 34s linear infinite',

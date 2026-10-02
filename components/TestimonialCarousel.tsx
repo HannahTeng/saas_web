@@ -102,14 +102,14 @@ const ZH_TESTIMONIALS: Testimonial[] = [
 
 function Card({ t }: { t: Testimonial }) {
   return (
-    <figure className="w-[78vw] max-w-[290px] md:w-[320px] md:max-w-none shrink-0 rounded-xl bg-[#111] border border-white/[0.06] p-4 md:p-5 transition-colors hover:border-white/[0.12]">
+    <figure className="w-[78vw] max-w-[290px] md:w-[320px] md:max-w-none shrink-0 rounded-xl bg-panel border border-line/[0.06] p-4 md:p-5 transition-colors hover:border-line/[0.12]">
       <Avatar name={t.name} className="w-9 h-9" />
-      <blockquote className="mt-3 text-xs md:text-sm text-neutral-300 leading-relaxed">
+      <blockquote className="mt-3 text-xs md:text-sm text-copy leading-relaxed">
         &ldquo;{t.quote}&rdquo;
       </blockquote>
       <figcaption className="mt-3">
-        <p className="text-white font-medium text-sm">{t.name}</p>
-        <p className="text-neutral-500 text-xs md:text-sm">{t.role}</p>
+        <p className="text-primary font-medium text-sm">{t.name}</p>
+        <p className="text-subtle text-xs md:text-sm">{t.role}</p>
       </figcaption>
     </figure>
   )
@@ -136,11 +136,11 @@ export default function TestimonialCarousel() {
   return (
     <section className="overflow-hidden py-8 md:py-14">
       <FadeIn className="text-center px-6">
-        <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
+        <h2 className="text-2xl md:text-3xl font-medium tracking-tight">
           {zh ? '一线使用者' : 'What operators'}{' '}
           <em className="em-accent">{zh ? '怎么说' : 'say'}</em>
         </h2>
-        <p className="mt-3 text-sm md:text-base text-neutral-400 max-w-2xl mx-auto">
+        <p className="mt-3 text-sm md:text-base text-muted max-w-2xl mx-auto">
           {zh
             ? '来自尔湾、圣地亚哥、新泽西与杭州的一线岗位视角。'
             : 'Perspectives from operators in Irvine, San Diego, New Jersey, and Hangzhou.'}
