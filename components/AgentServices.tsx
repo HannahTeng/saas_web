@@ -22,7 +22,7 @@ const AUDIENCES = {
     number: '02',
     eyebrow: 'Companies',
     title: 'Agentic workflow',
-    body: 'Custom automation for repeated operational work, with human review kept at the decision points.',
+    body: 'Deployable agents for repeated operational work, with human review kept at the decision points.',
     workspace: 'Team operations',
   },
 } satisfies Record<Audience, { number: string; eyebrow: string; title: string; body: string; workspace: string }>

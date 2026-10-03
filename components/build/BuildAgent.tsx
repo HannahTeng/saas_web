@@ -11,17 +11,20 @@ const PERSONAL: Item[] = [
   { id: 'knowledge-base', name: 'Private knowledge base', blurb: 'Ask questions across everything you have written or saved.', does: ['Connects notes, PDFs, docs and research', 'Answers with citations to your own sources', 'Stays private: your data, your accounts'] },
 ]
 
+const FLAGSHIP: Item[] = [
+  { id: 'data-agent', name: 'Flowact Data Agent', blurb: 'One question in plain English; numbers, charts and a PDF back.', does: ['Signs in to your OMP, WMS or database', 'States the definition behind every number', 'Exports charts and PDF reports'] },
+  { id: 'dispatch-agent', name: 'Flowact Dispatch Agent', blurb: 'Arrived containers in; full trucks out, waiting for your yes.', does: ['Pulls arrivals and waybills from your ERP', 'Packs each truck to your CBM and weight limits', 'Books only after the dispatcher approves'] },
+  { id: 'docs-agent', name: 'Flowact Docs Agent', blurb: 'Invoices, B/Ls and customs forms read, checked and filed.', does: ['Extracts fields from PDFs and scans', 'Checks them against your records', 'Drafts the customer reply with attachments'] },
+]
+
 const MODULES: Item[] = [
   { id: 'email-agent', name: 'Email agent', blurb: 'Triage the inbox, attach the right files, draft replies.', does: ['Sorts and labels incoming mail', 'Drafts replies with attachments for approval', 'Follows up when nobody answers'] },
-  { id: 'marketing-agent', name: 'Marketing agent', blurb: 'Content, posts and campaign reporting on a schedule.', does: ['Drafts posts and newsletters in brand voice', 'Schedules and tracks campaigns', 'Weekly performance summary'] },
   { id: 'support-agent', name: 'Customer support agent', blurb: 'Answers customers from your docs and order data.', does: ['Replies on email, chat or WhatsApp', 'Looks up orders and shipment status', 'Hands off to a person with full context'] },
-  { id: 'data-agent', name: 'Data & report agent', blurb: 'One sentence in; numbers, charts and a PDF out.', does: ['Signs in to your ERP, OMP or database', 'States the definition behind every number', 'Exports charts and PDF reports'] },
-  { id: 'document-agent', name: 'Document agent', blurb: 'Reads invoices, B/Ls and forms; fills your systems.', does: ['Extracts fields from PDFs and scans', 'Checks them against your records', 'Enters data and flags mismatches'] },
-  { id: 'ops-agent', name: 'Operations & dispatch agent', blurb: 'Plans loads, routes and schedules inside your tools.', does: ['Pulls arrivals and orders automatically', 'Applies your capacity and timing rules', 'Waits for approval before anything moves'] },
+  { id: 'marketing-agent', name: 'Marketing agent', blurb: 'Content, posts and campaign reporting on a schedule.', does: ['Drafts posts and newsletters in brand voice', 'Schedules and tracks campaigns', 'Weekly performance summary'] },
 ]
 
 const TIMES = ['This week', 'Next week', 'Flexible']
-const ALL = [...PERSONAL, ...MODULES]
+const ALL = [...FLAGSHIP, ...MODULES, ...PERSONAL]
 
 function Check({ on }: { on: boolean }) {
   return (
@@ -51,7 +54,7 @@ function ItemCard({ item, on, toggle }: { item: Item; on: boolean; toggle: () =>
           <li key={d} className="flex gap-2"><span className="text-accent">·</span>{d}</li>
         ))}
       </ul>
-      <p className="mt-auto pt-2 text-sm text-subtle">Request a quote</p>
+      <p className="mt-auto pt-2 text-sm text-subtle">Annual license or managed plan · Request pricing</p>
     </button>
   )
 }
@@ -100,34 +103,61 @@ export default function BuildAgent() {
       <input type="text" name="website" value={honey} onChange={(e) => setHoney(e.target.value)} className="hidden" tabIndex={-1} autoComplete="off" aria-hidden />
 
       <section className="px-4 pb-14 pt-16 text-center sm:px-6 md:pb-20 md:pt-24">
-        <p className="section-kicker">Build your agent</p>
+        <p className="section-kicker">Get Flowact</p>
         <h1 className="mx-auto mt-4 max-w-3xl text-4xl font-medium tracking-tight md:text-6xl">
-          Pick the work. We build the <em className="em-accent">agent</em>.
+          Pick your agents. We switch them <em className="em-accent">on</em>.
         </h1>
         <p className="mx-auto mt-5 max-w-xl text-muted">
-          Start with an hour to map your workflow, or choose the agents you need and get a quote. Every agent runs inside the tools you already use, with a person approving what matters.
+          Choose the agents your team needs and get pricing within one business day. Every agent runs inside the tools you already use, with a person approving what matters.
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-3 text-sm">
-          <a href="#consult" className="rounded-lg border border-line/20 px-4 py-2.5 text-copy hover:border-accent">Consultation</a>
-          <a href="#personal" className="rounded-lg border border-line/20 px-4 py-2.5 text-copy hover:border-accent">For you</a>
-          <a href="#business" className="rounded-lg border border-line/20 px-4 py-2.5 text-copy hover:border-accent">For your team</a>
+          <a href="#business" className="rounded-lg border border-line/20 px-4 py-2.5 text-copy hover:border-accent">Logistics agents</a>
+          <a href="#personal" className="rounded-lg border border-line/20 px-4 py-2.5 text-copy hover:border-accent">For individuals</a>
+          <a href="#consult" className="rounded-lg border border-line/20 px-4 py-2.5 text-copy hover:border-accent">Scoping session</a>
+        </div>
+      </section>
+
+      {/* Business */}
+      <section id="business" className="scroll-mt-24 px-4 pt-20 sm:px-6 md:pt-28">
+        <div className="mx-auto max-w-6xl">
+          <p className="section-kicker">For logistics teams</p>
+          <h2 className="mt-3 text-3xl font-medium tracking-tight md:text-4xl">Three core agents. One shared <em className="em-accent">platform</em>.</h2>
+          <p className="mt-3 max-w-2xl text-muted">Choose one or several. They connect to the same knowledge, permissions and audit trail, so they work together instead of as separate bots.</p>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {FLAGSHIP.map((i) => <ItemCard key={i.id} item={i} on={picked.includes(i.id)} toggle={() => toggle(i.id)} />)}
+          </div>
+          <p className="mt-12 text-sm font-medium text-muted">Add-on agents</p>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {MODULES.map((i) => <ItemCard key={i.id} item={i} on={picked.includes(i.id)} toggle={() => toggle(i.id)} />)}
+          </div>
+        </div>
+      </section>
+
+      {/* Personal */}
+      <section id="personal" className="scroll-mt-24 px-4 pt-20 sm:px-6 md:pt-28">
+        <div className="mx-auto max-w-6xl">
+          <p className="section-kicker">For individuals</p>
+          <h2 className="mt-3 text-3xl font-medium tracking-tight md:text-4xl">A private assistant, built around <em className="em-accent">your</em> work.</h2>
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            {PERSONAL.map((i) => <ItemCard key={i.id} item={i} on={picked.includes(i.id)} toggle={() => toggle(i.id)} />)}
+          </div>
         </div>
       </section>
 
       {/* Consultation */}
-      <section id="consult" className="scroll-mt-24 px-4 sm:px-6">
+      <section id="consult" className="scroll-mt-24 px-4 pt-20 sm:px-6 md:pt-28">
         <div className="mx-auto grid max-w-6xl overflow-hidden rounded-3xl border border-line/10 md:grid-cols-[1fr_1.15fr]">
           <div className="flex flex-col gap-5 bg-panel p-7 md:p-10">
-            <p className="text-sm text-muted">Consultation</p>
+            <p className="text-sm text-muted">Not sure which agent fits?</p>
             <div className="flex items-baseline gap-2">
               <span className="text-5xl font-medium tracking-tight">${CONSULTATION_RATE_USD.toFixed(2)}</span>
-              <span className="text-muted">/ hour</span>
+              <span className="text-muted">scoping session · 60 min</span>
             </div>
-            <p className="max-w-sm text-muted">One working session with the engineer who will build it. Bring the task; leave with a plan.</p>
+            <p className="max-w-sm text-muted">A 60-minute session to map your workflow to the right Flowact agents. Leave with a rollout plan.</p>
             <ul className="grid gap-2 text-sm text-copy">
               <li className="flex gap-2"><span className="text-accent">·</span>Walk through your real workflow and tools</li>
               <li className="flex gap-2"><span className="text-accent">·</span>Which agent fits, and what stays manual</li>
-              <li className="flex gap-2"><span className="text-accent">·</span>A written scope and price range afterwards</li>
+              <li className="flex gap-2"><span className="text-accent">·</span>A written rollout plan and pricing afterwards</li>
             </ul>
           </div>
           <div className="border-t border-line/10 bg-[#121211] p-7 md:border-l md:border-t-0 md:p-10">
@@ -156,29 +186,6 @@ export default function BuildAgent() {
                 </button>
               </form>
             )}
-          </div>
-        </div>
-      </section>
-
-      {/* Personal */}
-      <section id="personal" className="scroll-mt-24 px-4 pt-20 sm:px-6 md:pt-28">
-        <div className="mx-auto max-w-6xl">
-          <p className="section-kicker">For you</p>
-          <h2 className="mt-3 text-3xl font-medium tracking-tight md:text-4xl">A private assistant, built around <em className="em-accent">your</em> work.</h2>
-          <div className="mt-8 grid gap-4 md:grid-cols-2">
-            {PERSONAL.map((i) => <ItemCard key={i.id} item={i} on={picked.includes(i.id)} toggle={() => toggle(i.id)} />)}
-          </div>
-        </div>
-      </section>
-
-      {/* Business */}
-      <section id="business" className="scroll-mt-24 px-4 pt-20 sm:px-6 md:pt-28">
-        <div className="mx-auto max-w-6xl">
-          <p className="section-kicker">For your team</p>
-          <h2 className="mt-3 text-3xl font-medium tracking-tight md:text-4xl">Pick the modules. They share one <em className="em-accent">brain</em>.</h2>
-          <p className="mt-3 max-w-2xl text-muted">Choose one or several. Modules connect to the same knowledge and permissions, so they work together instead of as separate bots.</p>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {MODULES.map((i) => <ItemCard key={i.id} item={i} on={picked.includes(i.id)} toggle={() => toggle(i.id)} />)}
           </div>
         </div>
       </section>

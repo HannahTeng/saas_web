@@ -50,7 +50,7 @@ export function parseRequest(body: unknown): { ok: true; data: AgentRequest } | 
 
 const SUBJECTS: Record<RequestKind, string> = {
   brief: 'New agent request (flowact.net)',
-  consultation: `Consultation request · $${CONSULTATION_RATE_USD}/h (flowact.net)`,
+  consultation: `Scoping session request · $${CONSULTATION_RATE_USD} (flowact.net)`,
   quote: 'Quote request (flowact.net)',
 }
 

@@ -71,8 +71,8 @@ export default function CTASection() {
             </p>
             <a href="/build" className="group mt-2 flex items-center justify-between gap-4 rounded-2xl border border-line/15 p-4 transition-colors hover:border-accent">
               <span>
-                <span className="block font-medium text-primary">{zh ? '自己搭一个 Agent' : 'Build your agent'}</span>
-                <span className="mt-0.5 block text-sm text-muted">{zh ? '$19.90/小时咨询，或选模块获取报价' : '$19.90/h consultation, or pick modules for a quote'}</span>
+                <span className="block font-medium text-primary">{zh ? '查看产品与价格' : 'Agents and pricing'}</span>
+                <span className="mt-0.5 block text-sm text-muted">{zh ? '选择 Data、Dispatch、Docs Agent，获取报价' : 'Pick Data, Dispatch or Docs agents and get pricing'}</span>
               </span>
               <span className="text-xl text-accent transition-transform group-hover:translate-x-1" aria-hidden>→</span>
             </a>
