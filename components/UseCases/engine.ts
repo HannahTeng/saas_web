@@ -17,12 +17,12 @@ const CW = 1200, CH = 790;
 
 class Demo{
   constructor(root, sc){
-    this.root = root; this.sc = sc; this.visible = false; this.instant = false;
+    this.root = root; this.sc = sc; this.st = STATE; this.visible = false; this.instant = false;
     this.items = $$('.strip li', root); this.cap = $('.cap', root);
     this.fit = $('.fit', root); this.canvas = $('.canvas', root); this.cursor = $('.cursor', root);
     new IntersectionObserver(e => this.visible = e[0].isIntersecting, {threshold:.3}).observe($('.scene', root));
   }
-  async wait(ms){ if (this.instant) return; await sleep(ms); if (STATE.dead) throw STOP; while (!this.visible){ await sleep(250); if (STATE.dead) throw STOP; } }
+  async wait(ms){ if (this.instant) return; await sleep(ms); if (this.st.dead) throw STOP; while (!this.visible){ await sleep(250); if (this.st.dead) throw STOP; } }
   step(i, cap){
     this.items.forEach((s,j) => { s.classList.toggle('done', j < i); s.classList.toggle('active', j === i); });
     if (cap === undefined) return;
@@ -57,7 +57,7 @@ class Demo{
     requestAnimationFrame(() => requestAnimationFrame(() => { this.root.classList.remove('instant'); $$('.ja-chat,.im-body,.as-b', this.root).forEach(b => b.scrollTop = b.scrollHeight); }));
     if (RM) return;
     for(;;){
-      while (!this.visible){ await sleep(250); if (STATE.dead) return; }
+      while (!this.visible){ await sleep(250); if (this.st.dead) return; }
       await sleep(1200);
       this.sc.reset(this); this.hideCursor();
       await this.wait(600);
@@ -310,11 +310,14 @@ export function startUseCases(root) {
   const mine = STATE;
   RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const ros = [];
+  const fits = [];
   $$('.fit', root).forEach((f) => {
     const c = $('.canvas', f);
     const go = () => { const k = f.clientWidth / CW; f._k = k; c.style.transform = `scale(${k})`; f.style.height = CH * k + 'px'; };
-    go(); const ro = new ResizeObserver(go); ro.observe(f); ros.push(ro);
+    go(); const ro = new ResizeObserver(go); ro.observe(f); ros.push(ro); fits.push(go);
   });
+  const refit = () => requestAnimationFrame(() => fits.forEach((g) => g()));
+  root.addEventListener('uc:refit', refit);
   $$('.demo', root).forEach((el) => { new Demo(el, scripts[el.dataset.demo]).run().catch(() => {}); });
   const onPrefill = (e) => {
     const a = e.target.closest('.prefill'); if (!a) return;
@@ -322,5 +325,5 @@ export function startUseCases(root) {
     window.dispatchEvent(new CustomEvent('flowact:prefill', { detail: a.dataset.text }));
   };
   root.addEventListener('click', onPrefill);
-  return () => { mine.dead = true; ros.forEach((r) => r.disconnect()); root.removeEventListener('click', onPrefill); };
+  return () => { mine.dead = true; ros.forEach((r) => r.disconnect()); root.removeEventListener('click', onPrefill); root.removeEventListener('uc:refit', refit); };
 }
