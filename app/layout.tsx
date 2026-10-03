@@ -4,22 +4,13 @@ import { LanguageProvider } from '@/components/LanguageProvider'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Hannah Teng — Agentic Workflows, Built For Your Industry',
+  title: 'Flowact — AI Agents Built Around Your Work',
   description:
-    'Turn the work your team repeats every day into an AI agent with a human approval step. Forward-deployed engineer Hannah Teng maps your workflow, encodes your rules, and deploys agents inside the tools you already use — logistics, clinical, education, and beyond.',
-  keywords: [
-    'Hannah Teng',
-    'Zihan Teng',
-    'Agentic AI',
-    'AI Agents',
-    'Workflow Automation',
-    'Human-in-the-loop',
-    'Forward Deployed Engineer',
-    'AI Consulting',
-  ],
+    'Flowact builds AI agents that sign in to the systems you already run, do the repetitive work, and stop for a person at every decision that matters. Delivered across logistics, trucking, customs, clinical data and more.',
+  keywords: ['Flowact', 'AI Agents', 'Agentic AI', 'Workflow Automation', 'Human-in-the-loop', 'Logistics AI', 'Enterprise AI'],
   openGraph: {
-    title: 'Hannah Teng — Agentic Workflows, Built For Your Industry',
-    description: 'Your workflow, running itself — agents do the repetition, humans keep the judgment.',
+    title: 'Flowact — AI Agents Built Around Your Work',
+    description: 'Agents do the repetition. Humans keep the judgment.',
     type: 'website',
   },
 }

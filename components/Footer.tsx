@@ -13,10 +13,10 @@ export default function Footer() {
           <div className="flex items-center gap-3">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
               <rect x="1" y="1" width="22" height="22" rx="6" stroke="currentColor" strokeWidth="1.5" />
-              <path d="M8 6.5v11M16 6.5v11M8 12h8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+              <path d="M9 17.5V6.5h7M9 12h5.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
             <div>
-              <p className="font-semibold text-primary leading-tight">Hannah Teng</p>
+              <p className="font-semibold text-primary leading-tight">Flowact</p>
               <p className="text-sm text-subtle">
                 {zh ? '重复工作交给 Agent，关键判断留给人。' : 'Agents do the repetition. Humans keep the judgment.'}
               </p>
@@ -34,9 +34,9 @@ export default function Footer() {
         </div>
 
         <div className="mt-8 flex flex-col items-center justify-between gap-3 border-t border-line/5 pt-5 text-center sm:flex-row sm:text-left md:mt-10 md:pt-6">
-          <p className="text-sm text-subtle">© 2026 Zihan (Hannah) Teng. {zh ? '保留所有权利。' : 'All rights reserved.'}</p>
+          <p className="text-sm text-subtle">© 2026 Flowact, Inc. {zh ? '保留所有权利。' : 'All rights reserved.'}</p>
           <p className="text-sm text-subtle">
-            {zh ? '2026 年 8 月起开放 FDE、数据科学与 AI 产品全职机会' : 'Open to full-time FDE, data science & AI-product roles from August 2026'}
+            {zh ? '企业 AI Agent 落地 · 10+ 行业已交付' : 'Enterprise AI agents · delivered across 10+ industries'}
           </p>
         </div>
       </div>
