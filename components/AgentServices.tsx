@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { useState } from 'react'
+import UseCases from '@/components/UseCases/UseCases'
 import FadeIn from '@/components/FadeIn'
 import ScrollReveal from '@/components/ScrollReveal'
 import { useLanguage } from '@/components/LanguageProvider'
@@ -21,7 +22,7 @@ const AUDIENCES = {
     number: '02',
     eyebrow: 'Companies',
     title: 'Agentic workflow',
-    body: 'Custom automation for repeated operational work, with human review kept at the decision points.',
+    body: 'Deployable agents for repeated operational work, with human review kept at the decision points.',
     workspace: 'Team operations',
   },
 } satisfies Record<Audience, { number: string; eyebrow: string; title: string; body: string; workspace: string }>
@@ -235,9 +236,9 @@ export default function AgentServices() {
               </p>
             </FadeIn>
 
-            <div className="mt-8 grid gap-5 lg:mt-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-6">
+            <div className="mt-8 lg:mt-10">
               <FadeIn>
-                <div className="grid grid-cols-3 border-y border-line/10 md:block md:border-b-0">
+                <div className="grid grid-cols-3 border-y border-line/10" role="tablist" aria-label={zh ? 'Agent 形态' : 'Agent types'}>
                   {(Object.entries(agentTypeCopy) as [AgentType, (typeof agentTypeCopy)[AgentType]][]).map(
                     ([key, item], index) => {
                       const active = agentType === key
@@ -245,13 +246,13 @@ export default function AgentServices() {
                         <button
                           key={key}
                           type="button"
+                          role="tab"
                           onClick={() => setAgentType(key)}
-                          aria-pressed={active}
-                          className={`agent-type-row group grid w-full grid-cols-1 justify-items-center gap-2 px-2 py-4 text-center transition-all md:grid-cols-[2rem_2.75rem_1fr_auto] md:items-center md:justify-items-stretch md:gap-3 md:border-b md:border-line/10 md:px-1 md:py-5 md:text-left ${
+                          aria-selected={active}
+                          className={`agent-type-row group grid w-full grid-cols-1 justify-items-center gap-2 px-2 py-4 text-center transition-all md:grid-cols-[2.75rem_1fr] md:items-center md:justify-items-stretch md:gap-3 md:px-5 md:py-5 md:text-left ${
                             active ? 'is-active' : ''
-                          } ${index < 2 ? 'border-r border-line/10 md:border-r-0' : ''}`}
+                          } ${index < 2 ? 'border-r border-line/10' : ''}`}
                         >
-                          <span className="hidden text-xs text-subtle md:block">{item.number}</span>
                           <span className="agent-icon grid h-11 w-11 place-items-center rounded-lg border border-line/15 text-copy transition-colors">
                             <span className="h-5 w-5"><AgentIcon type={key} /></span>
                           </span>
@@ -261,9 +262,6 @@ export default function AgentServices() {
                               {item.summary}
                             </span>
                           </span>
-                          <span className="hidden text-subtle transition-all group-hover:translate-x-1 group-hover:text-copy md:block">
-                            →
-                          </span>
                         </button>
                       )
                     },
@@ -271,56 +269,9 @@ export default function AgentServices() {
                 </div>
               </FadeIn>
 
-              <FadeIn delay={0.1}>
-                <div className="agent-console relative flex min-h-[27rem] flex-col overflow-hidden rounded-2xl border border-line/15 bg-panel md:min-h-[30rem]">
-                  <div className="flex items-center justify-between border-b border-line/[0.08] px-5 py-4 text-xs text-subtle">
-                    <span className="inline-flex items-center gap-2 text-copy">
-                      <span className="agent-status-dot h-1.5 w-1.5 rounded-full" />
-                      {zh ? 'Agent 已就绪' : 'Agent ready'}
-                    </span>
-                    <span>{audienceCopy[audience].workspace}</span>
-                  </div>
-
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={`${audience}-${agentType}`}
-                      initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
-                      transition={{ duration: reduceMotion ? 0 : 0.35, ease: [0.16, 1, 0.3, 1] }}
-                      className="p-5 text-center md:p-10 md:text-left"
-                    >
-                      <div className="mx-auto grid h-12 w-12 place-items-center rounded-lg border border-line/15 bg-line/[0.025] text-copy md:mx-0 md:h-14 md:w-14">
-                        <span className="h-6 w-6"><AgentIcon type={agentType} /></span>
-                      </div>
-                      <p className="mt-9 text-xs font-medium tracking-wide text-subtle">
-                        {selected.label}
-                      </p>
-                      <h3 className="mt-3 max-w-lg text-2xl font-semibold tracking-tight text-primary md:text-3xl">
-                        {selected.title}
-                      </h3>
-                      <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted md:text-base">
-                        {selected.body}
-                      </p>
-                      <div className="mt-7 flex flex-wrap items-center justify-center gap-2 text-xs text-muted md:mt-9 md:justify-start">
-                        {selected.flow.map((step, index) => (
-                          <span key={step} className="contents">
-                            {index > 0 && <span className="flow-arrow text-neutral-700">→</span>}
-                            <span className="rounded-md border border-line/10 bg-line/[0.025] px-3 py-2">
-                              {step}
-                            </span>
-                          </span>
-                        ))}
-                      </div>
-                    </motion.div>
-                  </AnimatePresence>
-
-                  <div className="mt-auto flex flex-wrap justify-between gap-3 border-t border-line/[0.08] bg-black/20 px-5 py-4 text-xs text-subtle">
-                    <span>◇ {zh ? '权限始终可见' : 'Permissions stay visible'}</span>
-                    <span>↶ {zh ? '操作始终可撤销' : 'Actions stay reversible'}</span>
-                  </div>
-                </div>
-              </FadeIn>
+              <div className="mt-8 md:mt-10">
+                <UseCases active={agentType} />
+              </div>
             </div>
           </div>
         </div>

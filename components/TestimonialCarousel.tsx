@@ -25,12 +25,6 @@ const ROW_A: Testimonial[] = [
       'I used to hunt through files and columns by hand to run quality checks. Now I type a question in plain English and get the answer inside the platform I already use.',
   },
   {
-    name: 'Customs brokerage lead',
-    role: 'New Jersey',
-    quote:
-      'Thirty years processing entries, and she started by listening. The repetitive filing gets automated; every judgment call stays with my staff.',
-  },
-  {
     name: 'Supply chain founder',
     role: 'Hangzhou, China',
     quote:
@@ -39,18 +33,6 @@ const ROW_A: Testimonial[] = [
 ]
 
 const ROW_B: Testimonial[] = [
-  {
-    name: 'Education program lead',
-    role: 'Irvine, California',
-    quote:
-      'The agent adapts to how each student learns — four accessibility modes, voice included. Same pattern as her other work: the agent adapts to the human.',
-  },
-  {
-    name: 'Operations manager',
-    role: 'New Jersey',
-    quote:
-      'She sat with the team and walked through a real day before writing a line of code. You explain the work once — she does the listening.',
-  },
   {
     name: 'Clinical researcher',
     role: 'San Diego, California',
@@ -75,20 +57,8 @@ const ZH_TESTIMONIALS: Testimonial[] = [
     quote: '以前需要手动翻找文件和字段完成质量检查。现在用自然语言提问，就能在原来的平台里得到答案。',
   },
   {
-    name: '报关业务负责人', role: '美国 · 新泽西',
-    quote: '她先听懂我们三十年来如何处理业务。重复申报被自动化，但每一个判断仍由团队做出。',
-  },
-  {
     name: '供应链创业者', role: '中国 · 杭州',
     quote: '整套追溯方案覆盖从工厂生产到零售扫码，并配套数据接入、链路查询和合规检查 Agent。',
-  },
-  {
-    name: '教育项目负责人', role: '美国 · 尔湾',
-    quote: 'Agent 会适应不同学生的学习方式，包括语音在内的多种无障碍模式。技术适应人，而不是反过来。',
-  },
-  {
-    name: '运营经理', role: '美国 · 新泽西',
-    quote: '她先跟着团队完整走过真实的一天，之后才开始写代码。我们只需要把工作解释清楚一次。',
   },
   {
     name: '临床研究员', role: '美国 · 圣地亚哥',
@@ -142,8 +112,8 @@ export default function TestimonialCarousel() {
         </h2>
         <p className="mt-3 text-sm md:text-base text-muted max-w-2xl mx-auto">
           {zh
-            ? '来自尔湾、圣地亚哥、新泽西与杭州的一线岗位视角。'
-            : 'Perspectives from operators in Irvine, San Diego, New Jersey, and Hangzhou.'}
+            ? '来自尔湾、圣地亚哥与杭州的一线岗位视角。'
+            : 'Perspectives from operators in Irvine, San Diego, and Hangzhou.'}
         </p>
       </FadeIn>
 

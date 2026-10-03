@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLanguage } from '@/components/LanguageProvider'
 import styles from './Landing.module.css'
+import { Wordmark } from './Logo'
 
 export default function Navbar() {
   const { language, toggleLanguage } = useLanguage()
@@ -39,22 +40,19 @@ export default function Navbar() {
 
   return (
     <header className={`${styles.header} ${open ? styles.menuOpen : ''}`}>
-      <a href="#top" aria-label="Hannah Teng — home" className={styles.logo} onClick={() => setOpen(false)}>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
-          <rect x="1" y="1" width="22" height="22" rx="6" stroke="currentColor" strokeWidth="1.5" />
-          <path d="M8 6.5v11M16 6.5v11M8 12h8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-        </svg>
-        <span>Hannah Teng</span>
+      <a href="/#top" aria-label="Flowact — home" className={styles.logo} onClick={() => setOpen(false)}>
+        <Wordmark height={24} />
       </a>
       <div className={styles.backdrop} aria-hidden onClick={() => setOpen(false)} />
       <nav ref={nav} id="site-nav" aria-label={zh ? '主导航' : 'Primary'} className={styles.nav}>
-        <a href="#agent-types" onClick={() => setOpen(false)}>{zh ? 'Agent 形态' : 'Agent forms'}</a>
-        <a href="#how-it-works" onClick={() => setOpen(false)}>{zh ? '工作方式' : 'How it works'}</a>
-        <a href="#contact" onClick={() => setOpen(false)}>{zh ? '联系我' : 'Let’s talk'}</a>
+        <a href="/#products" onClick={() => setOpen(false)}>{zh ? '产品' : 'Products'}</a>
+        <a href="/#agent-types" onClick={() => setOpen(false)}>{zh ? '演示' : 'See it work'}</a>
+        <a href="/#how-it-works" onClick={() => setOpen(false)}>{zh ? '工作方式' : 'How it works'}</a>
+        <a href="/#contact" onClick={() => setOpen(false)}>{zh ? '联系我' : 'Let’s talk'}</a>
       </nav>
       <div className={styles.headerActions}>
         <button type="button" className={styles.language} onClick={toggleLanguage} aria-label={zh ? 'Switch site language to English' : '将网站切换为中文'}>{zh ? 'EN' : '中文'}</button>
-        <a href="#contact" className={`${styles.button} ${styles.solid} ${styles.headerCta}`}>{zh ? '定制 Agent' : 'Start your agent'}</a>
+        <a href="/build" className={`${styles.button} ${styles.solid} ${styles.headerCta}`}>{zh ? '获取 Flowact' : 'Get Flowact'}</a>
         <button ref={toggle} type="button" className={styles.burger} aria-controls="site-nav" aria-expanded={open} aria-label={open ? (zh ? '关闭菜单' : 'Close menu') : (zh ? '打开菜单' : 'Open menu')} onClick={() => setOpen(!open)}>
           <span /><span /><span />
         </button>

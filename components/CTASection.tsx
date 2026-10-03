@@ -1,199 +1,151 @@
 'use client'
 
+import { FormEvent, useEffect, useRef, useState } from 'react'
 import FadeIn from '@/components/FadeIn'
 import { useLanguage } from '@/components/LanguageProvider'
+import { submitRequest } from '@/lib/submitRequest'
 
-const PROJECT_INPUTS = [
-  'Workflow you want automated',
-  'Screen recording or written steps',
-  'Test account, test data, or sample files',
-  'Exception rules and human review points',
+const EXAMPLES = [
+  { en: 'Warehouse data Q&A', zh: '仓库问数', text: 'Answer questions about our warehouse data in one sentence, with numbers, charts and a PDF.' },
+  { en: 'Truck dispatch', zh: '卡派调度', text: 'Pack our arrived containers into full trucks in our ERP and text me for approval.' },
+  { en: 'Customs emails', zh: '报关邮件', text: 'Find customer emails, attach the right customs documents and draft replies for my approval.' },
+  { en: 'Clinical data QC', zh: '临床数据核查', text: 'Let our data team ask plain-English questions about study data, with record-level sources.' },
 ]
 
-const START_PATHS = [
-  'Personal assistant',
-  'Knowledge base',
-  'Browser agent',
-  'Local agent',
-  'Team workflow',
+const STEPS = [
+  { en: 'Tell us the job', zh: '一句话说清任务' },
+  { en: 'Build path and quote within one business day', zh: '一个工作日内给出方案与报价' },
+  { en: 'Live inside the tools you already use', zh: '在你现有的工具里上线' },
+  { en: 'Annual license or monthly managed plan', zh: '年度授权或按月托管' },
 ]
 
-const ZH_PROJECT_INPUTS = [
-  '希望自动化的工作流程',
-  '录屏或文字步骤',
-  '测试账号、测试数据或样例文件',
-  '异常规则与人工审批节点',
-]
-
-const ZH_START_PATHS = ['私人助手', '个人知识库', '浏览器 Agent', '本地 Agent', '团队工作流']
+type Status = 'idle' | 'sending' | 'sent' | 'error'
 
 export default function CTASection() {
   const { language } = useLanguage()
   const zh = language === 'zh'
-  const projectInputs = zh ? ZH_PROJECT_INPUTS : PROJECT_INPUTS
-  const startPaths = zh ? ZH_START_PATHS : START_PATHS
+  const [job, setJob] = useState('')
+  const [contact, setContact] = useState('')
+  const [status, setStatus] = useState<Status>('idle')
+  const [error, setError] = useState('')
+  const contactRef = useRef<HTMLInputElement>(null)
+  const showContact = job.trim().length > 5
+
+  useEffect(() => {
+    const onPrefill = (e: Event) => {
+      setJob((e as CustomEvent<string>).detail)
+      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      window.setTimeout(() => contactRef.current?.focus({ preventScroll: true }), 700)
+    }
+    window.addEventListener('flowact:prefill', onPrefill)
+    return () => window.removeEventListener('flowact:prefill', onPrefill)
+  }, [])
+
+  async function submit(e: FormEvent) {
+    e.preventDefault()
+    if (!/@|^[A-Za-z][\w-]{3,}$/.test(contact.trim())) {
+      setError(zh ? '请填写邮箱或微信号，方便我们回复。' : 'Enter a work email or WeChat ID so we can reply.')
+      contactRef.current?.focus()
+      return
+    }
+    setError('')
+    setStatus('sending')
+    const err = await submitRequest({ kind: 'brief', contact, message: job })
+    if (err) {
+      setStatus('error')
+      setError(zh ? '没有发送成功，请稍后重试，或直接发邮件到 support@flowact.net。' : err)
+    } else setStatus('sent')
+  }
 
   return (
     <section id="contact" className="relative px-4 py-14 sm:px-6 md:py-32 scroll-mt-16">
-      <div className="relative max-w-5xl mx-auto">
-        <FadeIn>
-          <div className="mx-auto mb-10 max-w-2xl text-center">
-            <p className="section-kicker">{zh ? '从一个真正有用的任务开始' : 'Start with one useful job'}</p>
-            <h2 className="mt-4 text-3xl font-medium tracking-tight md:text-5xl">
-              {zh ? '你的 Agent 应该了解什么，或完成什么？' : 'What should your agent know—or do?'}
+      <FadeIn>
+        <div className="mx-auto grid max-w-6xl overflow-hidden rounded-3xl border border-line/10 md:grid-cols-[1fr_1.1fr]">
+          <div className="flex flex-col gap-5 bg-panel p-7 md:p-12">
+            <p className="text-sm text-muted">{zh ? '从一个真正有用的任务开始' : 'Start with one useful job'}</p>
+            <h2 className="text-4xl font-medium tracking-tight md:text-5xl">
+              {zh ? <>你的 Agent 应该<em className="em-accent">做</em>什么？</> : <>What should your agent <em className="em-accent">do</em>?</>}
             </h2>
-            <p className="mt-5 text-sm leading-relaxed text-muted md:text-base">
-              {zh
-                ? '带来一个重复任务、一组文件，或一条值得变成可用系统的工作流程。'
-                : 'Bring one repeated task, a set of files, or a workflow ready to become a working system.'}
+            <p className="max-w-md text-muted">
+              {zh ? '一句话描述任务即可，我们回复实施路径和报价。不用填表，也不用先约电话。' : 'Describe the job in a sentence. We come back with a build path and a quote. No forms, no sales call needed.'}
             </p>
+            <a href="/build" className="group mt-2 flex items-center justify-between gap-4 rounded-2xl border border-line/15 p-4 transition-colors hover:border-accent">
+              <span>
+                <span className="block font-medium text-primary">{zh ? '查看产品与价格' : 'Agents and pricing'}</span>
+                <span className="mt-0.5 block text-sm text-muted">{zh ? '选择 Data、Dispatch、Docs Agent，获取报价' : 'Pick Data, Dispatch or Docs agents and get pricing'}</span>
+              </span>
+              <span className="text-xl text-accent transition-transform group-hover:translate-x-1" aria-hidden>→</span>
+            </a>
+            <ol className="mt-auto grid gap-2 pt-6 text-sm text-muted">
+              {STEPS.map((s, i) => (
+                <li key={s.en} className="flex gap-3"><span className="w-6 text-accent">0{i + 1}</span>{zh ? s.zh : s.en}</li>
+              ))}
+            </ol>
           </div>
-        </FadeIn>
 
-        <FadeIn delay={0.12}>
-          <details className="intake-panel group mx-auto w-full max-w-3xl overflow-hidden rounded-2xl border border-line/15 bg-panel">
-            <summary className="flex w-full cursor-pointer list-none flex-col items-center justify-between gap-5 overflow-hidden p-5 text-center marker:hidden sm:flex-row sm:p-6 sm:text-left md:p-7">
-              <div className="w-full min-w-0 sm:flex-1">
-                <p className="text-sm font-medium text-subtle">
-                  {zh ? '项目需求表' : 'Project intake'}
+          <div className="flex flex-col gap-4 border-t border-line/10 bg-[#121211] p-7 md:border-l md:border-t-0 md:p-12">
+            {status === 'sent' ? (
+              <div className="grid min-h-[260px] content-center gap-3" role="status">
+                <h3 className="text-3xl font-medium tracking-tight">{zh ? '收到了。' : 'Got it.'}</h3>
+                <p className="text-muted">
+                  {zh ? '一个工作日内给你实施路径和报价。有问题可以先写信到 support@flowact.net。' : 'Expect a build path and a quote within one business day. Questions in the meantime: support@flowact.net'}
                 </p>
-                <h3 className="mt-3 text-xl md:text-2xl font-semibold text-primary leading-snug">
-                  {zh ? '填写一份简短需求。' : 'Open a short brief.'}
-                </h3>
-                <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted">
-                  {zh
-                    ? '准备好后展开填写。我会把范围、风险和审批节点整理成清晰的实施路径。'
-                    : 'Open the brief when you’re ready. Scope, risks, and approval points come back as a concrete build path.'}
-                </p>
-                <div className="mobile-row-scroll mt-4 flex w-full min-w-0 max-w-full flex-nowrap justify-start gap-2 overflow-x-auto overscroll-x-contain pb-1 sm:mt-5 sm:flex-wrap sm:overflow-visible sm:pb-0">
-                  {startPaths.map((path) => (
-                    <span
-                      key={path}
-                      className="shrink-0 rounded-md border border-line/10 bg-line/[0.03] px-3 py-1.5 text-xs text-muted"
+              </div>
+            ) : (
+              <form onSubmit={submit} noValidate className="grid gap-4">
+                <label htmlFor="job" className="text-sm font-medium">{zh ? '描述你的任务' : 'Describe the job'}</label>
+                <textarea
+                  id="job"
+                  name="job"
+                  value={job}
+                  onChange={(e) => setJob(e.target.value)}
+                  rows={4}
+                  className="agent-input w-full resize-y rounded-xl border border-line/15 bg-[#0B0B0A] px-4 py-3 text-[15px] text-primary outline-none placeholder:text-subtle focus:border-accent"
+                  placeholder={zh ? '例如：每天早上从 OMP 拉昨天各仓出库，做成 PDF 发给我。' : 'e.g. Every morning, pull yesterday’s outbound by warehouse from our OMP and send me a PDF.'}
+                />
+                <div className="flex flex-wrap gap-2">
+                  {EXAMPLES.map((ex) => (
+                    <button
+                      key={ex.en}
+                      type="button"
+                      onClick={() => { setJob(ex.text); window.setTimeout(() => contactRef.current?.focus(), 0) }}
+                      className="rounded-lg border border-line/15 px-3 py-1.5 text-[13px] text-muted transition-colors hover:border-accent hover:text-primary"
                     >
-                      {path}
-                    </span>
+                      {zh ? ex.zh : ex.en}
+                    </button>
                   ))}
                 </div>
-              </div>
-              <span className="intake-plus grid h-11 w-11 shrink-0 place-items-center rounded-full border border-line/10 bg-line/[0.03] text-2xl leading-none text-primary transition-all duration-300 group-hover:border-line/30 group-open:rotate-45 group-open:bg-line/[0.08]">
-                +
-              </span>
-            </summary>
-
-            <div className="border-t border-line/10 px-4 pb-5 sm:px-6 sm:pb-6 md:px-7 md:pb-7">
-              <form
-                action="https://formsubmit.co/support@flowact.net"
-                method="POST"
-                className="mt-6 space-y-4"
-              >
-                <input type="hidden" name="_subject" value={zh ? '新的 AI Agent 定制需求' : 'New AI agent workflow request'} />
-                <input type="hidden" name="_template" value="table" />
-                <input type="hidden" name="_captcha" value="true" />
-                <input type="text" name="_honey" className="hidden" tabIndex={-1} autoComplete="off" />
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <label className="block">
-                    <span className="text-sm font-medium text-muted">
-                      {zh ? '姓名' : 'Name'}
-                    </span>
+                {showContact && (
+                  <div className="grid gap-2">
+                    <label htmlFor="reply" className="text-sm font-medium">{zh ? '方案发到哪里？' : 'Where should we send the build path?'}</label>
                     <input
-                      required
-                      name="name"
-                      type="text"
-                      autoComplete="name"
-                      className="agent-input mt-2 w-full rounded-lg border border-control px-4 py-3 text-sm text-primary outline-none transition-colors placeholder:text-subtle focus:border-accent"
-                      placeholder={zh ? '你的姓名' : 'Your name'}
-                    />
-                  </label>
-                  <label className="block">
-                    <span className="text-sm font-medium text-muted">
-                      Email
-                    </span>
-                    <input
-                      required
-                      name="email"
-                      type="email"
+                      ref={contactRef}
+                      id="reply"
+                      name="contact"
+                      value={contact}
+                      onChange={(e) => setContact(e.target.value)}
                       autoComplete="email"
-                      className="agent-input mt-2 w-full rounded-lg border border-control px-4 py-3 text-sm text-primary outline-none transition-colors placeholder:text-subtle focus:border-accent"
-                      placeholder="you@company.com"
+                      className="agent-input w-full rounded-xl border border-line/15 bg-[#0B0B0A] px-4 py-3 text-[15px] text-primary outline-none placeholder:text-subtle focus:border-accent"
+                      placeholder={zh ? '工作邮箱或微信号' : 'Work email or WeChat ID'}
                     />
-                  </label>
-                </div>
-
-                <label className="block">
-                  <span className="text-sm font-medium text-muted">
-                      {zh ? '公司 / 团队' : 'Company / team'}
-                  </span>
-                  <input
-                    name="company"
-                    type="text"
-                    autoComplete="organization"
-                    className="agent-input mt-2 w-full rounded-lg border border-control px-4 py-3 text-sm text-primary outline-none transition-colors placeholder:text-subtle focus:border-accent"
-                    placeholder={zh ? '公司、部门或团队' : 'Company, department, or team'}
-                  />
-                </label>
-
-                <label className="block">
-                  <span className="text-sm font-medium text-muted">
-                    {zh ? '希望系统完成什么？' : 'What should the system do?'}
-                  </span>
-                  <textarea
-                    required
-                    name="workflow"
-                    rows={4}
-                    className="agent-input mt-2 w-full resize-none rounded-lg border border-control px-4 py-3 text-sm text-primary outline-none transition-colors placeholder:text-subtle focus:border-accent"
-                    placeholder={zh ? '例如：检索内部知识、起草回复、整理文件、填写表单，或等待人工审批。' : 'Example: search internal knowledge, draft replies, organize files, fill forms, or wait for approval.'}
-                  />
-                </label>
-
-                <div className="rounded-lg border border-control p-4">
-                  <p className="text-sm font-medium text-muted">
-                    {zh ? '可提供的辅助资料' : 'Helpful materials'}
-                  </p>
-                  <div className="mt-3 grid gap-2">
-                    {projectInputs.map((item) => (
-                      <label key={item} className="flex items-start gap-3 text-sm text-copy">
-                        <input
-                          type="checkbox"
-                          name="available_materials"
-                          value={item}
-                          className="mt-0.5 h-4 w-4 rounded border-line/20 bg-black text-accent focus:ring-accent/40"
-                        />
-                        <span>{item}</span>
-                      </label>
-                    ))}
                   </div>
+                )}
+                {error && <p className="text-sm text-[#E89A86]" role="alert">{error}</p>}
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <small className="text-[13px] text-subtle">{zh ? '仅用于评估你的需求。' : 'Used only to scope your build.'}</small>
+                  <button
+                    type="submit"
+                    disabled={!showContact || contact.trim().length < 3 || status === 'sending'}
+                    className="rounded-lg bg-accent px-5 py-3 text-[15px] font-semibold text-[#171614] transition-opacity disabled:cursor-not-allowed disabled:opacity-35"
+                  >
+                    {status === 'sending' ? (zh ? '发送中…' : 'Sending…') : (zh ? '发送给 Flowact' : 'Send to Flowact')}
+                  </button>
                 </div>
-
-                <label className="block">
-                  <span className="text-sm font-medium text-muted">
-                    {zh ? '补充说明、时间安排或预算范围' : 'Notes, timeline, or budget range'}
-                  </span>
-                  <textarea
-                    name="notes"
-                    rows={3}
-                    className="agent-input mt-2 w-full resize-none rounded-lg border border-control px-4 py-3 text-sm text-primary outline-none transition-colors placeholder:text-subtle focus:border-accent"
-                    placeholder={zh ? '可补充使用平台、紧急程度，以及必须保留人工处理的环节。' : 'Include platforms, urgency, and what must stay manual.'}
-                  />
-                </label>
-
-                <button
-                  type="submit"
-                  className="form-submit w-full rounded-lg px-6 py-4 text-center font-medium"
-                >
-                  {zh ? '发送需求 →' : 'Send request →'}
-                </button>
               </form>
-              <p className="mt-4 text-xs text-subtle text-center">
-                {zh
-                  ? '将发送至 support@flowact.net。第三方模型、服务器、账号及工具费用将单独报价。'
-                  : 'Sends to support@flowact.net. Third-party model, server, account, and tool fees are quoted separately.'}
-              </p>
-            </div>
-          </details>
-        </FadeIn>
-      </div>
+            )}
+          </div>
+        </div>
+      </FadeIn>
     </section>
   )
 }

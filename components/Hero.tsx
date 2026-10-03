@@ -14,7 +14,7 @@ export default function Hero() {
       <div className={styles.heroCopy}>
         <p className={`${styles.badge} ${styles.appear}`}>
           <svg width="18" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="M12 2.6c.55 0 .88.55 1.08 2.1.62 4.7 1.52 5.6 6.22 6.22 1.55.2 2.1.53 2.1 1.08s-.55.88-2.1 1.08c-4.7.62-5.6 1.52-6.22 6.22-.2 1.55-.53 2.1-1.08 2.1s-.88-.55-1.08-2.1c-.62-4.7-1.52-5.6-6.22-6.22C3.15 12.88 2.6 12.55 2.6 12s.55-.88 2.1-1.08c4.7-.62 5.6-1.52 6.22-6.22.2-1.55.53-2.1 1.08-2.1Z" /></svg>
-          {zh ? '为真实工作定制的 AI Agent' : 'Custom agents for real work'}
+          {zh ? '面向物流运营的 AI Agent' : 'AI agents for logistics operations'}
         </p>
         <h1 id="hero-heading" className={styles.headline}>
           <span>
@@ -38,11 +38,11 @@ export default function Hero() {
           </span>
         </h1>
         <p className={`${styles.lede} ${styles.appear}`}>
-          {zh ? '为个人打造私人 AI 助手，为企业搭建 Agent 工作流。围绕你的知识、工具与审批规则构建。' : 'Private assistants for individuals. Agentic workflows for companies. Built around your knowledge, tools, and approvals.'}
+          {zh ? 'Flowact 的 Agent 在你现有的 OMP、WMS、ERP 和邮箱里运行，处理重复工作，关键决策交给人审批。' : 'Flowact agents run inside the OMP, WMS, ERP and inbox you already use. They do the repetitive work and wait for a person on every decision that matters.'}
         </p>
         <div className={`${styles.actions} ${styles.appear}`}>
-          <a href="#contact" className={`${styles.button} ${styles.solid}`}>{zh ? '开始定制 Agent' : 'Start your agent'}</a>
-          <a href="#agent-types" className={`${styles.button} ${styles.ghost}`}>{zh ? '查看 Agent 形态' : 'Explore agent forms'}</a>
+          <a href="/build" className={`${styles.button} ${styles.solid}`}>{zh ? '获取 Flowact' : 'Get Flowact'}</a>
+          <a href="#products" className={`${styles.button} ${styles.ghost}`}>{zh ? '查看产品' : 'See the agents'}</a>
         </div>
       </div>
       <div className={`${styles.principles} ${styles.appear}`} aria-label={zh ? '构建原则' : 'Built around your work'}>
