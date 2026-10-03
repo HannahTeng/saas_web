@@ -3,6 +3,7 @@
 import { FormEvent, useEffect, useRef, useState } from 'react'
 import FadeIn from '@/components/FadeIn'
 import { useLanguage } from '@/components/LanguageProvider'
+import { submitRequest } from '@/lib/submitRequest'
 
 const EXAMPLES = [
   { en: 'Warehouse data Q&A', zh: '仓库问数', text: 'Answer questions about our warehouse data in one sentence, with numbers, charts and a PDF.' },
@@ -49,18 +50,11 @@ export default function CTASection() {
     }
     setError('')
     setStatus('sending')
-    try {
-      const res = await fetch('https://formsubmit.co/ajax/support@flowact.net', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ _subject: 'New agent request (flowact.net)', _template: 'table', job, contact }),
-      })
-      if (!res.ok) throw new Error(String(res.status))
-      setStatus('sent')
-    } catch {
+    const err = await submitRequest({ kind: 'brief', contact, message: job })
+    if (err) {
       setStatus('error')
-      setError(zh ? '没有发送成功，请稍后重试，或直接发邮件到 support@flowact.net。' : 'That didn’t go through. Try again, or email support@flowact.net.')
-    }
+      setError(zh ? '没有发送成功，请稍后重试，或直接发邮件到 support@flowact.net。' : err)
+    } else setStatus('sent')
   }
 
   return (
@@ -75,6 +69,13 @@ export default function CTASection() {
             <p className="max-w-md text-muted">
               {zh ? '一句话描述任务即可，我们回复实施路径和报价。不用填表，也不用先约电话。' : 'Describe the job in a sentence. We come back with a build path and a quote. No forms, no sales call needed.'}
             </p>
+            <a href="/build" className="group mt-2 flex items-center justify-between gap-4 rounded-2xl border border-line/15 p-4 transition-colors hover:border-accent">
+              <span>
+                <span className="block font-medium text-primary">{zh ? '自己搭一个 Agent' : 'Build your agent'}</span>
+                <span className="mt-0.5 block text-sm text-muted">{zh ? '$19.90/小时咨询，或选模块获取报价' : '$19.90/h consultation, or pick modules for a quote'}</span>
+              </span>
+              <span className="text-xl text-accent transition-transform group-hover:translate-x-1" aria-hidden>→</span>
+            </a>
             <ol className="mt-auto grid gap-2 pt-6 text-sm text-muted">
               {STEPS.map((s, i) => (
                 <li key={s.en} className="flex gap-3"><span className="w-6 text-accent">0{i + 1}</span>{zh ? s.zh : s.en}</li>
