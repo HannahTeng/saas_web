@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLanguage } from '@/components/LanguageProvider'
 import styles from './Landing.module.css'
+import { Wordmark } from './Logo'
 
 export default function Navbar() {
   const { language, toggleLanguage } = useLanguage()
@@ -40,11 +41,7 @@ export default function Navbar() {
   return (
     <header className={`${styles.header} ${open ? styles.menuOpen : ''}`}>
       <a href="/#top" aria-label="Flowact — home" className={styles.logo} onClick={() => setOpen(false)}>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
-          <rect x="1" y="1" width="22" height="22" rx="6" stroke="currentColor" strokeWidth="1.5" />
-          <path d="M9 17.5V6.5h7M9 12h5.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-        <span>Flowact</span>
+        <Wordmark height={24} />
       </a>
       <div className={styles.backdrop} aria-hidden onClick={() => setOpen(false)} />
       <nav ref={nav} id="site-nav" aria-label={zh ? '主导航' : 'Primary'} className={styles.nav}>
