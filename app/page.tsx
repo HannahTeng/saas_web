@@ -1,7 +1,7 @@
 import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
 import AgentServices from '@/components/AgentServices'
-import Products from '@/components/Products'
+import Showcase from '@/components/Showcase'
 import TestimonialCarousel from '@/components/TestimonialCarousel'
 import CTASection from '@/components/CTASection'
 import Footer from '@/components/Footer'
@@ -13,7 +13,7 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        <Products />
+        <Showcase />
         <AgentServices />
         <TestimonialCarousel />
         <CTASection />

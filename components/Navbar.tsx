@@ -46,7 +46,6 @@ export default function Navbar() {
       <div className={styles.backdrop} aria-hidden onClick={() => setOpen(false)} />
       <nav ref={nav} id="site-nav" aria-label={zh ? '主导航' : 'Primary'} className={styles.nav}>
         <a href="/#products" onClick={() => setOpen(false)}>{zh ? '产品' : 'Products'}</a>
-        <a href="/#agent-types" onClick={() => setOpen(false)}>{zh ? '演示' : 'See it work'}</a>
         <a href="/#how-it-works" onClick={() => setOpen(false)}>{zh ? '工作方式' : 'How it works'}</a>
         <a href="/#contact" onClick={() => setOpen(false)}>{zh ? '联系我' : 'Let’s talk'}</a>
       </nav>
