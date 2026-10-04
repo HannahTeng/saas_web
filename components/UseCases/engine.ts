@@ -17,13 +17,14 @@ const CW = 1200, CH = 790;
 
 class Demo{
   constructor(root, sc){
-    this.root = root; this.sc = sc; this.st = STATE; this.visible = false; this.instant = false;
+    this.root = root; this.sc = sc; this.st = STATE; this.gen = 0; this.visible = false; this.instant = false;
     this.items = $$('.strip li', root); this.cap = $('.cap', root);
     this.fit = $('.fit', root); this.canvas = $('.canvas', root); this.cursor = $('.cursor', root);
     new IntersectionObserver(e => this.visible = e[0].isIntersecting, {threshold:.3}).observe($('.scene', root));
   }
-  async wait(ms){ if (this.instant) return; await sleep(ms); if (this.st.dead) throw STOP; while (!this.visible){ await sleep(250); if (this.st.dead) throw STOP; } }
+  async wait(ms){ if (this.instant) return; const g = this.gen; await sleep(ms); if (this.st.dead || g !== this.gen) throw STOP; while (!this.visible){ await sleep(250); if (this.st.dead || g !== this.gen) throw STOP; } }
   step(i, cap){
+    if (this.onStep) this.onStep(i, this.items.length);
     this.items.forEach((s,j) => { s.classList.toggle('done', j < i); s.classList.toggle('active', j === i); });
     if (cap === undefined) return;
     if (this.instant){ this.cap.textContent = cap; return; }
@@ -38,7 +39,7 @@ class Demo{
   hideCursor(){ this.cursor.style.opacity = 0; }
   async to(el, ox = .5, oy = .55){
     if (this.instant) return;
-    const k = this.fit._k || 1, c = this.canvas.getBoundingClientRect(), r = el.getBoundingClientRect();
+    const c = this.canvas.getBoundingClientRect(), r = el.getBoundingClientRect(), k = c.width / CW || 1;
     this.cursor.style.opacity = 1;
     this.cursor.style.transform = `translate(${(r.left-c.left+r.width*ox)/k}px,${(r.top-c.top+r.height*oy)/k}px)`;
     await this.wait(900);
@@ -305,25 +306,98 @@ const edc = {
 
 const scripts = { ja, dp, edc };
 
-export function startUseCases(root) {
+/**
+ * Product showcase: one stage, one scene at a time.
+ * Every scene first renders its finished state (complete at rest); once the stage is on screen
+ * the active scene plays, then hands over to the next. select(i) jumps and keeps auto-advancing.
+ */
+/* Phones: instead of shrinking the whole scene, a square "camera" frames where the agent is working. */
+const CAMERA = {
+  ja: [{ x: 410, y: 0, s: 640 }, { x: 410, y: 0, s: 640 }, { x: 410, y: 0, s: 640 }, { x: 410, y: 0, s: 640 }],
+  dp: [{ x: 560, y: 30, s: 640 }, { x: 300, y: 100, s: 640 }, { x: 60, y: 0, s: 790 }, { x: 560, y: 30, s: 640 }],
+  edc: [{ x: 560, y: 40, s: 550 }, { x: 140, y: 30, s: 560 }, { x: 300, y: 30, s: 560 }, { x: 500, y: 30, s: 580 }],
+};
+const PHONE = 640;
+
+export function startShowcase(root, { onActive, onProgress }) {
   STATE = { dead: false };
   const mine = STATE;
   RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const arts = $$('article.demo', root);
   const ros = [];
-  const fits = [];
-  $$('.fit', root).forEach((f) => {
-    const c = $('.canvas', f);
-    const go = () => { const k = f.clientWidth / CW; f._k = k; c.style.transform = `scale(${k})`; f.style.height = CH * k + 'px'; };
-    go(); const ro = new ResizeObserver(go); ro.observe(f); ros.push(ro); fits.push(go);
+  const shots = arts.map(() => 0);
+  const fits = arts.map((a, idx) => {
+    const f = $('.fit', a), c = $('.canvas', a), cam = CAMERA[a.dataset.demo];
+    const go = () => {
+      const w = f.clientWidth;
+      if (w && w < PHONE && cam) {
+        const r = cam[Math.max(0, Math.min(cam.length - 1, shots[idx]))], k = w / r.s;
+        f._k = k; f.classList.add('cam');
+        c.style.transform = `scale(${k}) translate(${-r.x}px, ${-r.y}px)`; f.style.height = w + 'px';
+      } else {
+        const k = w / CW; f._k = k; f.classList.remove('cam');
+        c.style.transform = `scale(${k})`; f.style.height = CH * k + 'px';
+      }
+    };
+    go(); const ro = new ResizeObserver(go); ro.observe(f); ros.push(ro);
+    return go;
   });
-  const refit = () => requestAnimationFrame(() => fits.forEach((g) => g()));
-  root.addEventListener('uc:refit', refit);
-  $$('.demo', root).forEach((el) => { new Demo(el, scripts[el.dataset.demo]).run().catch(() => {}); });
+  const demos = arts.map((a) => new Demo(a, scripts[a.dataset.demo]));
+  let active = 0, started = false;
+  demos.forEach((d, i) => {
+    d.onStep = (s, n) => {
+      shots[i] = s < 0 ? 0 : Math.min(n - 1, s); fits[i]();
+      if (i === active) onProgress(s < 0 ? 0 : Math.min(1, (s + 1) / n));
+    };
+  });
+
+  const settle = async (d) => {
+    d.instant = true; d.root.classList.add('instant');
+    d.sc.reset(d); await d.sc.play(d); d.step(99); d.hideCursor(); d.instant = false;
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      d.root.classList.remove('instant');
+      $$('.ja-chat,.im-body,.as-b', d.root).forEach((b) => (b.scrollTop = b.scrollHeight));
+    }));
+  };
+
+  function select(i, autoplay) {
+    if (mine.dead) return;
+    active = i; onActive(i);
+    arts.forEach((a, j) => { a.hidden = j !== i; });
+    requestAnimationFrame(() => fits.forEach((g) => g()));
+    demos.forEach((d) => d.gen++);
+    if (RM || !autoplay) { onProgress(1); return; }
+    const d = demos[i], g = d.gen;
+    (async () => {
+      try {
+        d.sc.reset(d); d.hideCursor(); onProgress(0);
+        await d.wait(500);
+        await d.sc.play(d); d.step(99); onProgress(1);
+        await d.wait(2600);
+        if (d.gen === g && active === i) select((i + 1) % demos.length, true);
+      } catch (e) { /* interrupted by another selection or unmount */ }
+    })();
+  }
+
+  let io;
+  (async () => {
+    for (const d of demos) await settle(d);
+    if (mine.dead) return;
+    select(0, false);
+    if (RM) return;
+    io = new IntersectionObserver((es) => { if (es[0].isIntersecting && !started) { started = true; select(active, true); } }, { threshold: 0.35 });
+    io.observe(root);
+  })();
+
   const onPrefill = (e) => {
     const a = e.target.closest('.prefill'); if (!a) return;
     e.preventDefault();
     window.dispatchEvent(new CustomEvent('flowact:prefill', { detail: a.dataset.text }));
   };
   root.addEventListener('click', onPrefill);
-  return () => { mine.dead = true; ros.forEach((r) => r.disconnect()); root.removeEventListener('click', onPrefill); root.removeEventListener('uc:refit', refit); };
+
+  return {
+    select: (i) => { started = true; select(i, true); },
+    destroy: () => { mine.dead = true; demos.forEach((d) => d.gen++); ros.forEach((r) => r.disconnect()); io && io.disconnect(); root.removeEventListener('click', onPrefill); },
+  };
 }

@@ -1,64 +1,47 @@
 // Static markup for the three use-case scenes. Animated by ./engine.ts.
-export const USE_CASES_HTML = `      <!-- ================= CASE: CLINICAL ================= -->
-      <article data-kind="knowledge" class="case demo" data-demo="edc">
+export const USE_CASES_HTML = `<article data-kind="local" class="case demo" data-demo="ja">
         <div class="case-head">
-          <div><span class="label">Clinical research · Inside the study platform</span>
-            <h3>Ask in plain English. It checks the <em class="it">source</em> first.</h3></div>
-          <div><p>Data managers used to hunt through listings by hand for quality checks. The agent lives in their study platform, uses its own filters, opens the source record, and drafts queries for the team to review.</p>
-            <div class="act"><a class="btn btn-g prefill" href="#start" data-text="Let our data team ask plain-English questions inside our study platform and get answers that cite the exact records.">Build one like this</a></div></div>
+          <div><span class="label">Overseas warehouse · Logistics data assistant</span>
+            <h3>One sentence in. The number, the chart and the <em class="it">PDF</em> out.</h3></div>
+          <div><p>Reports used to take half a day of exports and copy-paste. Now operations type one question into the desktop assistant. The agent signs in to the client's OMP, pulls and reconciles the data, checks the definition, and charts it.</p>
+            <div class="act"><a class="btn btn-g prefill" href="#start" data-text="Answer questions about our warehouse data in one sentence, with numbers, charts and a PDF.">Build one like this</a></div></div>
         </div>
         <div class="scene">
           <div class="fit"><div class="canvas">
             <div class="stage-bg"></div>
-            <div class="mon" style="left:128px;top:22px">
-              <div class="bez"><div class="scr ui" style="position:relative;width:920px;height:556px;overflow:hidden;border-radius:3px;background:#fff">
-                <div class="win" style="left:0;top:0;width:920px;height:556px;border-radius:0;box-shadow:none">
-                  <div class="chrome"><span class="lights"><i></i><i></i><i></i></span><span class="ar">‹ ›</span><span class="url">🔒 edc.<span class="blur">clientsite</span>.org<b>/AD-204/listings/labs</b></span></div>
-                  <div class="edc" style="flex:1;min-height:0">
-                    <div class="e-top"><span class="lg"><i></i>StudyHub</span><span class="sd">Study AD-204 ▾</span><span>Listings</span><span>Reports</span><span>Sites</span><span class="ini">DM</span></div>
-                    <div class="e-b">
-                      <div class="e-l">
-                        <div class="e-tabs"><span>Visits</span><span class="on">Labs</span><span>Adverse events</span><span>Queries<em id="e-qn">3</em></span></div>
-                        <div class="e-tool"><span class="cnt" id="e-cnt">Labs listing · 412 rows</span><button type="button" id="e-filter" tabindex="-1">Filter</button><button type="button" tabindex="-1">Export</button>
-                          <div class="fpop" id="e-pop"><h6>Filter rows</h6>
-                            <div class="frow"><span class="ef v">Visit</span><span class="ef v">is after</span><span class="ef" id="e-v1">Value</span></div>
-                            <div class="frow" id="e-r2" style="display:none"><span class="ef v">Lab date</span><span class="ef v">is empty</span><span class="ef" style="background:#F8FAFC"></span></div>
-                            <span class="ad" id="e-add">+ Add condition</span>
-                            <button type="button" class="ap" id="e-apply" tabindex="-1">Apply</button></div>
-                        </div>
-                        <div class="chips" id="e-chips"></div>
-                        <table class="etbl"><thead><tr><th>Subject</th><th>Site</th><th>Visit</th><th>Visit date</th><th>Lab date</th><th>Panel</th><th>CRF status</th></tr></thead><tbody id="e-rows"></tbody></table>
-                        <div class="drawer" id="e-rec"><div class="dr-h">Subject 1042 · Week 16 <span>✕</span></div><div class="dr-b">
-                          <div class="kv"><span>Site</span><b>S03</b></div><div class="kv"><span>Visit date</span><b>2026-03-04</b></div><div class="kv miss"><span>Lab date (LBDTC)</span><b>Not entered</b></div><div class="kv"><span>Panel</span><b>Chemistry, Hematology</b></div><div class="kv"><span>CRF status</span><b>Entered · not verified</b></div><div class="kv"><span>Audit trail</span><b>Last edit 2026-03-05 by S03-CRC</b></div></div></div>
-                        <div class="drawer" id="e-q"><div class="dr-h">New query <span>✕</span></div><div class="dr-b">
-                          <div class="kv"><span>Subjects</span><b>1042, 1107, 1131</b></div><div class="kv"><span>Field</span><b>LBDTC · Lab date</b></div><div class="kv"><span>Assign to</span><b>Site coordinators</b></div>
-                          <span style="color:#64748B">Message</span><div class="ta" id="e-msg"></div></div>
-                          <div class="dr-f"><button type="button" tabindex="-1">Cancel</button><button type="button" class="pri" id="e-save" tabindex="-1">Save 3 drafts</button></div></div>
+            <div class="mbp" style="left:126px;top:34px">
+              <div class="lid"><div class="notch"></div>
+                <div class="scr" style="width:920px;height:560px">
+                  <div class="menubar ui"><b>Logistics Data Assistant</b><span>File</span><span>Edit</span><span>View</span><span>Window</span><span>Thu Oct 1 &nbsp;9:41 AM</span></div>
+                  <div class="win ui ja" style="left:10px;top:30px;width:900px;height:522px">
+                    <div class="ja-bar"><span class="lights"><i></i><i></i><i></i></span><span class="tt">Logistics Data Assistant · Overseas Warehouse</span></div>
+                    <div class="ja-body">
+                      <aside class="ja-hist"><div class="jh-h">Chat history <span>×</span></div><div class="jh-new">+ New chat</div><div class="jh-g">Today</div><div class="jh-i on">How much Christmas stock arrived</div><div class="jh-g">Earlier</div><div class="jh-i">Last week pack rate</div><div class="jh-i">USGA01 days of stock</div><div class="jh-i">Slow movers over 60 days</div></aside>
+                      <div class="ja-main">
+                        <div class="ja-head"><span class="jl blur"></span><span class="jt"><b>Logistics Assistant</b><small>Outbound &amp; inventory · Powered by Claude</small></span>
+                          <span class="jp"><i></i>VPN OK</span><span class="jp"><i></i>Data synced</span><span class="jp g"><i></i><span id="ja-cost">$8.0189</span></span><span class="jb">New chat</span><span class="jb">Settings</span></div>
+                        <div class="ja-chat" id="ja-chat"></div>
+                        <div class="ja-comp"><div class="ja-in"><span class="tx" id="ja-tx"></span><span class="ja-send" id="ja-send">Send</span></div>
+                          <div class="ja-sug"><span>Orders shipped last 7 days</span><span>Pack rate</span><span>Days of stock at USGA01</span><span>Slow movers</span><span>Build a board for my boss</span></div></div>
                       </div>
-                      <aside class="as">
-                        <div class="as-h"><i></i>Flowact assistant<span>Read-only</span></div>
-                        <div class="as-b" id="a-b"></div>
-                        <div class="as-in"><span class="tx" id="a-tx"></span><b id="a-send">↑</b></div>
-                      </aside>
                     </div>
                   </div>
                 </div>
-              </div></div>
-              <div class="neck"></div><div class="foot"></div>
+              </div>
+              <div class="base"></div>
             </div>
             <div class="cursor"><svg width="20" height="22" viewBox="0 0 20 22"><path d="M2 1.5v17l4.6-4.3 3 6.3 3-1.4-3-6.2h6.4z" fill="#111" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
           </div></div>
           <p class="cap"></p>
         </div>
         <ol class="strip">
-          <li><span class="n">01 · Asks</span><b>Plain English</b><small>Typed into the panel inside the platform.</small></li>
-          <li><span class="n">02 · Filters</span><b>The platform's own filters</b><small>Visit after week 12, lab date empty.</small></li>
-          <li><span class="n">03 · Verifies</span><b>Opens the source record</b><small>Checks the CRF and audit trail first.</small></li>
-          <li><span class="n">04 · Drafts</span><b>Queries wait for review</b><small>Your team decides what goes to sites.</small></li>
+          <li><span class="n">01 · Asks</span><b>One sentence</b><small>Typed into the desktop assistant.</small></li>
+          <li><span class="n">02 · Signs in &amp; pulls</span><b>Works the client's OMP</b><small>Logs in, queues the export, polls until done.</small></li>
+          <li><span class="n">03 · Checks</span><b>States the definition</b><small>Season tag, date range, inbound types.</small></li>
+          <li><span class="n">04 · Charts</span><b>Chart and PDF</b><small>Ask for a chart, save it as a PDF.</small></li>
         </ol>
       </article>
-      <!-- ================= CASE: DISPATCH ================= -->
-      <article data-kind="browser" class="case demo" data-demo="dp">
+<article data-kind="browser" class="case demo" data-demo="dp">
         <div class="case-head">
           <div><span class="label">Trucking dispatch · Dispatch agent + iMessage</span>
             <h3>No one watches the containers. The trucks are <em class="it">already full</em>.</h3></div>
@@ -117,47 +100,61 @@ export const USE_CASES_HTML = `      <!-- ================= CASE: CLINICAL =====
           <li><span class="n">04 · Asks you</span><b>Books on "yes"</b><small>Nothing is booked without the dispatcher's reply.</small></li>
         </ol>
       </article>
-      <!-- ================= CASE: WAREHOUSE DATA ================= -->
-      <article data-kind="local" class="case demo" data-demo="ja">
+<article data-kind="knowledge" class="case demo" data-demo="edc">
         <div class="case-head">
-          <div><span class="label">Overseas warehouse · Logistics data assistant</span>
-            <h3>One sentence in. The number, the chart and the <em class="it">PDF</em> out.</h3></div>
-          <div><p>Reports used to take half a day of exports and copy-paste. Now operations type one question into the desktop assistant. The agent signs in to the client's OMP, pulls and reconciles the data, checks the definition, and charts it.</p>
-            <div class="act"><a class="btn btn-g prefill" href="#start" data-text="Answer questions about our warehouse data in one sentence, with numbers, charts and a PDF.">Build one like this</a></div></div>
+          <div><span class="label">Clinical research · Inside the study platform</span>
+            <h3>Ask in plain English. It checks the <em class="it">source</em> first.</h3></div>
+          <div><p>Data managers used to hunt through listings by hand for quality checks. The agent lives in their study platform, uses its own filters, opens the source record, and drafts queries for the team to review.</p>
+            <div class="act"><a class="btn btn-g prefill" href="#start" data-text="Let our data team ask plain-English questions inside our study platform and get answers that cite the exact records.">Build one like this</a></div></div>
         </div>
         <div class="scene">
           <div class="fit"><div class="canvas">
             <div class="stage-bg"></div>
-            <div class="mbp" style="left:126px;top:34px">
-              <div class="lid"><div class="notch"></div>
-                <div class="scr" style="width:920px;height:560px">
-                  <div class="menubar ui"><b>Logistics Data Assistant</b><span>File</span><span>Edit</span><span>View</span><span>Window</span><span>Thu Oct 1 &nbsp;9:41 AM</span></div>
-                  <div class="win ui ja" style="left:10px;top:30px;width:900px;height:522px">
-                    <div class="ja-bar"><span class="lights"><i></i><i></i><i></i></span><span class="tt">Logistics Data Assistant · Overseas Warehouse</span></div>
-                    <div class="ja-body">
-                      <aside class="ja-hist"><div class="jh-h">Chat history <span>×</span></div><div class="jh-new">+ New chat</div><div class="jh-g">Today</div><div class="jh-i on">How much Christmas stock arrived</div><div class="jh-g">Earlier</div><div class="jh-i">Last week pack rate</div><div class="jh-i">USGA01 days of stock</div><div class="jh-i">Slow movers over 60 days</div></aside>
-                      <div class="ja-main">
-                        <div class="ja-head"><span class="jl blur"></span><span class="jt"><b>Logistics Assistant</b><small>Outbound &amp; inventory · Powered by Claude</small></span>
-                          <span class="jp"><i></i>VPN OK</span><span class="jp"><i></i>Data synced</span><span class="jp g"><i></i><span id="ja-cost">$8.0189</span></span><span class="jb">New chat</span><span class="jb">Settings</span></div>
-                        <div class="ja-chat" id="ja-chat"></div>
-                        <div class="ja-comp"><div class="ja-in"><span class="tx" id="ja-tx"></span><span class="ja-send" id="ja-send">Send</span></div>
-                          <div class="ja-sug"><span>Orders shipped last 7 days</span><span>Pack rate</span><span>Days of stock at USGA01</span><span>Slow movers</span><span>Build a board for my boss</span></div></div>
+            <div class="mon" style="left:128px;top:22px">
+              <div class="bez"><div class="scr ui" style="position:relative;width:920px;height:556px;overflow:hidden;border-radius:3px;background:#fff">
+                <div class="win" style="left:0;top:0;width:920px;height:556px;border-radius:0;box-shadow:none">
+                  <div class="chrome"><span class="lights"><i></i><i></i><i></i></span><span class="ar">‹ ›</span><span class="url">🔒 edc.<span class="blur">clientsite</span>.org<b>/AD-204/listings/labs</b></span></div>
+                  <div class="edc" style="flex:1;min-height:0">
+                    <div class="e-top"><span class="lg"><i></i>StudyHub</span><span class="sd">Study AD-204 ▾</span><span>Listings</span><span>Reports</span><span>Sites</span><span class="ini">DM</span></div>
+                    <div class="e-b">
+                      <div class="e-l">
+                        <div class="e-tabs"><span>Visits</span><span class="on">Labs</span><span>Adverse events</span><span>Queries<em id="e-qn">3</em></span></div>
+                        <div class="e-tool"><span class="cnt" id="e-cnt">Labs listing · 412 rows</span><button type="button" id="e-filter" tabindex="-1">Filter</button><button type="button" tabindex="-1">Export</button>
+                          <div class="fpop" id="e-pop"><h6>Filter rows</h6>
+                            <div class="frow"><span class="ef v">Visit</span><span class="ef v">is after</span><span class="ef" id="e-v1">Value</span></div>
+                            <div class="frow" id="e-r2" style="display:none"><span class="ef v">Lab date</span><span class="ef v">is empty</span><span class="ef" style="background:#F8FAFC"></span></div>
+                            <span class="ad" id="e-add">+ Add condition</span>
+                            <button type="button" class="ap" id="e-apply" tabindex="-1">Apply</button></div>
+                        </div>
+                        <div class="chips" id="e-chips"></div>
+                        <table class="etbl"><thead><tr><th>Subject</th><th>Site</th><th>Visit</th><th>Visit date</th><th>Lab date</th><th>Panel</th><th>CRF status</th></tr></thead><tbody id="e-rows"></tbody></table>
+                        <div class="drawer" id="e-rec"><div class="dr-h">Subject 1042 · Week 16 <span>✕</span></div><div class="dr-b">
+                          <div class="kv"><span>Site</span><b>S03</b></div><div class="kv"><span>Visit date</span><b>2026-03-04</b></div><div class="kv miss"><span>Lab date (LBDTC)</span><b>Not entered</b></div><div class="kv"><span>Panel</span><b>Chemistry, Hematology</b></div><div class="kv"><span>CRF status</span><b>Entered · not verified</b></div><div class="kv"><span>Audit trail</span><b>Last edit 2026-03-05 by S03-CRC</b></div></div></div>
+                        <div class="drawer" id="e-q"><div class="dr-h">New query <span>✕</span></div><div class="dr-b">
+                          <div class="kv"><span>Subjects</span><b>1042, 1107, 1131</b></div><div class="kv"><span>Field</span><b>LBDTC · Lab date</b></div><div class="kv"><span>Assign to</span><b>Site coordinators</b></div>
+                          <span style="color:#64748B">Message</span><div class="ta" id="e-msg"></div></div>
+                          <div class="dr-f"><button type="button" tabindex="-1">Cancel</button><button type="button" class="pri" id="e-save" tabindex="-1">Save 3 drafts</button></div></div>
                       </div>
+                      <aside class="as">
+                        <div class="as-h"><i></i>Flowact assistant<span>Read-only</span></div>
+                        <div class="as-b" id="a-b"></div>
+                        <div class="as-in"><span class="tx" id="a-tx"></span><b id="a-send">↑</b></div>
+                      </aside>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="base"></div>
+              </div></div>
+              <div class="neck"></div><div class="foot"></div>
             </div>
             <div class="cursor"><svg width="20" height="22" viewBox="0 0 20 22"><path d="M2 1.5v17l4.6-4.3 3 6.3 3-1.4-3-6.2h6.4z" fill="#111" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
           </div></div>
           <p class="cap"></p>
         </div>
         <ol class="strip">
-          <li><span class="n">01 · Asks</span><b>One sentence</b><small>Typed into the desktop assistant.</small></li>
-          <li><span class="n">02 · Signs in &amp; pulls</span><b>Works the client's OMP</b><small>Logs in, queues the export, polls until done.</small></li>
-          <li><span class="n">03 · Checks</span><b>States the definition</b><small>Season tag, date range, inbound types.</small></li>
-          <li><span class="n">04 · Charts</span><b>Chart and PDF</b><small>Ask for a chart, save it as a PDF.</small></li>
+          <li><span class="n">01 · Asks</span><b>Plain English</b><small>Typed into the panel inside the platform.</small></li>
+          <li><span class="n">02 · Filters</span><b>The platform's own filters</b><small>Visit after week 12, lab date empty.</small></li>
+          <li><span class="n">03 · Verifies</span><b>Opens the source record</b><small>Checks the CRF and audit trail first.</small></li>
+          <li><span class="n">04 · Drafts</span><b>Queries wait for review</b><small>Your team decides what goes to sites.</small></li>
         </ol>
       </article>
 `

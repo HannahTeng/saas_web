@@ -2,7 +2,6 @@
 
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { useState } from 'react'
-import UseCases from '@/components/UseCases/UseCases'
 import FadeIn from '@/components/FadeIn'
 import ScrollReveal from '@/components/ScrollReveal'
 import { useLanguage } from '@/components/LanguageProvider'
@@ -179,104 +178,6 @@ export default function AgentServices() {
 
   return (
     <>
-      <section id="agent-types" className="relative scroll-mt-16 border-b border-line/[0.07] px-4 py-14 sm:px-6 md:py-28">
-        <div className="mx-auto max-w-6xl">
-          <ScrollReveal className="mx-auto max-w-3xl text-center md:mx-0 md:text-left">
-            <p className="section-kicker">{zh ? '两种开始方式' : 'Two ways to start'}</p>
-            <h2 className="mt-4 text-3xl font-medium tracking-tight md:text-5xl">
-              {zh ? '同一套定制服务，为不同的工作主体而设计。' : 'One service, shaped around who is doing the work.'}
-            </h2>
-          </ScrollReveal>
-
-          <div className="mt-8 grid grid-cols-2 border-y border-line/10 md:mt-10">
-            {(Object.entries(audienceCopy) as [Audience, (typeof audienceCopy)[Audience]][]).map(
-              ([key, item], index) => {
-                const active = audience === key
-                return (
-                  <FadeIn key={key} delay={0.08 * (index + 1)}>
-                    <button
-                      type="button"
-                      onClick={() => setAudience(key)}
-                      aria-pressed={active}
-                      className={`audience-lane relative grid h-full w-full grid-cols-1 content-start justify-items-center gap-2 overflow-hidden px-3 py-5 text-center transition-colors md:grid-cols-[2.5rem_1fr] md:justify-items-stretch md:gap-4 md:px-8 md:py-9 md:text-left ${
-                        active ? 'is-active' : ''
-                      } ${index > 0 ? 'border-t border-line/10 md:border-l md:border-t-0' : ''}`}
-                    >
-                      <span className="text-xs text-subtle">{item.number}</span>
-                      <span>
-                        <span className="text-xs font-medium tracking-wide text-subtle">
-                          {item.eyebrow}
-                        </span>
-                        <strong className="mt-1 block text-base font-semibold text-primary md:mt-2 md:text-2xl">
-                          {item.title}
-                        </strong>
-                        <span className="mt-2 block max-w-md text-xs leading-relaxed text-muted md:mt-3 md:text-base">
-                          {item.body}
-                        </span>
-                      </span>
-                    </button>
-                  </FadeIn>
-                )
-              },
-            )}
-          </div>
-
-          <div className="mt-14 md:mt-28">
-            <FadeIn className="text-center md:text-left">
-              <div>
-                <p className="section-kicker">{zh ? '你的 Agent 可以是什么' : 'What your agent can be'}</p>
-                <h2 className="mt-4 max-w-2xl text-3xl font-medium tracking-tight md:text-5xl">
-                  {zh ? '选择工作界面，保留同一套智能。' : 'Choose the surface. Keep the intelligence.'}
-                </h2>
-              </div>
-              <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-muted md:mx-0 md:text-base">
-                {zh
-                  ? '界面跟随任务而定：检索知识、操作浏览器，或在本机安全执行。多数系统会组合多种形态。'
-                  : 'The interface follows the job: retrieve knowledge, operate a browser, or work securely on your machine. Most systems combine more than one.'}
-              </p>
-            </FadeIn>
-
-            <div className="mt-8 lg:mt-10">
-              <FadeIn>
-                <div className="grid grid-cols-3 border-y border-line/10" role="tablist" aria-label={zh ? 'Agent 形态' : 'Agent types'}>
-                  {(Object.entries(agentTypeCopy) as [AgentType, (typeof agentTypeCopy)[AgentType]][]).map(
-                    ([key, item], index) => {
-                      const active = agentType === key
-                      return (
-                        <button
-                          key={key}
-                          type="button"
-                          role="tab"
-                          onClick={() => setAgentType(key)}
-                          aria-selected={active}
-                          className={`agent-type-row group grid w-full grid-cols-1 justify-items-center gap-2 px-2 py-4 text-center transition-all md:grid-cols-[2.75rem_1fr] md:items-center md:justify-items-stretch md:gap-3 md:px-5 md:py-5 md:text-left ${
-                            active ? 'is-active' : ''
-                          } ${index < 2 ? 'border-r border-line/10' : ''}`}
-                        >
-                          <span className="agent-icon grid h-11 w-11 place-items-center rounded-lg border border-line/15 text-copy transition-colors">
-                            <span className="h-5 w-5"><AgentIcon type={key} /></span>
-                          </span>
-                          <span>
-                            <strong className="block text-xs font-medium leading-tight text-primary sm:text-sm md:text-base">{item.name}</strong>
-                            <span className="mt-1 hidden text-sm leading-relaxed text-subtle md:block">
-                              {item.summary}
-                            </span>
-                          </span>
-                        </button>
-                      )
-                    },
-                  )}
-                </div>
-              </FadeIn>
-
-              <div className="mt-8 md:mt-10">
-                <UseCases active={agentType} />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section id="how-it-works" className="scroll-mt-16 border-b border-line/[0.07] px-4 py-14 sm:px-6 md:py-28">
         <div className="mx-auto max-w-6xl">
           <FadeIn>
