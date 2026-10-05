@@ -6,11 +6,12 @@ import { useLanguage } from '@/components/LanguageProvider'
 import { USE_CASES_HTML } from '@/components/UseCases/markup'
 import { startShowcase } from '@/components/UseCases/engine'
 import '@/components/UseCases/useCases.css'
+import { OrderButton } from '@/components/order/OrderButton'
 
 const CASES = [
-  { title: 'Data Agent', zhTitle: '数据 Agent', line: 'One question in. Numbers, a chart and a PDF out.', zhLine: '一句话提问，返回数字、图表和 PDF。', live: 'overseas warehouse', zhLive: '海外仓' },
-  { title: 'Dispatch Agent', zhTitle: '调度 Agent', line: '27 containers in. Four full trucks, booked on a yes.', zhLine: '27 个到货柜，凑成 4 辆整车，确认后才约车。', live: 'trucking company', zhLive: '卡派车队' },
-  { title: 'Knowledge Agent', zhTitle: '知识 Agent', line: 'Plain-English questions. Answers cited to the record.', zhLine: '自然语言提问，答案引用到原始记录。', live: 'clinical research team', zhLive: '临床研究团队' },
+  { id: 'data-agent', title: 'Data Agent', zhTitle: '数据 Agent', line: 'One question in. Numbers, a chart and a PDF out.', zhLine: '一句话提问，返回数字、图表和 PDF。', live: 'overseas warehouse', zhLive: '海外仓' },
+  { id: 'dispatch-agent', title: 'Dispatch Agent', zhTitle: '调度 Agent', line: '27 containers in. Four full trucks, booked on a yes.', zhLine: '27 个到货柜，凑成 4 辆整车，确认后才约车。', live: 'trucking company', zhLive: '卡派车队' },
+  { id: 'knowledge-agent', title: 'Knowledge Agent', zhTitle: '知识 Agent', line: 'Plain-English questions. Answers cited to the record.', zhLine: '自然语言提问，答案引用到原始记录。', live: 'clinical research team', zhLive: '临床研究团队' },
 ]
 
 /** One product section: three case cards over a single stage that autoplays each agent in turn. */
@@ -31,6 +32,12 @@ export default function Showcase() {
   }, [])
 
   const pick = (i: number) => ctl.current?.select(i)
+
+  useEffect(() => {
+    stage.current?.querySelectorAll<HTMLElement>('[data-en]').forEach((el) => {
+      el.textContent = (zh ? el.dataset.zh : el.dataset.en) ?? ''
+    })
+  }, [zh])
 
   return (
     <section id="products" className="scroll-mt-16 border-b border-line/[0.07] px-4 py-14 sm:px-6 md:py-28">
@@ -97,7 +104,7 @@ export default function Showcase() {
               ? '连接 OMP、WMS、ERP 和邮箱 · 共享知识层 · 审批节点 · 操作留痕 · 云端或私有部署。年度授权或按月托管。'
               : 'connectors to OMP, WMS, ERP and email · shared knowledge · approval checkpoints · audit trail · cloud or self-hosted. Annual license or monthly managed plan.'}
           </p>
-          <a href="/build" className="form-submit shrink-0 rounded-lg px-5 py-3 text-sm font-semibold">{zh ? '获取报价 →' : 'Get pricing →'}</a>
+          <OrderButton preset={{ agents: [CASES[active].id] }} className="shrink-0" />
         </div>
       </div>
     </section>

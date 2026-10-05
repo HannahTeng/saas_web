@@ -10,7 +10,7 @@ type LanguageContextValue = {
   toggleLanguage: () => void
 }
 
-const STORAGE_KEY = 'hannah-site-language-v1'
+const STORAGE_KEY = 'flowact-language-v1'
 const LanguageContext = createContext<LanguageContextValue | null>(null)
 
 export function LanguageProvider({ children }: { children: ReactNode }) {

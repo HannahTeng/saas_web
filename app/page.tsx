@@ -5,7 +5,6 @@ import Showcase from '@/components/Showcase'
 import TestimonialCarousel from '@/components/TestimonialCarousel'
 import CTASection from '@/components/CTASection'
 import Footer from '@/components/Footer'
-import QuickContact from '@/components/QuickContact'
 
 export default function Home() {
   return (
@@ -18,7 +17,6 @@ export default function Home() {
         <TestimonialCarousel />
         <CTASection />
       </main>
-      <QuickContact />
       <Footer />
     </>
   )
