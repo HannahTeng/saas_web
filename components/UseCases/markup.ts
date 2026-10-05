@@ -3,8 +3,7 @@ export const USE_CASES_HTML = `<article data-kind="local" class="case demo" data
         <div class="case-head">
           <div><span class="label">Overseas warehouse · Logistics data assistant</span>
             <h3>One sentence in. The number, the chart and the <em class="it">PDF</em> out.</h3></div>
-          <div><p>Reports used to take half a day of exports and copy-paste. Now operations type one question into the desktop assistant. The agent signs in to the client's OMP, pulls and reconciles the data, checks the definition, and charts it.</p>
-            <div class="act"><a class="btn btn-g prefill" href="#start" data-text="Answer questions about our warehouse data in one sentence, with numbers, charts and a PDF.">Build one like this</a></div></div>
+          <div><p>Reports used to take half a day of exports and copy-paste. Now operations type one question into the desktop assistant. The agent signs in to the client's OMP, pulls and reconciles the data, checks the definition, and charts it.</p></div>
         </div>
         <div class="scene">
           <div class="fit"><div class="canvas">
@@ -35,18 +34,17 @@ export const USE_CASES_HTML = `<article data-kind="local" class="case demo" data
           <p class="cap"></p>
         </div>
         <ol class="strip">
-          <li><span class="n">01 · Asks</span><b>One sentence</b><small>Typed into the desktop assistant.</small></li>
-          <li><span class="n">02 · Signs in &amp; pulls</span><b>Works the client's OMP</b><small>Logs in, queues the export, polls until done.</small></li>
-          <li><span class="n">03 · Checks</span><b>States the definition</b><small>Season tag, date range, inbound types.</small></li>
-          <li><span class="n">04 · Charts</span><b>Chart and PDF</b><small>Ask for a chart, save it as a PDF.</small></li>
+          <li><span class="n" data-en="01 · Asks" data-zh="01 · 提问">01 · Asks</span><b data-en="One sentence" data-zh="一句话">One sentence</b><small data-en="Typed into the desktop assistant." data-zh="在桌面助手里输入。">Typed into the desktop assistant.</small></li>
+          <li><span class="n" data-en="02 · Signs in &amp; pulls" data-zh="02 · 登录拉数">02 · Signs in &amp; pulls</span><b data-en="Works the client&#x27;s OMP" data-zh="操作客户的 OMP">Works the client's OMP</b><small data-en="Logs in, queues the export, polls until done." data-zh="登录、提交导出、轮询直到完成。">Logs in, queues the export, polls until done.</small></li>
+          <li><span class="n" data-en="03 · Checks" data-zh="03 · 核对">03 · Checks</span><b data-en="States the definition" data-zh="写明统计口径">States the definition</b><small data-en="Season tag, date range, inbound types." data-zh="季节标签、日期范围、入库类型。">Season tag, date range, inbound types.</small></li>
+          <li><span class="n" data-en="04 · Charts" data-zh="04 · 出图">04 · Charts</span><b data-en="Chart and PDF" data-zh="图表和 PDF">Chart and PDF</b><small data-en="Ask for a chart, save it as a PDF." data-zh="要图就出图，一键存成 PDF。">Ask for a chart, save it as a PDF.</small></li>
         </ol>
       </article>
 <article data-kind="browser" class="case demo" data-demo="dp">
         <div class="case-head">
           <div><span class="label">Trucking dispatch · Dispatch agent + iMessage</span>
             <h3>No one watches the containers. The trucks are <em class="it">already full</em>.</h3></div>
-          <div><p>Someone used to sit with the arrivals list and piece trucks together by hand. The dispatch agent signs in to the client's ERP, pulls every arrived container, packs each truck to 100 CBM, and texts the dispatcher for a yes.</p>
-            <div class="act"><a class="btn btn-g prefill" href="#start" data-text="Pack our arrived containers into full trucks in our ERP, export the plan to Excel, and text me for approval.">Build one like this</a></div></div>
+          <div><p>Someone used to sit with the arrivals list and piece trucks together by hand. The dispatch agent signs in to the client's ERP, pulls every arrived container, packs each truck to 100 CBM, and texts the dispatcher for a yes.</p></div>
         </div>
         <div class="scene">
           <div class="fit"><div class="canvas">
@@ -94,18 +92,17 @@ export const USE_CASES_HTML = `<article data-kind="local" class="case demo" data
           <p class="cap"></p>
         </div>
         <ol class="strip">
-          <li><span class="n">01 · Watches</span><b>Overnight arrivals</b><small>Texts the dispatcher before the day starts.</small></li>
-          <li><span class="n">02 · Signs in</span><b>The client's own ERP</b><small>Pulls every arrived container and waybill.</small></li>
-          <li><span class="n">03 · Packs</span><b>Full trucks at 100 CBM</b><small>Groups by destination, checks weight, exports Excel.</small></li>
-          <li><span class="n">04 · Asks you</span><b>Books on "yes"</b><small>Nothing is booked without the dispatcher's reply.</small></li>
+          <li><span class="n" data-en="01 · Watches" data-zh="01 · 盯到货">01 · Watches</span><b data-en="Overnight arrivals" data-zh="夜间到货柜">Overnight arrivals</b><small data-en="Texts the dispatcher before the day starts." data-zh="开工前先给调度发消息。">Texts the dispatcher before the day starts.</small></li>
+          <li><span class="n" data-en="02 · Signs in" data-zh="02 · 登录">02 · Signs in</span><b data-en="The client&#x27;s own ERP" data-zh="客户自己的 ERP">The client's own ERP</b><small data-en="Pulls every arrived container and waybill." data-zh="拉取所有到货柜和运单。">Pulls every arrived container and waybill.</small></li>
+          <li><span class="n" data-en="03 · Packs" data-zh="03 · 凑车">03 · Packs</span><b data-en="Full trucks at 100 CBM" data-zh="按 100 CBM 凑整车">Full trucks at 100 CBM</b><small data-en="Groups by destination, checks weight, exports Excel." data-zh="按目的地分组、核重量、导出 Excel。">Groups by destination, checks weight, exports Excel.</small></li>
+          <li><span class="n" data-en="04 · Asks you" data-zh="04 · 等确认">04 · Asks you</span><b data-en="Books on &quot;yes&quot;" data-zh="你说"好"才约车">Books on "yes"</b><small data-en="Nothing is booked without the dispatcher&#x27;s reply." data-zh="调度不回复，什么都不会约。">Nothing is booked without the dispatcher's reply.</small></li>
         </ol>
       </article>
 <article data-kind="knowledge" class="case demo" data-demo="edc">
         <div class="case-head">
           <div><span class="label">Clinical research · Inside the study platform</span>
             <h3>Ask in plain English. It checks the <em class="it">source</em> first.</h3></div>
-          <div><p>Data managers used to hunt through listings by hand for quality checks. The agent lives in their study platform, uses its own filters, opens the source record, and drafts queries for the team to review.</p>
-            <div class="act"><a class="btn btn-g prefill" href="#start" data-text="Let our data team ask plain-English questions inside our study platform and get answers that cite the exact records.">Build one like this</a></div></div>
+          <div><p>Data managers used to hunt through listings by hand for quality checks. The agent lives in their study platform, uses its own filters, opens the source record, and drafts queries for the team to review.</p></div>
         </div>
         <div class="scene">
           <div class="fit"><div class="canvas">
@@ -151,10 +148,10 @@ export const USE_CASES_HTML = `<article data-kind="local" class="case demo" data
           <p class="cap"></p>
         </div>
         <ol class="strip">
-          <li><span class="n">01 · Asks</span><b>Plain English</b><small>Typed into the panel inside the platform.</small></li>
-          <li><span class="n">02 · Filters</span><b>The platform's own filters</b><small>Visit after week 12, lab date empty.</small></li>
-          <li><span class="n">03 · Verifies</span><b>Opens the source record</b><small>Checks the CRF and audit trail first.</small></li>
-          <li><span class="n">04 · Drafts</span><b>Queries wait for review</b><small>Your team decides what goes to sites.</small></li>
+          <li><span class="n" data-en="01 · Asks" data-zh="01 · 提问">01 · Asks</span><b data-en="Plain English" data-zh="自然语言">Plain English</b><small data-en="Typed into the panel inside the platform." data-zh="在平台内的面板里输入。">Typed into the panel inside the platform.</small></li>
+          <li><span class="n" data-en="02 · Filters" data-zh="02 · 筛选">02 · Filters</span><b data-en="The platform&#x27;s own filters" data-zh="用平台自带的筛选">The platform's own filters</b><small data-en="Visit after week 12, lab date empty." data-zh="第 12 周之后、化验日期为空。">Visit after week 12, lab date empty.</small></li>
+          <li><span class="n" data-en="03 · Verifies" data-zh="03 · 核验">03 · Verifies</span><b data-en="Opens the source record" data-zh="打开原始记录">Opens the source record</b><small data-en="Checks the CRF and audit trail first." data-zh="先看 CRF 和审计记录。">Checks the CRF and audit trail first.</small></li>
+          <li><span class="n" data-en="04 · Drafts" data-zh="04 · 起草">04 · Drafts</span><b data-en="Queries wait for review" data-zh="质询等待审核">Queries wait for review</b><small data-en="Your team decides what goes to sites." data-zh="发不发给中心，由你的团队决定。">Your team decides what goes to sites.</small></li>
         </ol>
       </article>
 `

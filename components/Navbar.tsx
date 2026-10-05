@@ -4,9 +4,11 @@ import { useEffect, useRef, useState } from 'react'
 import { useLanguage } from '@/components/LanguageProvider'
 import styles from './Landing.module.css'
 import { Wordmark } from './Logo'
+import { useOrder } from '@/components/order/OrderProvider'
 
 export default function Navbar() {
   const { language, toggleLanguage } = useLanguage()
+  const { openOrder } = useOrder()
   const zh = language === 'zh'
   const [open, setOpen] = useState(false)
   const toggle = useRef<HTMLButtonElement>(null)
@@ -46,12 +48,12 @@ export default function Navbar() {
       <div className={styles.backdrop} aria-hidden onClick={() => setOpen(false)} />
       <nav ref={nav} id="site-nav" aria-label={zh ? '主导航' : 'Primary'} className={styles.nav}>
         <a href="/#products" onClick={() => setOpen(false)}>{zh ? '产品' : 'Products'}</a>
+        <a href="/build" onClick={() => setOpen(false)}>{zh ? '价格' : 'Pricing'}</a>
         <a href="/#how-it-works" onClick={() => setOpen(false)}>{zh ? '工作方式' : 'How it works'}</a>
-        <a href="/#contact" onClick={() => setOpen(false)}>{zh ? '联系我' : 'Let’s talk'}</a>
       </nav>
       <div className={styles.headerActions}>
         <button type="button" className={styles.language} onClick={toggleLanguage} aria-label={zh ? 'Switch site language to English' : '将网站切换为中文'}>{zh ? 'EN' : '中文'}</button>
-        <a href="/build" className={`${styles.button} ${styles.solid} ${styles.headerCta}`}>{zh ? '获取 Flowact' : 'Get Flowact'}</a>
+        <button type="button" onClick={() => { setOpen(false); openOrder() }} className={`${styles.button} ${styles.solid}`}>{zh ? '立即下单' : 'Order now'}</button>
         <button ref={toggle} type="button" className={styles.burger} aria-controls="site-nav" aria-expanded={open} aria-label={open ? (zh ? '关闭菜单' : 'Close menu') : (zh ? '打开菜单' : 'Open menu')} onClick={() => setOpen(!open)}>
           <span /><span /><span />
         </button>

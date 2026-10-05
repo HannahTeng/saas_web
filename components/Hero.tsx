@@ -3,10 +3,12 @@
 import HeroBackground from '@/components/HeroBackground'
 import { useLanguage } from '@/components/LanguageProvider'
 import styles from './Landing.module.css'
+import { useOrder } from '@/components/order/OrderProvider'
 
 export default function Hero() {
   const { language } = useLanguage()
   const zh = language === 'zh'
+  const { openOrder } = useOrder()
 
   return (
     <section id="top" className={styles.hero} aria-labelledby="hero-heading">
@@ -41,7 +43,7 @@ export default function Hero() {
           {zh ? 'Flowact 的 Agent 在你现有的 OMP、WMS、ERP 和邮箱里运行，处理重复工作，关键决策交给人审批。' : 'Flowact agents run inside the OMP, WMS, ERP and inbox you already use. They do the repetitive work and wait for a person on every decision that matters.'}
         </p>
         <div className={`${styles.actions} ${styles.appear}`}>
-          <a href="/build" className={`${styles.button} ${styles.solid}`}>{zh ? '获取 Flowact' : 'Get Flowact'}</a>
+          <button type="button" onClick={() => openOrder()} className={`${styles.button} ${styles.solid}`}>{zh ? '立即下单' : 'Order now'}</button>
           <a href="#products" className={`${styles.button} ${styles.ghost}`}>{zh ? '查看产品' : 'See the agents'}</a>
         </div>
       </div>
