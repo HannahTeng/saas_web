@@ -7,9 +7,9 @@ import { StickyOrderBar } from '@/components/order/OrderButton'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Flowact — AI Agents for Logistics Operations',
+  title: 'Flowact — AI Agents Built Around Your Work',
   description:
-    'Flowact builds deployable AI agents for logistics operations: a Data Agent, a Dispatch Agent and a Docs Agent that run inside the OMP, WMS, ERP and inbox a team already uses, with human approval built in.',
+    'Flowact builds deployable AI agents that run inside the systems a team already uses, with human approval built in. Data, Dispatch and Docs agents live at clients; delivered across 10+ industries.',
   keywords: ['Flowact', 'AI Agents', 'Agentic AI', 'Workflow Automation', 'Human-in-the-loop', 'Logistics AI', 'Enterprise AI'],
   openGraph: {
     title: 'Flowact — AI Agents Built Around Your Work',

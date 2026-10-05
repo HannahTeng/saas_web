@@ -16,12 +16,12 @@ export default function Hero() {
       <div className={styles.heroCopy}>
         <p className={`${styles.badge} ${styles.appear}`}>
           <svg width="18" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="M12 2.6c.55 0 .88.55 1.08 2.1.62 4.7 1.52 5.6 6.22 6.22 1.55.2 2.1.53 2.1 1.08s-.55.88-2.1 1.08c-4.7.62-5.6 1.52-6.22 6.22-.2 1.55-.53 2.1-1.08 2.1s-.88-.55-1.08-2.1c-.62-4.7-1.52-5.6-6.22-6.22C3.15 12.88 2.6 12.55 2.6 12s.55-.88 2.1-1.08c4.7-.62 5.6-1.52 6.22-6.22.2-1.55.53-2.1 1.08-2.1Z" /></svg>
-          {zh ? '面向物流运营的 AI Agent' : 'AI agents for logistics operations'}
+          {zh ? '为真实业务打造的 AI Agent' : 'AI agents for real operations'}
         </p>
         <h1 id="hero-heading" className={styles.headline}>
           <span>
             <span className={styles.appear}>
-              {zh ? '面向物流运营的' : <>
+              {zh ? '为你的业务打造' : <>
                 Your work deserves{' '}
                 <em key={language} className={styles.typed}>
                   <span className={styles.typeMeasure}>AI agents</span>
@@ -33,14 +33,14 @@ export default function Hero() {
           <span>
             <span className={styles.appear}>
               {zh ? <em key={language} className={styles.typed}>
-                <span className={styles.typeMeasure}>AI Agent。</span>
-                <span className={styles.typeText} aria-hidden="true">AI Agent。</span>
+                <span className={styles.typeMeasure}>专属 AI Agent。</span>
+                <span className={styles.typeText} aria-hidden="true">专属 AI Agent。</span>
               </em> : 'built around it.'}
             </span>
           </span>
         </h1>
         <p className={`${styles.lede} ${styles.appear}`}>
-          {zh ? 'Flowact 的 Agent 在你现有的 OMP、WMS、ERP 和邮箱里运行，处理重复工作，关键决策交给人审批。' : 'Flowact agents run inside the OMP, WMS, ERP and inbox you already use. They do the repetitive work and wait for a person on every decision that matters.'}
+          {zh ? 'Flowact 的 Agent 在你现有的业务系统和邮箱里运行，处理重复工作，关键决策交给人审批。物流、医疗、电商、教育等 10+ 行业已交付。' : 'Flowact agents run inside the systems and inbox you already use. They do the repetitive work and wait for a person on every decision that matters. Delivered across logistics, healthcare, e-commerce, education and more.'}
         </p>
         <div className={`${styles.actions} ${styles.appear}`}>
           <button type="button" onClick={() => openOrder()} className={`${styles.button} ${styles.solid}`}>{zh ? '立即下单' : 'Order now'}</button>
