@@ -21,7 +21,7 @@ export default function Hero() {
         <h1 id="hero-heading" className={styles.headline}>
           <span>
             <span className={styles.appear}>
-              {zh ? '为你的工作打造' : <>
+              {zh ? '面向物流运营的' : <>
                 Your work deserves{' '}
                 <em key={language} className={styles.typed}>
                   <span className={styles.typeMeasure}>AI agents</span>
@@ -33,8 +33,8 @@ export default function Hero() {
           <span>
             <span className={styles.appear}>
               {zh ? <em key={language} className={styles.typed}>
-                <span className={styles.typeMeasure}>专属 Agent。</span>
-                <span className={styles.typeText} aria-hidden="true">专属 Agent。</span>
+                <span className={styles.typeMeasure}>AI Agent。</span>
+                <span className={styles.typeText} aria-hidden="true">AI Agent。</span>
               </em> : 'built around it.'}
             </span>
           </span>
