@@ -1,7 +1,12 @@
 /**
- * One place that defines what a request is and where it goes.
- * Today: email to support@flowact.net via formsubmit, plus an optional webhook.
- * Later: swap `deliver` for a database insert (Supabase / Vercel Postgres) or a Stripe Checkout session.
+ * One place that defines what an order is and where it goes.
+ *
+ * Delivery, in order:
+ *   1. Save to the orders store (Upstash Redis via Vercel; env KV_REST_API_URL / KV_REST_API_TOKEN
+ *      or UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN). Shown on /admin.
+ *   2. Email support@flowact.net through Resend (env RESEND_API_KEY, optional RESEND_FROM).
+ *   3. Optional webhook (env REQUEST_WEBHOOK_URL) for Slack, Sheets, Zapier…
+ * The order succeeds if the store or the email worked. Stripe later: add a step here.
  */
 
 export type RequestKind = 'brief' | 'consultation' | 'quote'
@@ -17,7 +22,9 @@ export type AgentRequest = {
   page?: string
 }
 
-export const NOTIFY_EMAIL = 'support@flowact.net'
+export type StoredOrder = AgentRequest & { id: string; receivedAt: string; status: 'new' | 'contacted' }
+
+export const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL || 'support@flowact.net'
 export const CONSULTATION_RATE_USD = 19.9
 
 const KINDS: RequestKind[] = ['brief', 'consultation', 'quote']
@@ -36,10 +43,7 @@ export function parseRequest(body: unknown): { ok: true; data: AgentRequest } | 
   return {
     ok: true,
     data: {
-      kind,
-      contact,
-      message,
-      modules,
+      kind, contact, message, modules,
       name: clip(b.name, 120) || undefined,
       company: clip(b.company, 160) || undefined,
       preferredTime: clip(b.preferredTime, 80) || undefined,
@@ -48,41 +52,123 @@ export function parseRequest(body: unknown): { ok: true; data: AgentRequest } | 
   }
 }
 
-const SUBJECTS: Record<RequestKind, string> = {
-  brief: 'New agent request (flowact.net)',
-  consultation: `Scoping session request · $${CONSULTATION_RATE_USD} (flowact.net)`,
-  quote: 'Quote request (flowact.net)',
+/* ---------- store (Upstash Redis REST) ---------- */
+
+function redisEnv() {
+  const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL
+  const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN
+  return url && token ? { url, token } : null
 }
 
-export async function deliver(req: AgentRequest): Promise<void> {
-  const payload = {
-    _subject: SUBJECTS[req.kind],
-    _template: 'table',
-    _captcha: 'false',
-    type: req.kind,
-    contact: req.contact,
-    name: req.name ?? '',
-    company: req.company ?? '',
-    modules: (req.modules ?? []).join(', '),
-    preferred_time: req.preferredTime ?? '',
-    message: req.message,
-    page: req.page ?? '',
-    received_at: new Date().toISOString(),
-  }
+async function redis(cmd: (string | number)[]): Promise<unknown> {
+  const env = redisEnv()
+  if (!env) throw new Error('store not configured')
+  const res = await fetch(env.url, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${env.token}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(cmd),
+    cache: 'no-store',
+  })
+  if (!res.ok) throw new Error(`store ${res.status}`)
+  const json = (await res.json()) as { result?: unknown; error?: string }
+  if (json.error) throw new Error(json.error)
+  return json.result
+}
 
-  const jobs: Promise<Response>[] = [
-    fetch(`https://formsubmit.co/ajax/${NOTIFY_EMAIL}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json', Referer: 'https://flowact.net/', Origin: 'https://flowact.net' },
-      body: JSON.stringify(payload),
+export const storeConfigured = () => Boolean(redisEnv())
+
+export async function saveOrder(order: StoredOrder): Promise<void> {
+  await redis(['SET', `order:${order.id}`, JSON.stringify(order)])
+  await redis(['LPUSH', 'orders', order.id])
+}
+
+export async function listOrders(limit = 200): Promise<StoredOrder[]> {
+  const ids = (await redis(['LRANGE', 'orders', 0, limit - 1])) as string[]
+  if (!ids?.length) return []
+  const raw = (await redis(['MGET', ...ids.map((id) => `order:${id}`)])) as (string | null)[]
+  return raw.filter((r): r is string => Boolean(r)).map((r) => JSON.parse(r) as StoredOrder)
+}
+
+export async function setOrderStatus(id: string, status: StoredOrder['status']): Promise<void> {
+  const raw = (await redis(['GET', `order:${id}`])) as string | null
+  if (!raw) return
+  const order = JSON.parse(raw) as StoredOrder
+  order.status = status
+  await redis(['SET', `order:${id}`, JSON.stringify(order)])
+}
+
+/* ---------- email (Resend) ---------- */
+
+const KIND_LABEL: Record<RequestKind, string> = { brief: 'Request', consultation: 'Scoping session', quote: 'Order' }
+
+export function orderSubject(o: AgentRequest): string {
+  const agents = (o.modules ?? []).filter((m) => !m.startsWith('Plan:'))
+  const plan = (o.modules ?? []).find((m) => m.startsWith('Plan:'))?.replace('Plan: ', '')
+  const parts = [`New ${KIND_LABEL[o.kind].toLowerCase()}`, agents.slice(0, 2).join(' + ') || (o.kind === 'consultation' ? '' : 'custom'), plan].filter(Boolean)
+  return parts.join(' · ') + ' (flowact.net)'
+}
+
+function orderText(o: StoredOrder): string {
+  const agents = (o.modules ?? []).filter((m) => !m.startsWith('Plan:'))
+  const plan = (o.modules ?? []).find((m) => m.startsWith('Plan:'))?.replace('Plan: ', '') ?? '—'
+  return [
+    `NEW ${KIND_LABEL[o.kind].toUpperCase()} · ${o.receivedAt}`,
+    '',
+    `Customer contact: ${o.contact}`,
+    o.name ? `Name: ${o.name}` : null,
+    o.company ? `Company: ${o.company}` : null,
+    '',
+    `Agents: ${agents.length ? agents.join(', ') : '—'}`,
+    `Plan: ${plan}`,
+    o.preferredTime ? `Preferred time: ${o.preferredTime}` : null,
+    '',
+    'Message:',
+    o.message || '—',
+    '',
+    `Page: ${o.page || '—'}`,
+    `Order id: ${o.id}`,
+    '',
+    'Reply to the customer within one business day. Manage orders at https://flowact.net/admin',
+  ].filter((l) => l !== null).join('\n')
+}
+
+async function sendEmail(o: StoredOrder): Promise<void> {
+  const key = process.env.RESEND_API_KEY
+  if (!key) throw new Error('email not configured')
+  const from = process.env.RESEND_FROM || 'Flowact Orders <orders@flowact.net>'
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      from, to: [NOTIFY_EMAIL], subject: orderSubject(o), text: orderText(o),
+      reply_to: o.contact.includes('@') ? o.contact : undefined,
     }),
-  ]
-  // Optional: also post to a webhook (Zapier/Make → Gmail, Google Sheets, Slack, a database…).
-  if (process.env.REQUEST_WEBHOOK_URL) {
-    jobs.push(fetch(process.env.REQUEST_WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }))
+  })
+  if (!res.ok) throw new Error(`email ${res.status}: ${await res.text()}`)
+}
+
+/* ---------- deliver ---------- */
+
+export async function deliver(req: AgentRequest): Promise<{ stored: boolean; emailed: boolean }> {
+  const order: StoredOrder = {
+    ...req,
+    id: `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`,
+    receivedAt: new Date().toISOString(),
+    status: 'new',
   }
 
-  const results = await Promise.allSettled(jobs)
-  const delivered = results.some((r) => r.status === 'fulfilled' && r.value.ok)
-  if (!delivered) throw new Error('delivery failed')
+  const [stored, emailed] = await Promise.all([
+    saveOrder(order).then(() => true, (e) => { console.error('[orders] store failed:', e); return false }),
+    sendEmail(order).then(() => true, (e) => { console.error('[orders] email failed:', e); return false }),
+  ])
+
+  if (process.env.REQUEST_WEBHOOK_URL) {
+    fetch(process.env.REQUEST_WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(order) }).catch(() => {})
+  }
+
+  if (!stored && !emailed) {
+    console.error('[orders] UNDELIVERED ORDER', JSON.stringify(order))
+    throw new Error('delivery failed')
+  }
+  return { stored, emailed }
 }
