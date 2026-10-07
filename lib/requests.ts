@@ -25,7 +25,7 @@ export type AgentRequest = {
 export type StoredOrder = AgentRequest & { id: string; receivedAt: string; status: 'new' | 'contacted' }
 
 export const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL || 'support@flowact.net'
-export const CONSULTATION_RATE_USD = 19.9
+export const CONSULTATION_RATE_USD = 39
 
 const KINDS: RequestKind[] = ['brief', 'consultation', 'quote']
 const clip = (v: unknown, n: number) => (typeof v === 'string' ? v.trim().slice(0, n) : '')

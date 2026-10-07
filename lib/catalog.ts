@@ -33,7 +33,7 @@ export const PLANS: (Item & { priceEn: string; priceZh: string; bulletsEn: strin
   {
     id: 'scoping', en: 'Scoping session', zh: '需求梳理会',
     enLine: '60 minutes to map your workflow to the right agents.', zhLine: '60 分钟，把你的流程对应到合适的 Agent。',
-    priceEn: '$19.90 · 60 min', priceZh: '$19.90 · 60 分钟',
+    priceEn: '$39 · 60 min', priceZh: '$39 · 60 分钟',
     bulletsEn: ['Walk through your real workflow and tools', 'Which agent fits, and what stays manual', 'A written rollout plan afterwards'],
     bulletsZh: ['走一遍真实流程和工具', '哪些该交给 Agent，哪些保留人工', '会后给出书面实施方案'],
   },
