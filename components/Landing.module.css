@@ -103,19 +103,17 @@
 @media (max-width:560px) { .header { padding-inline:16px; } .logo { font-size:14px; gap:7px; } .headerActions { gap:10px; } .headerCta { display:none; } .heroCopy { padding-top:70px; padding-bottom:48px; } .headline { font-size:34px; } .lede { font-size:16px; } .actions { flex-direction:column; } .actions .button { width:100%; } }
 @media (prefers-reduced-motion:reduce) { .appear { animation:none; } .header *,.header *::after,.hero *,.hero *::after { transition:none !important; } }
 
-/* Phones: the landscape video becomes its own full-width band above the copy,
-   so the whole frame is visible instead of a cropped, faded sliver behind the text. */
+/* Phones: keep the same flowing wave as desktop. The art keeps the video's own 16:9
+   shape (no cover-cropping into a tall box), is widened so the wave fills the screen,
+   and fades out above the copy. */
 @media (max-width:900px) {
-  .hero { grid-template-rows: auto auto auto; min-height: 0; }
-  .heroArt { position: relative; inset: auto; z-index: 0; width: 100%; aspect-ratio: 16 / 9; margin-top: 8px; }
+  .heroArt { inset: auto; top: 0; left: 50%; width: 155vw; aspect-ratio: 16 / 9; transform: translateX(-50%); }
   .heroVideo {
-    object-fit: cover;
-    mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 72%, transparent);
-    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 72%, transparent);
+    mask-image: linear-gradient(to bottom, transparent 4%, #000 16%, #000 46%, transparent 62%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 4%, #000 16%, #000 46%, transparent 62%);
   }
-  .heroCopy { padding-top: 4px; }
+  .heroCopy { padding-top: min(50vw, 220px); }
 }
-@media (max-width:560px) { .heroCopy { padding-top: 0; } }
 
 /* The measured wrapper stays in document flow; only its content moves. */
 .scrollReveal { position: relative; }
