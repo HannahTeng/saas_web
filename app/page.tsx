@@ -4,6 +4,7 @@ import AgentServices from '@/components/AgentServices'
 import Showcase from '@/components/Showcase'
 import TestimonialCarousel from '@/components/TestimonialCarousel'
 import CTASection from '@/components/CTASection'
+import FAQ from '@/components/FAQ'
 import Footer from '@/components/Footer'
 
 export default function Home() {
@@ -16,6 +17,7 @@ export default function Home() {
         <AgentServices />
         <TestimonialCarousel />
         <CTASection />
+        <FAQ />
       </main>
       <Footer />
     </>

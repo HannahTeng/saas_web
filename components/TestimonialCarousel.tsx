@@ -104,7 +104,7 @@ export default function TestimonialCarousel() {
   const testimonials = zh ? ZH_TESTIMONIALS : [...ROW_A, ...ROW_B]
 
   return (
-    <section className="overflow-hidden py-8 md:py-14">
+    <section data-full-bleed className="overflow-hidden py-8 md:py-14">
       <FadeIn className="text-center px-6">
         <h2 className="text-2xl md:text-3xl font-medium tracking-tight">
           {zh ? '一线使用者' : 'What operators'}{' '}

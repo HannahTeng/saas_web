@@ -3,7 +3,7 @@ import '@fontsource-variable/inter'
 import { LanguageProvider } from '@/components/LanguageProvider'
 import { OrderProvider } from '@/components/order/OrderProvider'
 import OrderPanel from '@/components/order/OrderPanel'
-import { StickyOrderBar } from '@/components/order/OrderButton'
+import { StickyOrderBar, StickyOrderSpacer } from '@/components/order/OrderButton'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -25,6 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <LanguageProvider>
           <OrderProvider>
             {children}
+            <StickyOrderSpacer />
             <OrderPanel />
             <StickyOrderBar />
           </OrderProvider>

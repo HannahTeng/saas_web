@@ -17,7 +17,7 @@ export default function CTASection() {
             <h2 className="text-3xl font-medium tracking-tight md:text-5xl">
               {zh ? <>把重复的工作<em className="em-accent">交出去</em>。</> : <>Hand off the <em className="em-accent">repetition</em>.</>}
             </h2>
-            <p className="mt-3 max-w-xl text-muted">{zh ? '选好 Agent，留个联系方式，一个工作日内收到实施方案和报价。' : 'Pick your agents, leave a contact, and get a build plan and quote within one business day.'}</p>
+            <p className="mt-3 max-w-xl text-muted">{zh ? '一句话说说要做的事，留个联系方式。一个工作日内约你做 60 分钟范围界定，然后给固定报价。' : 'Tell us the job in a sentence and leave a contact. We set up a 60-minute scoping call within one business day, then send a fixed quote.'}</p>
           </div>
           <OrderButton className="shrink-0 px-7 py-4 text-base" />
         </div>
