@@ -101,7 +101,7 @@ export default function Showcase() {
           <p className="max-w-3xl text-sm leading-relaxed text-muted">
             <span className="font-medium text-primary">{zh ? '同一个平台：' : 'One platform underneath: '}</span>
             {zh
-              ? '连接 OMP、WMS、ERP 和邮箱 · 共享知识层 · 审批节点 · 操作留痕 · 云端或私有部署。年度授权或按月托管。'
+              ? '连接 OMP、WMS、ERP 和邮箱 · 共享知识层 · 审批节点 · 操作留痕 · 云端或私有部署。年度授权或按月代运营。'
               : 'connectors to OMP, WMS, ERP and email · shared knowledge · approval checkpoints · audit trail · cloud or self-hosted. Annual license or monthly managed plan.'}
           </p>
           <OrderButton preset={{ agents: [CASES[active].id] }} className="shrink-0" />

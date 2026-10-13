@@ -24,7 +24,7 @@ export const PLANS: (Item & { priceEn: string; priceZh: string; bulletsEn: strin
     bulletsZh: ['按你的系统和规则配置 Agent', '含维护与升级', '模型与算力用量按成本加成计费'],
   },
   {
-    id: 'managed', en: 'Monthly managed', zh: '按月托管',
+    id: 'managed', en: 'Monthly managed', zh: '按月代运营',
     enLine: 'We run and improve the agents for you every month.', zhLine: '我们每月为你运行并持续优化 Agent。',
     priceEn: 'Monthly fee', priceZh: '按月付费',
     bulletsEn: ['New requests every month', 'Dedicated support, fast response', 'Cancel any time'],

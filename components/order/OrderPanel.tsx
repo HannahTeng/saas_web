@@ -109,7 +109,7 @@ export default function OrderPanel() {
             </div>
 
             <div className="flex items-center justify-between gap-4 border-t border-line/10 px-6 py-4">
-              <p className="text-xs text-subtle">{zh ? '下一步通过 Stripe 安全付款。一个工作日内约时间。' : 'Next: secure payment with Stripe. We schedule within one business day.'}</p>
+              <p className="text-xs text-subtle">{zh ? '一个工作日内约时间并发送 $39 账单。' : 'We schedule within one business day and send a $39 invoice.'}</p>
               <button type="submit" disabled={busy} aria-disabled={busy} className="form-submit shrink-0 rounded-lg px-5 py-3 text-sm font-semibold disabled:cursor-wait disabled:opacity-60">
                 {status === 'sending' ? (zh ? '发送中…' : 'Sending…') : status === 'paying' ? (zh ? '前往付款…' : 'Opening payment…') : (zh ? '预约通话 · $39' : 'Book the call · $39')}
               </button>
