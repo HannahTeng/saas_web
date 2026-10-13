@@ -4,7 +4,7 @@ import { FormEvent, useEffect, useRef, useState } from 'react'
 import { useLanguage } from '@/components/LanguageProvider'
 import { useOrder } from './OrderProvider'
 import { ADDON_AGENTS, CORE_AGENTS, PLANS } from '@/lib/catalog'
-import { submitRequest } from '@/lib/submitRequest'
+import { submitRequest, startScopingCheckout } from '@/lib/submitRequest'
 
 const inputCls = 'agent-input w-full rounded-xl border border-line/15 px-4 py-3 text-[15px] text-primary outline-none placeholder:text-subtle focus:border-accent'
 
@@ -16,7 +16,8 @@ export default function OrderPanel() {
   const [context, setContext] = useState<string[]>([])
   const [message, setMessage] = useState('')
   const [contact, setContact] = useState('')
-  const [status, setStatus] = useState<'idle' | 'sending' | 'sent'>('idle')
+  const [status, setStatus] = useState<'idle' | 'sending' | 'paying' | 'sent'>('idle')
+  const [tried, setTried] = useState(false)
   const [error, setError] = useState('')
   const [honey, setHoney] = useState('')
   const panel = useRef<HTMLDivElement>(null)
@@ -28,17 +29,29 @@ export default function OrderPanel() {
     const names = (preset.agents ?? []).map((id) => all.find((a) => a.id === id)).filter(Boolean).map((a) => (zh ? a!.zh : a!.en))
     const plan = PLANS.find((p) => p.id === preset.plan)
     setContext([...names, ...(plan ? [zh ? plan.zh : plan.en] : [])])
-    setStatus('idle'); setError('')
+    setStatus('idle'); setError(''); setTried(false)
     window.setTimeout(() => panel.current?.querySelector<HTMLElement>('textarea')?.focus(), 50)
   }, [open, preset, zh])
 
-  const canSend = message.trim().length > 5 && contact.trim().length > 2 && status !== 'sending'
+  // Never silently disable the button: validate on click and say exactly what is missing.
+  const contactOk = /@/.test(contact) || /^[A-Za-z][\w-]{3,}$/.test(contact.trim()) || (contact.match(/\d/g) ?? []).length >= 7
+  const msgError = message.trim().length < 3 ? (zh ? '请用一句话描述要做的事。' : 'Describe the job in a few words.') : ''
+  const contactError = !contactOk ? (zh ? '请留下邮箱、电话或微信号。' : 'Leave an email, phone number or WeChat ID.') : ''
+  const busy = status === 'sending' || status === 'paying'
 
   async function send(e: FormEvent) {
     e.preventDefault()
+    setTried(true)
+    if (msgError || contactError || busy) return
     setStatus('sending')
-    const err = await submitRequest({ kind: 'consultation', contact, message, modules: context.length ? [`Interested in: ${context.join(', ')}`] : [], website: honey })
-    if (err) { setError(zh ? '没有发送成功，请稍后重试，或发邮件到 support@flowact.net。' : err); setStatus('idle') } else { setError(''); setStatus('sent') }
+    const { error: err, id } = await submitRequest({ kind: 'consultation', contact, message, modules: context.length ? [`Interested in: ${context.join(', ')}`] : [], website: honey })
+    if (err) { setError(zh ? '没有发送成功，请稍后重试，或发邮件到 support@flowact.net。' : err); setStatus('idle'); return }
+    setError('')
+    // The order is already with support@flowact.net. Now take the $39 payment through Stripe, if configured.
+    setStatus('paying')
+    const url = id ? await startScopingCheckout(id, contact) : null
+    if (url) { window.location.assign(url); return }
+    setStatus('sent')
   }
 
   return (
@@ -84,20 +97,21 @@ export default function OrderPanel() {
               <div className="grid gap-2">
                 <label htmlFor="order-msg" className="text-sm font-medium">{zh ? '你想让 Agent 做什么？' : 'What should the agent do?'}</label>
                 <textarea id="order-msg" rows={4} value={message} onChange={(e) => setMessage(e.target.value)} className={`${inputCls} resize-y`} placeholder={zh ? '例如：每天早上从 OMP 拉昨天各仓出库，做成 PDF 发给我。' : 'e.g. Every morning, pull yesterday’s outbound by warehouse from our OMP and send me a PDF.'} />
-                <p className="text-xs text-subtle">{zh ? '一句话就够，不用懂技术。' : 'One sentence is enough. No technical detail needed.'}</p>
+                {tried && msgError ? <p className="text-xs text-[#E89A86]" role="alert">{msgError}</p> : <p className="text-xs text-subtle">{zh ? '一句话就够，不用懂技术。' : 'One sentence is enough. No technical detail needed.'}</p>}
               </div>
 
               <div className="mt-5 grid gap-2">
                 <label htmlFor="order-contact" className="text-sm font-medium">{zh ? '怎么联系你？' : 'How do we reach you?'}</label>
                 <input id="order-contact" value={contact} onChange={(e) => setContact(e.target.value)} autoComplete="email" className={inputCls} placeholder={zh ? '工作邮箱、电话或微信号' : 'Work email, phone or WeChat ID'} />
+                {tried && contactError && <p className="text-xs text-[#E89A86]" role="alert">{contactError}</p>}
               </div>
               {error && <p className="mt-3 text-sm text-[#E89A86]" role="alert">{error}</p>}
             </div>
 
             <div className="flex items-center justify-between gap-4 border-t border-line/10 px-6 py-4">
-              <p className="text-xs text-subtle">{zh ? '一个工作日内回复。不绑定。' : 'Reply within one business day. No commitment.'}</p>
-              <button type="submit" disabled={!canSend} className="form-submit shrink-0 rounded-lg px-5 py-3 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-35">
-                {status === 'sending' ? (zh ? '发送中…' : 'Sending…') : (zh ? '预约通话' : 'Book the call')}
+              <p className="text-xs text-subtle">{zh ? '下一步通过 Stripe 安全付款。一个工作日内约时间。' : 'Next: secure payment with Stripe. We schedule within one business day.'}</p>
+              <button type="submit" disabled={busy} aria-disabled={busy} className="form-submit shrink-0 rounded-lg px-5 py-3 text-sm font-semibold disabled:cursor-wait disabled:opacity-60">
+                {status === 'sending' ? (zh ? '发送中…' : 'Sending…') : status === 'paying' ? (zh ? '前往付款…' : 'Opening payment…') : (zh ? '预约通话 · $39' : 'Book the call · $39')}
               </button>
             </div>
           </form>

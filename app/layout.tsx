@@ -3,6 +3,7 @@ import '@fontsource-variable/inter'
 import { LanguageProvider } from '@/components/LanguageProvider'
 import { OrderProvider } from '@/components/order/OrderProvider'
 import OrderPanel from '@/components/order/OrderPanel'
+import { PaymentNotice } from '@/components/order/PaymentNotice'
 import { StickyOrderBar, StickyOrderSpacer } from '@/components/order/OrderButton'
 import './globals.css'
 
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <StickyOrderSpacer />
             <OrderPanel />
             <StickyOrderBar />
+            <PaymentNotice />
           </OrderProvider>
         </LanguageProvider>
       </body>
