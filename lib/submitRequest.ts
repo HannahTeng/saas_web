@@ -8,17 +8,32 @@ const FAIL = 'That didn’t go through. Please email support@flowact.net.'
  * If the server has no delivery channel configured yet, relay it from the browser instead
  * (formsubmit accepts requests that come from the site itself). Returns an error message, or null on success.
  */
-export async function submitRequest(req: AgentRequest & { website?: string }): Promise<string | null> {
+export async function submitRequest(req: AgentRequest & { website?: string }): Promise<{ error: string | null; id?: string }> {
   const payload = { ...req, page: typeof window !== 'undefined' ? window.location.pathname : '' }
   try {
     const res = await fetch('/api/requests', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
     const json = await res.json().catch(() => ({}))
-    if (res.ok && json.ok) return null
-    if (json.code !== 'undelivered') return json.error || FAIL
+    if (res.ok && json.ok) return { error: null, id: json.id }
+    if (json.code !== 'undelivered') return { error: json.error || FAIL }
   } catch {
     /* fall through to the browser relay */
   }
-  return browserRelay(payload)
+  const relayed = await browserRelay(payload)
+  return { error: relayed, id: relayed ? undefined : `web-${Date.now().toString(36)}` }
+}
+
+/**
+ * Start payment for the $39 scoping call. Returns a Stripe Checkout URL, or null when Stripe is not configured
+ * (the order is already with support@flowact.net either way).
+ */
+export async function startScopingCheckout(orderId: string, contact: string): Promise<string | null> {
+  try {
+    const res = await fetch('/api/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ orderId, contact }) })
+    const json = await res.json().catch(() => ({}))
+    return res.ok && typeof json.url === 'string' ? json.url : null
+  } catch {
+    return null
+  }
 }
 
 async function browserRelay(req: AgentRequest & { page?: string }): Promise<string | null> {

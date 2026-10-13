@@ -36,7 +36,8 @@ export function parseRequest(body: unknown): { ok: true; data: AgentRequest } | 
   const kind = b.kind as RequestKind
   if (!KINDS.includes(kind)) return { ok: false, error: 'Unknown request type.' }
   const contact = clip(b.contact, 200)
-  if (!/@|^[A-Za-z][\w-]{3,}$/.test(contact)) return { ok: false, error: 'Enter a work email or WeChat ID so we can reply.' }
+  // email, phone (7+ digits), or a WeChat-style ID
+  if (!/@|^[A-Za-z][\w-]{3,}$/.test(contact) && (contact.match(/\d/g) ?? []).length < 7) return { ok: false, error: 'Enter a work email, phone or WeChat ID so we can reply.' }
   const message = clip(b.message, 4000)
   const modules = Array.isArray(b.modules) ? b.modules.map((m) => clip(m, 80)).filter(Boolean).slice(0, 20) : []
   if (!message && modules.length === 0) return { ok: false, error: 'Tell us a little about the job.' }
@@ -149,7 +150,7 @@ async function sendEmail(o: StoredOrder): Promise<void> {
 
 /* ---------- deliver ---------- */
 
-export async function deliver(req: AgentRequest): Promise<{ stored: boolean; emailed: boolean }> {
+export async function deliver(req: AgentRequest): Promise<{ id: string; stored: boolean; emailed: boolean }> {
   const order: StoredOrder = {
     ...req,
     id: `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`,
@@ -170,5 +171,5 @@ export async function deliver(req: AgentRequest): Promise<{ stored: boolean; ema
     console.error('[orders] UNDELIVERED ORDER', JSON.stringify(order))
     throw new Error('delivery failed')
   }
-  return { stored, emailed }
+  return { id: order.id, stored, emailed }
 }

@@ -15,7 +15,7 @@ export default function Footer() {
             <div>
               <Wordmark height={26} />
               <p className="mt-2 text-sm text-subtle">
-                {zh ? '重复工作交给 Agent，关键判断留给人。' : 'Agents do the repetition. Humans keep the judgment.'}
+                {zh ? 'AI Agent 咨询与开发服务。' : 'AI agent consulting and development services.'}
               </p>
             </div>
           </div>
@@ -32,9 +32,11 @@ export default function Footer() {
 
         <div className="mt-8 flex flex-col items-center justify-between gap-3 border-t border-line/5 pt-5 text-center sm:flex-row sm:text-left md:mt-10 md:pt-6">
           <p className="text-sm text-subtle">© 2026 Flowact, Inc. {zh ? '保留所有权利。' : 'All rights reserved.'}</p>
-          <p className="text-sm text-subtle">
-            {zh ? '企业 AI Agent 落地 · 10+ 行业已交付' : 'Enterprise AI agents · delivered across 10+ industries'}
-          </p>
+          <nav className="flex flex-wrap items-center justify-center gap-4 text-sm text-subtle">
+            <a href="/terms" className="hover:text-primary transition-colors">{zh ? '服务条款' : 'Terms'}</a>
+            <a href="/privacy" className="hover:text-primary transition-colors">{zh ? '隐私政策' : 'Privacy'}</a>
+            <a href="/refund" className="hover:text-primary transition-colors">{zh ? '退款政策' : 'Refunds'}</a>
+          </nav>
         </div>
       </div>
     </footer>
