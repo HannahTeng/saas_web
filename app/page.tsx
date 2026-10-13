@@ -1,6 +1,6 @@
 import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
-import AgentServices from '@/components/AgentServices'
+import PrivateAgentBanner from '@/components/PrivateAgentBanner'
 import Showcase from '@/components/Showcase'
 import TestimonialCarousel from '@/components/TestimonialCarousel'
 import CTASection from '@/components/CTASection'
@@ -14,7 +14,7 @@ export default function Home() {
       <main>
         <Hero />
         <Showcase />
-        <AgentServices />
+        <PrivateAgentBanner />
         <TestimonialCarousel />
         <CTASection />
         <FAQ />
