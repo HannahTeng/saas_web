@@ -313,17 +313,27 @@ const scripts = { ja, dp, edc };
  */
 /* Phones: instead of shrinking the whole scene, a "camera" frames the panel the agent is working in.
    Each shot is a panel rect in canvas px, always shown whole. The frame height is fixed per demo
-   (tallest shot, capped) so the page never jumps mid-demo and the stage fits on one phone screen. */
+   (tallest shot, capped) so the page never jumps mid-demo and the stage fits on one phone screen.
+   The view never strays outside the device(s) on the stage (BOUNDS), so no empty backdrop shows beside a panel. */
 const CAMERA = {
   ja: [{ x: 335, y: 70, w: 720, h: 540 }],
   dp: [{ x: 870, y: 56, w: 290, h: 580 }, { x: 72, y: 124, w: 774, h: 466 }, { x: 72, y: 124, w: 774, h: 466 }, { x: 870, y: 56, w: 290, h: 580 }],
   edc: [{ x: 762, y: 100, w: 308, h: 500 }, { x: 140, y: 34, w: 640, h: 556 }, { x: 400, y: 34, w: 720, h: 556 }, { x: 430, y: 34, w: 640, h: 556 }],
 };
 const PHONE = 640;
+const BOUNDS = {
+  ja: { x: 126, y: 34, w: 948, h: 610 },
+  dp: { x: 60, y: 66, w: 1090, h: 560 },
+  edc: { x: 140, y: 34, w: 920, h: 556 },
+};
 const MAX_TALL = 1.05; // frame height cap, as a share of frame width
 const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
-// Top-left of a view of `view` px over a `size` px canvas: centered on c, inside the canvas, or centered if larger.
-const place = (c, view, size) => (view >= size ? (size - view) / 2 : clamp(c - view / 2, 0, size - view));
+// Top-left of a `view` px window centered on c: kept inside the device bounds when it fits there,
+// else inside the canvas, else centered on the canvas.
+const place = (c, view, lo, len, size) =>
+  view <= len ? clamp(c - view / 2, lo, lo + len - view)
+  : view <= size ? clamp(c - view / 2, 0, size - view)
+  : (size - view) / 2;
 
 export function startShowcase(root, { onActive }) {
   STATE = { dead: false };
@@ -333,13 +343,14 @@ export function startShowcase(root, { onActive }) {
   const ros = [];
   const shots = arts.map(() => 0);
   const fits = arts.map((a, idx) => {
-    const f = $('.fit', a), c = $('.canvas', a), cam = CAMERA[a.dataset.demo];
+    const f = $('.fit', a), c = $('.canvas', a), cam = CAMERA[a.dataset.demo], bnd = BOUNDS[a.dataset.demo];
     const go = () => {
       const w = f.clientWidth;
-      if (w && w < PHONE && cam) {
+      if (!w) return; // hidden: keep the last camera, so revealing it pans instead of zooming up from scale(0)
+      if (w < PHONE && cam) {
         const h = Math.round(Math.min(w * MAX_TALL, Math.max(...cam.map((q) => (q.h * w) / q.w))));
         const r = cam[clamp(shots[idx], 0, cam.length - 1)], k = Math.min(w / r.w, h / r.h);
-        const x = place(r.x + r.w / 2, w / k, CW), y = place(r.y + r.h / 2, h / k, CH);
+        const x = place(r.x + r.w / 2, w / k, bnd.x, bnd.w, CW), y = place(r.y + r.h / 2, h / k, bnd.y, bnd.h, CH);
         f._k = k; f.classList.add('cam');
         c.style.transform = `scale(${k}) translate(${-x}px, ${-y}px)`; f.style.height = h + 'px';
       } else {
