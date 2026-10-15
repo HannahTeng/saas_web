@@ -45,7 +45,7 @@ const SCRIPT: Record<Mode, Step[]> = {
 
 const STEP_MS = 1900
 const KIND_COLOR: Record<Kind, string> = {
-  read: 'rgb(var(--line-rgb) / .75)', write: 'var(--accent)', wait: '#e8b04a', ok: '#7fc79a', block: '#e0766b',
+  read: 'rgb(var(--line-rgb) / .75)', write: 'var(--accent)', wait: 'var(--warn)', ok: 'var(--ok)', block: 'var(--danger)',
 }
 
 function target(s: Step): Pt {
@@ -127,7 +127,7 @@ export default function PrivateAgentBanner() {
           <div role="tablist" aria-label={zh ? '场景' : 'Setting'} className="inline-flex w-fit rounded-full border border-line/15 p-1 text-sm">
             {(['personal', 'business'] as Mode[]).map((m) => (
               <button key={m} role="tab" aria-selected={mode === m} onClick={() => switchMode(m)}
-                className={`rounded-full px-4 py-1.5 transition-colors ${mode === m ? 'bg-accent text-black' : 'text-muted hover:text-primary'}`}>
+                className={`rounded-full px-4 py-1.5 transition-colors ${mode === m ? 'bg-accent text-accent-ink' : 'text-muted hover:text-primary'}`}>
                 {m === 'personal' ? (zh ? '个人' : 'Personal') : (zh ? '企业' : 'Business')}
               </button>
             ))}
@@ -166,8 +166,8 @@ export default function PrivateAgentBanner() {
 
               {/* Wall hit */}
               <g opacity={wallHit ? 1 : 0} style={{ transition: 'opacity .3s' }}>
-                <circle cx={WALL.x} cy={WALL.y} r="15" fill="#e0766b" fillOpacity=".15" stroke="#e0766b" />
-                <path d={`M${WALL.x - 5} ${WALL.y - 5}l10 10M${WALL.x + 5} ${WALL.y - 5}l-10 10`} stroke="#e0766b" strokeWidth="2" strokeLinecap="round" />
+                <circle cx={WALL.x} cy={WALL.y} r="15" fill="var(--danger)" fillOpacity=".15" stroke="var(--danger)" />
+                <path d={`M${WALL.x - 5} ${WALL.y - 5}l10 10M${WALL.x + 5} ${WALL.y - 5}l-10 10`} stroke="var(--danger)" strokeWidth="2" strokeLinecap="round" />
               </g>
 
               {/* Links */}
@@ -190,10 +190,10 @@ export default function PrivateAgentBanner() {
               <g transform={`translate(${GATE.x} ${GATE.y})`} style={{ transition: 'opacity .3s' }}>
                 <rect x="-38" y="-13" width="76" height="26" rx="13" fill="var(--panel-bg)" />
                 <rect x="-38" y="-13" width="76" height="26" rx="13"
-                  fill={gateState === 'ok' ? 'rgb(127 199 154 / .16)' : gateState === 'wait' ? 'rgb(232 176 74 / .16)' : 'var(--panel-bg)'}
-                  stroke={gateState === 'ok' ? '#7fc79a' : gateState === 'wait' ? '#e8b04a' : 'rgb(var(--line-rgb) / .25)'}
+                  fill={gateState === 'ok' ? 'rgb(var(--ok-rgb) / .16)' : gateState === 'wait' ? 'rgb(var(--warn-rgb) / .16)' : 'var(--panel-bg)'}
+                  stroke={gateState === 'ok' ? 'var(--ok)' : gateState === 'wait' ? 'var(--warn)' : 'rgb(var(--line-rgb) / .25)'}
                   className={gateState === 'wait' ? 'pab-blink' : ''} />
-                <text y="4" textAnchor="middle" fontSize="11" fill={gateState === 'ok' ? '#7fc79a' : gateState === 'wait' ? '#e8b04a' : 'var(--text-subtle)'}>
+                <text y="4" textAnchor="middle" fontSize="11" fill={gateState === 'ok' ? 'var(--ok)' : gateState === 'wait' ? 'var(--warn)' : 'var(--text-subtle)'}>
                   {gateState === 'ok' ? (zh ? '已批准 ✓' : 'Approved ✓') : (zh ? '需批准' : 'Approve?')}
                 </text>
               </g>
@@ -219,7 +219,7 @@ export default function PrivateAgentBanner() {
             <div className="flex items-center justify-between">
               <p className="text-sm font-medium">{zh ? '操作记录' : 'Audit log'}</p>
               <span className="inline-flex items-center gap-1.5 text-xs text-subtle">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#7fc79a] pab-blink" /> {zh ? '实时' : 'Live'}
+                <span className="h-1.5 w-1.5 rounded-full bg-ok pab-blink" /> {zh ? '实时' : 'Live'}
               </span>
             </div>
             <ol className="mt-4 grid gap-2 font-mono text-[12.5px]" aria-live="polite">
@@ -228,7 +228,7 @@ export default function PrivateAgentBanner() {
                   className="flex items-start gap-2.5 rounded-lg border border-line/[0.07] bg-line/[0.02] px-3 py-2 transition-all duration-500"
                   style={{ opacity: i < logCount ? 1 : 0.18, transform: i < logCount ? 'none' : 'translateY(4px)' }}>
                   <span className="mt-[5px] h-2 w-2 shrink-0 rounded-full" style={{ background: s.kind === 'wait' && i < logCount - 1 ? KIND_COLOR.ok : KIND_COLOR[s.kind] }} />
-                  <span className={s.kind === 'block' ? 'text-[#e0766b]' : s.kind === 'wait' ? (i < logCount - 1 ? 'text-[#7fc79a]' : 'text-[#e8b04a]') : 'text-copy'}>
+                  <span className={s.kind === 'block' ? 'text-danger' : s.kind === 'wait' ? (i < logCount - 1 ? 'text-ok' : 'text-warn') : 'text-copy'}>
                     {s.kind === 'wait' && i < logCount - 1 ? (zh ? '已批准：' : 'Approved: ') + (zh ? s.zh.replace(/^等待[^：]*：/, '') : s.en.replace(/^Waiting: /, '')).replace(/[?？]$/, '') : zh ? s.zh : s.en}
                   </span>
                 </li>

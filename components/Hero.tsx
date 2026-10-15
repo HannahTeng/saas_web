@@ -49,7 +49,7 @@ export default function Hero() {
       </div>
       <div className={`${styles.principles} ${styles.appear}`} aria-label={zh ? '构建原则' : 'Built around your work'}>
         <span><svg viewBox="0 0 24 24" fill="none" aria-hidden><rect x="3" y="3" width="7" height="18" rx="3.5" fill="currentColor" opacity=".65"/><rect x="14" y="3" width="7" height="18" rx="3.5" fill="currentColor" opacity=".3"/><path d="M9 12h6" stroke="currentColor" strokeWidth="2"/></svg>{zh ? '连接你的知识' : 'Connected to your knowledge'}</span>
-        <span><svg viewBox="0 0 24 24" fill="none" aria-hidden><rect x="3" y="3" width="18" height="18" rx="5" fill="currentColor"/><path d="m8 12 3 3 5-6" stroke="#111" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>{zh ? '融入现有工具' : 'Works inside your existing tools'}</span>
+        <span><svg viewBox="0 0 24 24" fill="none" aria-hidden><rect x="3" y="3" width="18" height="18" rx="5" fill="currentColor"/><path d="m8 12 3 3 5-6" stroke="var(--accent-ink)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>{zh ? '融入现有工具' : 'Works inside your existing tools'}</span>
         <span><svg viewBox="0 0 24 24" fill="none" aria-hidden><path d="m12 3 8 3v6c0 4-5 8-8 9-3-1-8-5-8-9V6l8-3Z" stroke="currentColor" strokeWidth="1.5"/><path d="m8 12 3 3 5-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>{zh ? '关键决策由人审批' : 'Human approval where it matters'}</span>
       </div>
     </section>

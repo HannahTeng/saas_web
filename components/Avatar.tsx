@@ -1,5 +1,5 @@
-// Anonymized testimonials use initials in neutral tones, with no photo claims.
-const TONES = ['#30302e', '#393936', '#42423e', '#2b2b29']
+// Anonymized testimonials use initials on neutral tones (the line color at four strengths), with no photo claims.
+const TONES = [0.13, 0.17, 0.21, 0.1].map((a) => `rgb(var(--line-rgb) / ${a})`)
 
 type Props = {
   name: string

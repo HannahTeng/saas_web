@@ -1,10 +1,5 @@
 // Static markup for the three use-case scenes. Animated by ./engine.ts.
 export const USE_CASES_HTML = `<article data-kind="local" class="case demo" data-demo="ja">
-        <div class="case-head">
-          <div><span class="label">Overseas warehouse · Logistics data assistant</span>
-            <h3>One sentence in. The number, the chart and the <em class="it">PDF</em> out.</h3></div>
-          <div><p>Reports used to take half a day of exports and copy-paste. Now operations type one question into the desktop assistant. The agent signs in to the client's system, pulls and reconciles the data, checks the definition, and charts it.</p></div>
-        </div>
         <div class="scene">
           <div class="fit"><div class="canvas">
             <div class="stage-bg"></div>
@@ -41,11 +36,6 @@ export const USE_CASES_HTML = `<article data-kind="local" class="case demo" data
         </ol>
       </article>
 <article data-kind="browser" class="case demo" data-demo="dp">
-        <div class="case-head">
-          <div><span class="label">Trucking dispatch · Dispatch agent + iMessage</span>
-            <h3>No one watches the containers. The trucks are <em class="it">already full</em>.</h3></div>
-          <div><p>Someone used to sit with the arrivals list and piece trucks together by hand. The dispatch agent signs in to the client's system, pulls every arrived container, packs each truck to 100 CBM, and texts the dispatcher for a yes.</p></div>
-        </div>
         <div class="scene">
           <div class="fit"><div class="canvas">
             <div class="stage-bg"></div>
@@ -99,11 +89,6 @@ export const USE_CASES_HTML = `<article data-kind="local" class="case demo" data
         </ol>
       </article>
 <article data-kind="knowledge" class="case demo" data-demo="edc">
-        <div class="case-head">
-          <div><span class="label">Clinical research · Inside the study platform</span>
-            <h3>Ask in plain English. It checks the <em class="it">source</em> first.</h3></div>
-          <div><p>Data managers used to hunt through listings by hand for quality checks. The agent lives in their study platform, uses its own filters, opens the source record, and drafts queries for the team to review.</p></div>
-        </div>
         <div class="scene">
           <div class="fit"><div class="canvas">
             <div class="stage-bg"></div>
