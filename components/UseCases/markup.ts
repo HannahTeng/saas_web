@@ -3,7 +3,7 @@ export const USE_CASES_HTML = `<article data-kind="local" class="case demo" data
         <div class="case-head">
           <div><span class="label">Overseas warehouse · Logistics data assistant</span>
             <h3>One sentence in. The number, the chart and the <em class="it">PDF</em> out.</h3></div>
-          <div><p>Reports used to take half a day of exports and copy-paste. Now operations type one question into the desktop assistant. The agent signs in to the client's OMP, pulls and reconciles the data, checks the definition, and charts it.</p></div>
+          <div><p>Reports used to take half a day of exports and copy-paste. Now operations type one question into the desktop assistant. The agent signs in to the client's system, pulls and reconciles the data, checks the definition, and charts it.</p></div>
         </div>
         <div class="scene">
           <div class="fit"><div class="canvas">
@@ -35,7 +35,7 @@ export const USE_CASES_HTML = `<article data-kind="local" class="case demo" data
         </div>
         <ol class="strip">
           <li><span class="n" data-en="01 · Asks" data-zh="01 · 提问">01 · Asks</span><b data-en="One sentence" data-zh="一句话">One sentence</b><small data-en="Typed into the desktop assistant." data-zh="在桌面助手里输入。">Typed into the desktop assistant.</small></li>
-          <li><span class="n" data-en="02 · Signs in &amp; pulls" data-zh="02 · 登录拉数">02 · Signs in &amp; pulls</span><b data-en="Works the client&#x27;s OMP" data-zh="操作客户的 OMP">Works the client's OMP</b><small data-en="Logs in, queues the export, polls until done." data-zh="登录、提交导出、轮询直到完成。">Logs in, queues the export, polls until done.</small></li>
+          <li><span class="n" data-en="02 · Signs in &amp; pulls" data-zh="02 · 登录拉数">02 · Signs in &amp; pulls</span><b data-en="Works the client&#x27;s system" data-zh="操作客户系统">Works the client's system</b><small data-en="Logs in, queues the export, polls until done." data-zh="登录、提交导出、轮询直到完成。">Logs in, queues the export, polls until done.</small></li>
           <li><span class="n" data-en="03 · Checks" data-zh="03 · 核对">03 · Checks</span><b data-en="States the definition" data-zh="写明统计口径">States the definition</b><small data-en="Season tag, date range, inbound types." data-zh="季节标签、日期范围、入库类型。">Season tag, date range, inbound types.</small></li>
           <li><span class="n" data-en="04 · Charts" data-zh="04 · 出图">04 · Charts</span><b data-en="Chart and PDF" data-zh="图表和 PDF">Chart and PDF</b><small data-en="Ask for a chart, save it as a PDF." data-zh="要图就出图，一键存成 PDF。">Ask for a chart, save it as a PDF.</small></li>
         </ol>
@@ -44,7 +44,7 @@ export const USE_CASES_HTML = `<article data-kind="local" class="case demo" data
         <div class="case-head">
           <div><span class="label">Trucking dispatch · Dispatch agent + iMessage</span>
             <h3>No one watches the containers. The trucks are <em class="it">already full</em>.</h3></div>
-          <div><p>Someone used to sit with the arrivals list and piece trucks together by hand. The dispatch agent signs in to the client's ERP, pulls every arrived container, packs each truck to 100 CBM, and texts the dispatcher for a yes.</p></div>
+          <div><p>Someone used to sit with the arrivals list and piece trucks together by hand. The dispatch agent signs in to the client's system, pulls every arrived container, packs each truck to 100 CBM, and texts the dispatcher for a yes.</p></div>
         </div>
         <div class="scene">
           <div class="fit"><div class="canvas">
@@ -93,7 +93,7 @@ export const USE_CASES_HTML = `<article data-kind="local" class="case demo" data
         </div>
         <ol class="strip">
           <li><span class="n" data-en="01 · Watches" data-zh="01 · 盯到货">01 · Watches</span><b data-en="Overnight arrivals" data-zh="夜间到货柜">Overnight arrivals</b><small data-en="Texts the dispatcher before the day starts." data-zh="开工前先给调度发消息。">Texts the dispatcher before the day starts.</small></li>
-          <li><span class="n" data-en="02 · Signs in" data-zh="02 · 登录">02 · Signs in</span><b data-en="The client&#x27;s own ERP" data-zh="客户自己的 ERP">The client's own ERP</b><small data-en="Pulls every arrived container and waybill." data-zh="拉取所有到货柜和运单。">Pulls every arrived container and waybill.</small></li>
+          <li><span class="n" data-en="02 · Signs in" data-zh="02 · 登录">02 · Signs in</span><b data-en="The client&#x27;s own system" data-zh="客户自己的系统">The client's own system</b><small data-en="Pulls every arrived container and waybill." data-zh="拉取所有到货柜和运单。">Pulls every arrived container and waybill.</small></li>
           <li><span class="n" data-en="03 · Packs" data-zh="03 · 凑车">03 · Packs</span><b data-en="Full trucks at 100 CBM" data-zh="按 100 CBM 凑整车">Full trucks at 100 CBM</b><small data-en="Groups by destination, checks weight, exports Excel." data-zh="按目的地分组、核重量、导出 Excel。">Groups by destination, checks weight, exports Excel.</small></li>
           <li><span class="n" data-en="04 · Asks you" data-zh="04 · 等确认">04 · Asks you</span><b data-en="Books on &quot;yes&quot;" data-zh="你说"好"才约车">Books on "yes"</b><small data-en="Nothing is booked without the dispatcher&#x27;s reply." data-zh="调度不回复，什么都不会约。">Nothing is booked without the dispatcher's reply.</small></li>
         </ol>

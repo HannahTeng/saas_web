@@ -9,25 +9,24 @@ import '@/components/UseCases/useCases.css'
 import { OrderButton } from '@/components/order/OrderButton'
 
 const CASES = [
-  { id: 'data-agent', title: 'Data Agent', zhTitle: '数据 Agent', line: 'One question in. Numbers, a chart and a PDF out.', zhLine: '一句话提问，返回数字、图表和 PDF。', live: 'overseas warehouse', zhLive: '海外仓' },
-  { id: 'dispatch-agent', title: 'Dispatch Agent', zhTitle: '调度 Agent', line: '27 containers in. Four full trucks, booked on a yes.', zhLine: '27 个到货柜，凑成 4 辆整车，确认后才约车。', live: 'trucking company', zhLive: '卡派车队' },
-  { id: 'knowledge-agent', title: 'Knowledge Agent', zhTitle: '知识 Agent', line: 'Plain-English questions. Answers cited to the record.', zhLine: '自然语言提问，答案引用到原始记录。', live: 'clinical research team', zhLive: '临床研究团队' },
+  { id: 'data-agent', title: 'Data Agent', zhTitle: '数据分析 Agent', line: 'Ask in plain words. Get the numbers, a chart and a report.', zhLine: '一句话提问，直接拿到数字、图表和报告。', tag: 'Pull · reconcile · chart', zhTag: '取数 · 核对 · 出图' },
+  { id: 'dispatch-agent', title: 'Workflow Agent', zhTitle: '流程执行 Agent', line: 'Signs in, does the repetitive work, acts only on your yes.', zhLine: '登录系统完成重复操作，你确认后才执行。', tag: 'Multi-step tasks · approval', zhTag: '多步操作 · 人工审批' },
+  { id: 'knowledge-agent', title: 'Knowledge Agent', zhTitle: '知识问答 Agent', line: 'Answers from your own records, every claim cited.', zhLine: '基于你自己的资料回答，每句都有出处。', tag: 'Search · cite · draft', zhTag: '检索 · 引用 · 起草' },
 ]
 
-/** One product section: three case cards over a single stage that autoplays each agent in turn. */
+/** One product section: three agent functions over a single stage that autoplays each agent in turn. */
 export default function Showcase() {
   const { language } = useLanguage()
   const zh = language === 'zh'
   const stage = useRef<HTMLDivElement>(null)
   const ctl = useRef<{ select: (i: number) => void; destroy: () => void } | null>(null)
   const [active, setActive] = useState(0)
-  const [progress, setProgress] = useState(1)
 
   useEffect(() => {
     const el = stage.current
     if (!el) return
     el.innerHTML = USE_CASES_HTML // React never manages these children; the engine animates them.
-    ctl.current = startShowcase(el, { onActive: setActive, onProgress: setProgress })
+    ctl.current = startShowcase(el, { onActive: setActive })
     return () => ctl.current?.destroy()
   }, [])
 
@@ -45,15 +44,15 @@ export default function Showcase() {
         <FadeIn>
           <div className="grid gap-4 md:grid-cols-[1.2fr_1fr] md:items-end md:gap-12">
             <div>
-              <p className="section-kicker">{zh ? '产品 · 已在客户处上线' : 'Products · live at clients'}</p>
+              <p className="section-kicker">{zh ? 'Agent 能做什么' : 'What our agents do'}</p>
               <h2 className="mt-4 text-3xl font-medium tracking-tight md:text-5xl">
-                {zh ? <>三个 Agent，<em className="em-accent">已经在干活</em>。</> : <>Three agents, <em className="em-accent">already at work</em>.</>}
+                {zh ? <>分析、执行、问答，<em className="em-accent">都在你自己的系统里</em>。</> : <>Analyze, act, answer. <em className="em-accent">Inside your own systems</em>.</>}
               </h2>
             </div>
             <p className="text-sm leading-relaxed text-muted md:text-base">
               {zh
-                ? '每个 Agent 都在客户自己的系统里运行，关键决策等人确认。往下看它们干活，或直接选一个。'
-                : 'Each one runs inside the client’s own systems and waits for a person on every decision that matters. Watch them work, or pick one.'}
+                ? '不分行业，按工作类型配置：每个 Agent 直接接入你现有的系统，关键决策等人确认。往下看它们干活，或直接选一个。'
+                : 'Built around the job, not the industry. Each agent works through the systems you already use and waits for a person on every decision that matters. Watch them work, or pick one.'}
             </p>
           </div>
         </FadeIn>
@@ -74,20 +73,14 @@ export default function Showcase() {
                   ;(e.currentTarget.parentElement?.children[n] as HTMLElement | undefined)?.focus()
                   pick(n)
                 }}
-                className={`relative grid content-start gap-1.5 overflow-hidden rounded-2xl border p-3 text-left transition-colors md:p-5 ${
+                className={`grid content-start gap-1.5 rounded-2xl border p-3 text-left transition-colors md:p-5 ${
                   on ? 'border-accent/45 bg-panel' : 'border-line/10 hover:border-line/25'
                 }`}
               >
-                <span className="absolute inset-x-0 top-0 h-0.5" aria-hidden>
-                  <span className="block h-full bg-accent transition-[width] duration-500 ease-out" style={{ width: on ? `${progress * 100}%` : '0%' }} />
-                </span>
                 <span className="hidden text-xs tracking-wide text-subtle md:block">0{i + 1}</span>
                 <strong className="text-sm font-semibold tracking-tight text-primary md:text-lg">{zh ? c.zhTitle : c.title}</strong>
                 <span className="hidden text-sm leading-relaxed text-muted md:block">{zh ? c.zhLine : c.line}</span>
-                <span className="mt-1 hidden items-center gap-1.5 text-xs text-subtle md:flex">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#6FBF73]" aria-hidden />
-                  {zh ? `已上线 · ${c.zhLive}` : `Live · ${c.live}`}
-                </span>
+                <span className="mt-1 hidden text-xs text-subtle md:block">{zh ? c.zhTag : c.tag}</span>
               </button>
             )
           })}
@@ -101,8 +94,8 @@ export default function Showcase() {
           <p className="max-w-3xl text-sm leading-relaxed text-muted">
             <span className="font-medium text-primary">{zh ? '同一个平台：' : 'One platform underneath: '}</span>
             {zh
-              ? '连接 OMP、WMS、ERP 和邮箱 · 共享知识层 · 审批节点 · 操作留痕 · 云端或私有部署。年度授权或按月代运营。'
-              : 'connectors to OMP, WMS, ERP and email · shared knowledge · approval checkpoints · audit trail · cloud or self-hosted. Annual license or monthly managed plan.'}
+              ? '连接你现有的业务系统、数据库和邮箱 · 共享知识层 · 审批节点 · 操作留痕 · 云端或私有部署。年度授权或按月代运营。'
+              : 'connectors to your existing business systems, databases and email · shared knowledge · approval checkpoints · audit trail · cloud or self-hosted. Annual license or monthly managed plan.'}
           </p>
           <OrderButton preset={{ agents: [CASES[active].id] }} className="shrink-0" />
         </div>

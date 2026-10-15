@@ -108,13 +108,13 @@ const ja = {
     const think = this.add(d, '<div class="jbox"><span class="spin"></span>Thinking…<span class="s">1s</span></div>');
     await d.wait(800);
 
-    d.step(1, 'The agent signs in to the client\'s OMP and pulls the data itself.');
+    d.step(1, 'The agent signs in to the client\'s system and pulls the data itself.');
     think.remove();
     this.add(d, '<div class="jbox">▸ Querying…</div>');
     const tr = this.add(d, '<div class="jtrace"></div>');
     const lines = [
-      ['x','Blocked','curl -s -o /dev/null -w "%{http_code}" --max-time 8 https://omp.client-wms.cn'],
-      ['','Run','cd ~/agent/client/03-Code/client-logistics && python omp_login.py'],
+      ['x','Blocked','curl -s -o /dev/null -w "%{http_code}" --max-time 8 https://portal.client-system.com'],
+      ['','Run','cd ~/agent/client/03-Code/client-logistics && python system_login.py'],
       ['','Note','Login complete. Pulling the last 30 days again.'],
       ['','Run','cd ~/agent/client/03-Code/client-logistics && python export_inbound.py --season christmas --from 2026-08-03 --to 2026-08-31'],
       ['','Note','Export is an async queue job, polling. 5–10 minutes; I\'ll tell you when the data is in.'],
@@ -154,7 +154,7 @@ const ja = {
   }
 };
 
-/* ============ CASE · dispatch (real dispatch agent + client ERP + iMessage) ============ */
+/* ============ CASE · dispatch (real dispatch agent + client system + iMessage) ============ */
 const TRUCKS = [
   {wh:'1001 Private WH', zip:'07064', cbm:99.7, lb:'28,314 lb / 12,843 kg', n:8, ct:'DSZU4815492, WHSU5812837', bl:'9504015961, WHL013G531276', wb:'MHDF2509100015, MDTB2604140023'},
   {wh:'1100 Private WH', zip:'91761, 08831', cbm:90.8, lb:'29,837 lb / 13,534 kg', n:10, ct:'WHSU9016671, CBHU9485318', bl:'WHL111G535047, 9506680426', wb:'MZGS2604210011, MZGB2604020013'},
@@ -182,10 +182,10 @@ const dp = {
   async play(d){
     const r = d.root;
     d.step(0, '27 containers arrived overnight. The agent texts the dispatcher.');
-    await this.msg(d, 'Morning Mike. 27 containers arrived overnight. Building full truckloads in the ERP now.');
+    await this.msg(d, 'Morning Mike. 27 containers arrived overnight. Building full truckloads in the system now.');
     await d.wait(500);
 
-    d.step(1, 'It signs in to the client\'s own ERP.');
+    d.step(1, 'It signs in to the client\'s own system.');
     await this.field(d, $('#dp-u', r), 'dispatch.agent');
     await this.field(d, $('#dp-p', r), '••••••••••');
     await d.tap($('#dp-sign', r));
@@ -311,15 +311,21 @@ const scripts = { ja, dp, edc };
  * Every scene first renders its finished state (complete at rest); once the stage is on screen
  * the active scene plays, then hands over to the next. select(i) jumps and keeps auto-advancing.
  */
-/* Phones: instead of shrinking the whole scene, a square "camera" frames where the agent is working. */
+/* Phones: instead of shrinking the whole scene, a "camera" frames the panel the agent is working in.
+   Each shot is a panel rect in canvas px, always shown whole. The frame height is fixed per demo
+   (tallest shot, capped) so the page never jumps mid-demo and the stage fits on one phone screen. */
 const CAMERA = {
-  ja: [{ x: 410, y: 0, s: 640 }, { x: 410, y: 0, s: 640 }, { x: 410, y: 0, s: 640 }, { x: 410, y: 0, s: 640 }],
-  dp: [{ x: 560, y: 30, s: 640 }, { x: 300, y: 100, s: 640 }, { x: 60, y: 0, s: 790 }, { x: 560, y: 30, s: 640 }],
-  edc: [{ x: 560, y: 40, s: 550 }, { x: 140, y: 30, s: 560 }, { x: 300, y: 30, s: 560 }, { x: 500, y: 30, s: 580 }],
+  ja: [{ x: 335, y: 70, w: 720, h: 540 }],
+  dp: [{ x: 870, y: 56, w: 290, h: 580 }, { x: 72, y: 124, w: 774, h: 466 }, { x: 72, y: 124, w: 774, h: 466 }, { x: 870, y: 56, w: 290, h: 580 }],
+  edc: [{ x: 762, y: 100, w: 308, h: 500 }, { x: 140, y: 34, w: 640, h: 556 }, { x: 400, y: 34, w: 720, h: 556 }, { x: 430, y: 34, w: 640, h: 556 }],
 };
 const PHONE = 640;
+const MAX_TALL = 1.05; // frame height cap, as a share of frame width
+const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+// Top-left of a view of `view` px over a `size` px canvas: centered on c, inside the canvas, or centered if larger.
+const place = (c, view, size) => (view >= size ? (size - view) / 2 : clamp(c - view / 2, 0, size - view));
 
-export function startShowcase(root, { onActive, onProgress }) {
+export function startShowcase(root, { onActive }) {
   STATE = { dead: false };
   const mine = STATE;
   RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -331,9 +337,11 @@ export function startShowcase(root, { onActive, onProgress }) {
     const go = () => {
       const w = f.clientWidth;
       if (w && w < PHONE && cam) {
-        const r = cam[Math.max(0, Math.min(cam.length - 1, shots[idx]))], k = w / r.s;
+        const h = Math.round(Math.min(w * MAX_TALL, Math.max(...cam.map((q) => (q.h * w) / q.w))));
+        const r = cam[clamp(shots[idx], 0, cam.length - 1)], k = Math.min(w / r.w, h / r.h);
+        const x = place(r.x + r.w / 2, w / k, CW), y = place(r.y + r.h / 2, h / k, CH);
         f._k = k; f.classList.add('cam');
-        c.style.transform = `scale(${k}) translate(${-r.x}px, ${-r.y}px)`; f.style.height = w + 'px';
+        c.style.transform = `scale(${k}) translate(${-x}px, ${-y}px)`; f.style.height = h + 'px';
       } else {
         const k = w / CW; f._k = k; f.classList.remove('cam');
         c.style.transform = `scale(${k})`; f.style.height = CH * k + 'px';
@@ -345,10 +353,7 @@ export function startShowcase(root, { onActive, onProgress }) {
   const demos = arts.map((a) => new Demo(a, scripts[a.dataset.demo]));
   let active = 0, started = false;
   demos.forEach((d, i) => {
-    d.onStep = (s, n) => {
-      shots[i] = s < 0 ? 0 : Math.min(n - 1, s); fits[i]();
-      if (i === active) onProgress(s < 0 ? 0 : Math.min(1, (s + 1) / n));
-    };
+    d.onStep = (s, n) => { shots[i] = s < 0 ? 0 : Math.min(n - 1, s); fits[i](); };
   });
 
   const settle = async (d) => {
@@ -366,13 +371,13 @@ export function startShowcase(root, { onActive, onProgress }) {
     arts.forEach((a, j) => { a.hidden = j !== i; });
     requestAnimationFrame(() => fits.forEach((g) => g()));
     demos.forEach((d) => d.gen++);
-    if (RM || !autoplay) { onProgress(1); return; }
+    if (RM || !autoplay) return;
     const d = demos[i], g = d.gen;
     (async () => {
       try {
-        d.sc.reset(d); d.hideCursor(); onProgress(0);
+        d.sc.reset(d); d.hideCursor();
         await d.wait(500);
-        await d.sc.play(d); d.step(99); onProgress(1);
+        await d.sc.play(d); d.step(99);
         await d.wait(2600);
         if (d.gen === g && active === i) select((i + 1) % demos.length, true);
       } catch (e) { /* interrupted by another selection or unmount */ }
