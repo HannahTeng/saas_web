@@ -30,7 +30,7 @@ export default async function AdminPage({ searchParams }: { searchParams: { show
       </div>
 
       {!configured && (
-        <p className="mt-8 rounded-xl border border-[#E89A86]/40 bg-[#E89A86]/10 p-4 text-sm text-primary">
+        <p className="mt-8 rounded-xl border border-danger/40 bg-danger/10 p-4 text-sm text-primary">
           The orders store isn’t connected yet. In Vercel, add the <b>Upstash Redis</b> integration to this project (Storage → Create → Upstash Redis); it sets the KV_REST_API_URL and KV_REST_API_TOKEN variables automatically. Orders are still emailed meanwhile if RESEND_API_KEY is set.
         </p>
       )}

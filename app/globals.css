@@ -2,11 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* The site's one token set. Tailwind exposes these through tailwind.config.ts; the hero
+   (Landing.module.css) and the showcase scenes (UseCases/useCases.css) read them directly. */
 :root {
   color-scheme: dark;
   --page-bg: #080808;
   --panel-rgb: 20 20 20;
   --panel-bg: rgb(var(--panel-rgb));
+  --field-bg: #0d0d0d;
   --text-primary: #efede8;
   --text-copy: #c2c0ba;
   --text-muted: #aaa9a4;
@@ -14,8 +17,26 @@
   --accent-rgb: 216 203 179;
   --accent: rgb(var(--accent-rgb));
   --accent-hover: #e7dcc8;
+  --accent-ink: #171614; /* text on an accent surface */
   --line-rgb: 239 237 232;
   --control-border: #60605b;
+  /* Status: approvals, waits, blocked actions, form errors. */
+  --ok-rgb: 127 199 154;
+  --warn-rgb: 232 176 74;
+  --danger-rgb: 224 118 107;
+  --ok: rgb(var(--ok-rgb));
+  --warn: rgb(var(--warn-rgb));
+  --danger: rgb(var(--danger-rgb));
+  --font-serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+}
+
+/* Headline emphasis face, loaded once for the whole site. */
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/instrument-serif-italic.ttf') format('truetype');
 }
 
 html {
@@ -67,75 +88,8 @@ body {
   letter-spacing: 0.01em;
 }
 
-/* Accent is reserved for actions and the selected audience or agent. */
-.audience-lane::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgb(var(--line-rgb) / 0.025);
-  opacity: 0;
-  transition: opacity 250ms ease;
-}
-
-.audience-lane > * {
-  position: relative;
-  z-index: 1;
-}
-
-.audience-lane:hover::before,
-.audience-lane.is-active::before {
-  opacity: 1;
-}
-
-.audience-lane::after {
-  content: '';
-  position: absolute;
-  inset: auto 0 0;
-  height: 2px;
-  background: var(--accent);
-  opacity: 0;
-  transition: opacity 250ms ease;
-}
-
-.audience-lane.is-active::after {
-  opacity: 1;
-}
-
-.agent-type-row {
-  border-radius: 8px;
-}
-
-.agent-type-row.is-active {
-  background: rgb(var(--line-rgb) / 0.04);
-}
-
-.agent-type-row.is-active .agent-icon {
-  color: var(--accent);
-  border-color: rgb(var(--accent-rgb) / 0.45);
-  background: rgb(var(--accent-rgb) / 0.06);
-}
-
-.agent-status-dot {
-  background: var(--accent);
-  animation: status-breathe 2.8s ease-in-out infinite;
-}
-
-.flow-arrow {
-  color: var(--text-subtle);
-  animation: flow-nudge 2.4s ease-in-out infinite;
-}
-
-.intake-panel {
-  transition: border-color 250ms ease;
-}
-
-.intake-panel:hover,
-.intake-panel[open] {
-  border-color: rgb(var(--line-rgb) / 0.25);
-}
-
 .agent-input {
-  background: #0d0d0d;
+  background: var(--field-bg);
 }
 
 .agent-input:focus {
@@ -144,12 +98,8 @@ body {
   outline-offset: 3px;
 }
 
-.intake-panel input[type='checkbox'] {
-  accent-color: var(--accent);
-}
-
 .form-submit {
-  color: #171614;
+  color: var(--accent-ink);
   background: var(--accent);
   transition: background 250ms ease;
 }
@@ -158,29 +108,8 @@ body {
   background: var(--accent-hover);
 }
 
-@keyframes status-breathe {
-  50% { opacity: 0.45; }
-}
-
-@keyframes flow-nudge {
-  50% { transform: translateX(3px); }
-}
-
-@media (max-width: 767px) {
-  .mobile-row-scroll {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-
-  .mobile-row-scroll::-webkit-scrollbar {
-    display: none;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .marquee-row,
-  .agent-status-dot,
-  .flow-arrow {
+  .marquee-row {
     animation: none !important;
   }
 

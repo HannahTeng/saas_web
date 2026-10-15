@@ -1,15 +1,15 @@
 import type { Config } from 'tailwindcss'
 
+/* Every color here is a CSS variable from app/globals.css, so Tailwind and plain CSS share one palette. */
 const config: Config = {
   content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}', './lib/**/*.{ts,tsx}'],
   theme: {
     extend: {
       fontFamily: {
         sans: ['Inter Variable', 'Inter', 'system-ui', 'sans-serif'],
+        serif: ['Instrument Serif', 'Georgia', 'Times New Roman', 'serif'],
       },
       colors: {
-        surface: '#111111',
-        'surface-2': '#141414',
         page: 'var(--page-bg)',
         panel: 'rgb(var(--panel-rgb) / <alpha-value>)',
         primary: 'var(--text-primary)',
@@ -17,8 +17,15 @@ const config: Config = {
         muted: 'var(--text-muted)',
         subtle: 'var(--text-subtle)',
         accent: 'rgb(var(--accent-rgb) / <alpha-value>)',
+        'accent-ink': 'var(--accent-ink)',
         line: 'rgb(var(--line-rgb) / <alpha-value>)',
         control: 'var(--control-border)',
+        ok: 'rgb(var(--ok-rgb) / <alpha-value>)',
+        warn: 'rgb(var(--warn-rgb) / <alpha-value>)',
+        danger: 'rgb(var(--danger-rgb) / <alpha-value>)',
+      },
+      boxShadow: {
+        panel: '0 20px 60px rgb(0 0 0 / 0.5)',
       },
       animation: {
         'marquee-left': 'marquee-left 34s linear infinite',

@@ -394,15 +394,8 @@ export function startShowcase(root, { onActive }) {
     io.observe(root);
   })();
 
-  const onPrefill = (e) => {
-    const a = e.target.closest('.prefill'); if (!a) return;
-    e.preventDefault();
-    window.dispatchEvent(new CustomEvent('flowact:prefill', { detail: a.dataset.text }));
-  };
-  root.addEventListener('click', onPrefill);
-
   return {
     select: (i) => { started = true; select(i, true); },
-    destroy: () => { mine.dead = true; demos.forEach((d) => d.gen++); ros.forEach((r) => r.disconnect()); io && io.disconnect(); root.removeEventListener('click', onPrefill); },
+    destroy: () => { mine.dead = true; demos.forEach((d) => d.gen++); ros.forEach((r) => r.disconnect()); io && io.disconnect(); },
   };
 }

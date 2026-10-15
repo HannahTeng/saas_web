@@ -62,7 +62,7 @@ export default function OrderPanel() {
         role="dialog"
         aria-modal="true"
         aria-labelledby="order-title"
-        className={`absolute inset-y-0 right-0 flex w-full max-w-lg flex-col border-l border-line/10 bg-page shadow-[0_0_80px_rgba(0,0,0,.6)] transition-transform duration-300 ease-out ${open ? 'translate-x-0' : 'translate-x-full'}`}
+        className={`absolute inset-y-0 right-0 flex w-full max-w-lg flex-col border-l border-line/10 bg-page shadow-panel transition-transform duration-300 ease-out ${open ? 'translate-x-0' : 'translate-x-full'}`}
         style={{ paddingTop: 'env(safe-area-inset-top, 0px)', paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
       >
         <div className="flex items-center justify-between border-b border-line/10 px-6 py-4">
@@ -97,15 +97,15 @@ export default function OrderPanel() {
               <div className="grid gap-2">
                 <label htmlFor="order-msg" className="text-sm font-medium">{zh ? '你想让 Agent 做什么？' : 'What should the agent do?'}</label>
                 <textarea id="order-msg" rows={4} value={message} onChange={(e) => setMessage(e.target.value)} className={`${inputCls} resize-y`} placeholder={zh ? '例如：每天早上从 OMP 拉昨天各仓出库，做成 PDF 发给我。' : 'e.g. Every morning, pull yesterday’s outbound by warehouse from our OMP and send me a PDF.'} />
-                {tried && msgError ? <p className="text-xs text-[#E89A86]" role="alert">{msgError}</p> : <p className="text-xs text-subtle">{zh ? '一句话就够，不用懂技术。' : 'One sentence is enough. No technical detail needed.'}</p>}
+                {tried && msgError ? <p className="text-xs text-danger" role="alert">{msgError}</p> : <p className="text-xs text-subtle">{zh ? '一句话就够，不用懂技术。' : 'One sentence is enough. No technical detail needed.'}</p>}
               </div>
 
               <div className="mt-5 grid gap-2">
                 <label htmlFor="order-contact" className="text-sm font-medium">{zh ? '怎么联系你？' : 'How do we reach you?'}</label>
                 <input id="order-contact" value={contact} onChange={(e) => setContact(e.target.value)} autoComplete="email" className={inputCls} placeholder={zh ? '工作邮箱、电话或微信号' : 'Work email, phone or WeChat ID'} />
-                {tried && contactError && <p className="text-xs text-[#E89A86]" role="alert">{contactError}</p>}
+                {tried && contactError && <p className="text-xs text-danger" role="alert">{contactError}</p>}
               </div>
-              {error && <p className="mt-3 text-sm text-[#E89A86]" role="alert">{error}</p>}
+              {error && <p className="mt-3 text-sm text-danger" role="alert">{error}</p>}
             </div>
 
             <div className="flex items-center justify-between gap-4 border-t border-line/10 px-6 py-4">
