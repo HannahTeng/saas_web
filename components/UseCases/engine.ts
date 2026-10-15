@@ -311,15 +311,19 @@ const scripts = { ja, dp, edc };
  * Every scene first renders its finished state (complete at rest); once the stage is on screen
  * the active scene plays, then hands over to the next. select(i) jumps and keeps auto-advancing.
  */
-/* Phones: instead of shrinking the whole scene, a square "camera" frames the panel the agent is working in.
-   Each shot is a panel rect in canvas px; it is always shown whole (scaled to fit), never cropped. */
+/* Phones: instead of shrinking the whole scene, a "camera" frames the panel the agent is working in.
+   Each shot is a panel rect in canvas px, always shown whole. The frame height is fixed per demo
+   (tallest shot, capped) so the page never jumps mid-demo and the stage fits on one phone screen. */
 const CAMERA = {
-  ja: [{ x: 325, y: 70, w: 745, h: 540 }],
+  ja: [{ x: 335, y: 70, w: 720, h: 540 }],
   dp: [{ x: 870, y: 56, w: 290, h: 580 }, { x: 72, y: 124, w: 774, h: 466 }, { x: 72, y: 124, w: 774, h: 466 }, { x: 870, y: 56, w: 290, h: 580 }],
   edc: [{ x: 762, y: 100, w: 308, h: 500 }, { x: 140, y: 34, w: 640, h: 556 }, { x: 400, y: 34, w: 720, h: 556 }, { x: 430, y: 34, w: 640, h: 556 }],
 };
 const PHONE = 640;
+const MAX_TALL = 1.05; // frame height cap, as a share of frame width
 const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+// Top-left of a view of `view` px over a `size` px canvas: centered on c, inside the canvas, or centered if larger.
+const place = (c, view, size) => (view >= size ? (size - view) / 2 : clamp(c - view / 2, 0, size - view));
 
 export function startShowcase(root, { onActive }) {
   STATE = { dead: false };
@@ -333,10 +337,11 @@ export function startShowcase(root, { onActive }) {
     const go = () => {
       const w = f.clientWidth;
       if (w && w < PHONE && cam) {
-        const r = cam[clamp(shots[idx], 0, cam.length - 1)], k = Math.min(w / r.w, w / r.h), v = w / k;
-        const x = clamp(r.x + r.w / 2 - v / 2, 0, CW - v), y = clamp(r.y + r.h / 2 - v / 2, 0, CH - v);
+        const h = Math.round(Math.min(w * MAX_TALL, Math.max(...cam.map((q) => (q.h * w) / q.w))));
+        const r = cam[clamp(shots[idx], 0, cam.length - 1)], k = Math.min(w / r.w, h / r.h);
+        const x = place(r.x + r.w / 2, w / k, CW), y = place(r.y + r.h / 2, h / k, CH);
         f._k = k; f.classList.add('cam');
-        c.style.transform = `scale(${k}) translate(${-x}px, ${-y}px)`; f.style.height = w + 'px';
+        c.style.transform = `scale(${k}) translate(${-x}px, ${-y}px)`; f.style.height = h + 'px';
       } else {
         const k = w / CW; f._k = k; f.classList.remove('cam');
         c.style.transform = `scale(${k})`; f.style.height = CH * k + 'px';
