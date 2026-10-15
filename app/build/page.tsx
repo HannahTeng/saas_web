@@ -5,7 +5,7 @@ import Pricing from '@/components/Pricing'
 
 export const metadata: Metadata = {
   title: 'Agents and pricing — Flowact',
-  description: 'Choose Flowact agents for your logistics team (Data, Dispatch and Docs agents plus add-ons) and get pricing, or book a 60-minute scoping session.',
+  description: 'Flowact agents and pricing: core agents, add-ons and plans, all built into the systems you already use. Book a 60-minute scoping call and get a fixed quote.',
 }
 
 export default function BuildPage() {
