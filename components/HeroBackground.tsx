@@ -3,7 +3,9 @@
 import { useEffect, useRef } from 'react'
 import styles from './Landing.module.css'
 
-const backgroundSource = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260818_072341_50851634-bbc3-4c33-9acc-7647d4db44aa.mp4'
+// Served from this repo (public/hero), so the hero never depends on a third-party bucket. The poster is the first frame.
+const VIDEO = '/hero/particles.mp4'
+const POSTER = '/hero/particles.jpg'
 
 export default function HeroBackground() {
   const ref = useRef<HTMLVideoElement>(null)
@@ -54,5 +56,5 @@ export default function HeroBackground() {
     }
   }, [])
 
-  return <video ref={ref} className={styles.heroVideo} src={backgroundSource} muted loop playsInline preload="auto" disablePictureInPicture aria-hidden="true" tabIndex={-1} />
+  return <video ref={ref} className={styles.heroVideo} src={VIDEO} poster={POSTER} muted loop playsInline preload="metadata" disablePictureInPicture aria-hidden="true" tabIndex={-1} />
 }

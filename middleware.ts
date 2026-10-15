@@ -16,7 +16,13 @@ export function middleware(req: NextRequest) {
   const header = req.headers.get('authorization') || ''
   const [scheme, encoded] = header.split(' ')
   if (scheme !== 'Basic' || !encoded) return deny('Sign in required.')
-  const [u, ...rest] = atob(encoded).split(':')
+  let decoded = ''
+  try {
+    decoded = atob(encoded)
+  } catch {
+    return deny('Sign in required.') // malformed credentials are a 401, not a crash
+  }
+  const [u, ...rest] = decoded.split(':')
   const p = rest.join(':')
   if (u !== user || p !== pass) return deny('Wrong username or password.')
   return NextResponse.next()
