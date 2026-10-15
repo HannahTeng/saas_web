@@ -18,7 +18,7 @@ export default function Navbar() {
     if (!open) return
     const previousOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
-    const query = window.matchMedia('(min-width: 901px)')
+    const query = window.matchMedia('(min-width: 768px)')
     const closeOnResize = () => { if (query.matches) setOpen(false) }
     const onKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') { setOpen(false); toggle.current?.focus() }

@@ -68,10 +68,10 @@
 @media (min-width:1600px) { .header { --header-x:64px; height:100px; } .logo { font-size:17px; } .nav a,.button { height:44px; font-size:15px; } .hero { min-height:calc(100svh - 100px); } .heroCopy { max-width:1028px; } .headline { font-size:64px; } .lede { max-width:540px; font-size:18px; } .badge { font-size:13.5px; } .actions .button { height:48px; } .principles { padding:0 96px 44px; } .principles > span { font-size:15px; } }
 @media (min-width:1920px) { .header { --header-x:80px; height:112px; } .logo { font-size:18px; } .hero { min-height:calc(100svh - 112px); } .heroCopy { max-width:1168px; } .headline { font-size:76px; } .lede { max-width:620px; font-size:20px; } .principles { padding:0 120px 52px; } .principles > span { font-size:16px; } }
 @media (min-width:2560px) { .headline { font-size:88px; } .heroCopy { max-width:1328px; } .lede { font-size:22px; } }
-@media (min-width:901px) and (max-width:1279px) { .header { --header-x:28px; gap:12px; } .headerActions { gap:10px; } .nav a { font-size:13px; padding:0 14px; } .headline { font-size:42px; } .heroCopy { padding-bottom:64px; } .principles { padding:0 36px 28px; } .principles > span { font-size:12.5px; } }
-@media (min-width:901px) and (max-height:850px) { .headline { font-size:40px; } .heroCopy { padding-bottom:48px; } .badge { margin-bottom:12px; } .lede { margin-top:12px; } .actions { margin-top:16px; } .principles { padding-bottom:28px; } }
-@media (min-width:901px) and (max-height:720px) { .headline { font-size:34px; } .lede { font-size:14px; } .heroCopy { padding-bottom:32px; } }
-@media (max-width:900px) {
+@media (min-width:768px) and (max-width:1279px) { .header { --header-x:28px; gap:12px; } .headerActions { gap:10px; } .nav a { font-size:13px; padding:0 14px; } .headline { font-size:42px; } .heroCopy { padding-bottom:64px; } .principles { padding:0 36px 28px; } .principles > span { font-size:12.5px; } }
+@media (min-width:768px) and (max-height:850px) { .headline { font-size:40px; } .heroCopy { padding-bottom:48px; } .badge { margin-bottom:12px; } .lede { margin-top:12px; } .actions { margin-top:16px; } .principles { padding-bottom:28px; } }
+@media (min-width:768px) and (max-height:720px) { .headline { font-size:34px; } .lede { font-size:14px; } .heroCopy { padding-bottom:32px; } }
+@media (max-width:767px) {
   .header { display:flex; justify-content:space-between; gap:8px; height:84px; padding:16px 18px; }
   .logo { font-size:16px; z-index:80; }
   .headerActions { gap:12px; }
@@ -93,13 +93,13 @@
   .principles { flex-direction:column; gap:16px; padding:0 20px 36px; }
   .principles > span { font-size:14px; }
 }
-@media (max-width:560px) { .header { padding-inline:16px; } .logo { font-size:14px; gap:7px; } .headerActions { gap:10px; } .headerCta { display:none; } .heroCopy { padding-top:70px; padding-bottom:48px; } .headline { font-size:34px; } .lede { font-size:16px; } .actions { flex-direction:column; } .actions .button { width:100%; } }
+@media (max-width:639px) { .header { padding-inline:16px; } .logo { font-size:14px; gap:7px; } .headerActions { gap:10px; } .headerCta { display:none; } .heroCopy { padding-top:70px; padding-bottom:48px; } .headline { font-size:34px; } .lede { font-size:16px; } .actions { flex-direction:column; } .actions .button { width:100%; } }
 @media (prefers-reduced-motion:reduce) { .appear { animation:none; } .header *,.header *::after,.hero *,.hero *::after { transition:none !important; } }
 
 /* Phones: keep the same flowing wave as desktop. The art keeps the video's own 16:9
    shape (no cover-cropping into a tall box), is widened so the wave fills the screen,
    and fades out above the copy. */
-@media (max-width:900px) {
+@media (max-width:767px) {
   .heroArt { inset: auto; top: 0; left: 50%; width: 155vw; aspect-ratio: 16 / 9; transform: translateX(-50%); }
   .heroVideo {
     mask-image: linear-gradient(to bottom, transparent 4%, #000 16%, #000 46%, transparent 62%);

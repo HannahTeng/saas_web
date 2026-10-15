@@ -1,6 +1,7 @@
 'use client'
 
 import { useLanguage } from '@/components/LanguageProvider'
+import Section from '@/components/Section'
 
 type QA = { q: string; a: string }
 
@@ -27,24 +28,24 @@ export default function FAQ() {
   const zh = language === 'zh'
   const items = zh ? ZH : EN
   return (
-    <section id="faq" aria-labelledby="faq-title" className="scroll-mt-16 border-t border-line/[0.07] px-4 py-14 sm:px-6 md:py-24">
-      <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[280px_1fr]">
+    <Section id="faq" aria-labelledby="faq-title">
+      <div className="grid gap-10 md:grid-cols-[280px_1fr]">
         <div>
-          <h2 id="faq-title" className="text-3xl font-medium tracking-tight md:text-4xl">{zh ? '常见问题' : 'Questions'}</h2>
+          <h2 id="faq-title" className="h-section">{zh ? '常见问题' : 'Questions'}</h2>
           <p className="mt-3 text-sm text-muted">{zh ? '没找到答案？写信到 support@flowact.net' : 'Something else? support@flowact.net'}</p>
         </div>
         <div className="divide-y divide-line/10 border-y border-line/10">
           {items.map((it) => (
             <details key={it.q} className="group py-5">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-[16px] font-medium text-primary marker:hidden">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-base font-medium text-primary marker:hidden">
                 {it.q}
                 <span aria-hidden className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-line/15 text-muted transition-transform group-open:rotate-45">+</span>
               </summary>
-              <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-muted">{it.a}</p>
+              <p className="mt-3 max-w-2xl text-base leading-relaxed text-muted">{it.a}</p>
             </details>
           ))}
         </div>
       </div>
-    </section>
+    </Section>
   )
 }

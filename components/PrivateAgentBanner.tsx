@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { useLanguage } from '@/components/LanguageProvider'
+import Section from '@/components/Section'
 
 /**
  * "Runs inside your walls" banner. One perimeter (the customer's laptop or company network), the agent inside it,
@@ -110,15 +111,15 @@ export default function PrivateAgentBanner() {
   const switchMode = (m: Mode) => { setMode(m); setStep(0) }
 
   return (
-    <section ref={root} id="how-it-works" className="scroll-mt-16 border-b border-line/[0.07] px-4 py-14 sm:px-6 md:py-24">
-      <div className="mx-auto max-w-6xl">
+    <Section id="how-it-works">
+      <div ref={root}>
         <div className="grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
           <div>
             <p className="section-kicker">{zh ? '私有，可控' : 'Private by design'}</p>
-            <h2 className="mt-4 max-w-3xl text-3xl font-medium tracking-tight md:text-[2.6rem] md:leading-[1.1]">
+            <h2 className="h-section mt-4 max-w-4xl">
               {zh ? 'Agent 住在你的系统里，数据不离开你的环境。' : 'Your agent lives inside your systems. Your data never leaves them.'}
             </h2>
-            <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted">
+            <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">
               {zh
                 ? '通用 AI 助手把你的数据带到它们的云端。Flowact 把 Agent 内置到你的电脑或公司系统里：私有部署、受控运行、每一步可查。'
                 : 'Generic AI assistants take your data to their cloud. Flowact builds the agent into your own laptop or company systems: privately deployed, run under your controls, every step on the record.'}
@@ -222,7 +223,7 @@ export default function PrivateAgentBanner() {
                 <span className="h-1.5 w-1.5 rounded-full bg-ok pab-blink" /> {zh ? '实时' : 'Live'}
               </span>
             </div>
-            <ol className="mt-4 grid gap-2 font-mono text-[12.5px]" aria-live="polite">
+            <ol className="mt-4 grid gap-2 font-mono text-xs" aria-live="polite">
               {script.map((s, i) => (
                 <li key={`${mode}-${i}`}
                   className="flex items-start gap-2.5 rounded-lg border border-line/[0.07] bg-line/[0.02] px-3 py-2 transition-all duration-500"
@@ -269,6 +270,6 @@ export default function PrivateAgentBanner() {
         @keyframes pab-blink{50%{opacity:.45}}
         @media (prefers-reduced-motion: reduce){.pab-march,.pab-blink{animation:none}}
       `}</style>
-    </section>
+    </Section>
   )
 }

@@ -18,7 +18,7 @@ export default function Avatar({ name, className = 'w-8 h-8' }: Props) {
   return (
     <span
       aria-hidden
-      className={`${className} inline-flex shrink-0 items-center justify-center rounded-full text-[10px] font-semibold border border-line/10 text-copy select-none`}
+      className={`${className} inline-flex shrink-0 items-center justify-center rounded-full text-xs font-medium border border-line/10 text-copy select-none`}
       style={{ background: TONES[hash % TONES.length] }}
     >
       {initials}
