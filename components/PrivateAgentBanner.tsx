@@ -23,7 +23,7 @@ const GATE: Pt = { x: 322, y: 248 } // between the agent and node 3
 const WALL: Pt = { x: 470, y: 200 }
 
 const SYSTEMS: Record<Mode, { en: string; zh: string }[]> = {
-  business: [{ en: 'Email', zh: '邮箱' }, { en: 'ERP', zh: 'ERP' }, { en: 'Drive', zh: '云盘' }, { en: 'WMS', zh: 'WMS' }],
+  business: [{ en: 'Email', zh: '邮箱' }, { en: 'ERP', zh: 'ERP' }, { en: 'Drive', zh: '云盘' }, { en: 'Billing', zh: '财务' }],
   personal: [{ en: 'Mail', zh: '邮件' }, { en: 'Calendar', zh: '日历' }, { en: 'Files', zh: '文件' }, { en: 'Messages', zh: '消息' }],
 }
 
@@ -32,8 +32,8 @@ const SCRIPT: Record<Mode, Step[]> = {
     { to: 0, kind: 'read', en: 'Read 14 new orders from Email', zh: '从邮箱读取 14 个新订单' },
     { to: 1, kind: 'read', en: 'Matched them to ERP records', zh: '与 ERP 记录逐条核对' },
     { to: 2, kind: 'write', en: 'Saved the daily report to Drive', zh: '日报已保存到云盘' },
-    { to: 'gate', kind: 'wait', en: 'Waiting: release 14 orders in WMS?', zh: '等待审批：在 WMS 放行 14 个订单？', hold: true },
-    { to: 3, kind: 'ok', en: 'Released in WMS · approved by ops lead', zh: '已在 WMS 放行 · 运营主管批准' },
+    { to: 'gate', kind: 'wait', en: 'Waiting: issue 14 invoices in Billing?', zh: '等待审批：在财务系统开 14 张发票？', hold: true },
+    { to: 3, kind: 'ok', en: 'Issued in Billing · approved by finance lead', zh: '已开票 · 财务主管批准' },
     { to: 'wall', kind: 'block', en: 'Blocked: outbound call to an outside service', zh: '已拦截：向外部服务发送数据' },
   ],
   personal: [
@@ -251,13 +251,13 @@ export default function PrivateAgentBanner() {
                 ['运行在你的环境', '部署在你的电脑、服务器或私有云，不是我们的平台。'],
                 ['数据不出门', '默认不外发；只连接你授权的系统。'],
                 ['关键操作你说了算', '发送、放行、付款前都会停下来等你批准。'],
-                ['接入现有工具', '邮件、ERP、WMS、文件，不用换系统。'],
+                ['接入现有工具', '邮件、ERP、CRM、文件，不用换系统。'],
               ]
             : [
                 ['Runs in your environment', 'Deployed on your laptop, servers or private cloud, not ours.'],
                 ['Data stays inside', 'Nothing goes out by default. It only touches systems you authorize.'],
                 ['You approve what matters', 'It stops before sending, releasing or paying, and waits for you.'],
-                ['Built into your tools', 'Email, ERP, WMS, files. No new system to move to.'],
+                ['Built into your tools', 'Email, ERP, CRM, files. No new system to move to.'],
               ]).map(([t, d]) => (
             <div key={t} className="bg-page p-5">
               <dt className="font-medium text-primary">{t}</dt>

@@ -9,13 +9,15 @@ import '@/components/UseCases/useCases.css'
 import { OrderButton } from '@/components/order/OrderButton'
 import Section from '@/components/Section'
 import { onTabKey } from '@/components/tabs'
+import { CORE_AGENTS } from '@/lib/catalog'
 
-// `demo` names the scene in UseCases/markup.ts; the tab points at that scene's panel (#agent-panel-<demo>).
-const CASES = [
-  { id: 'data-agent', demo: 'ja', title: 'Data Agent', zhTitle: '数据分析 Agent', line: 'Ask in plain words. Get the numbers, a chart and a report.', zhLine: '一句话提问，直接拿到数字、图表和报告。', tag: 'Pull · reconcile · chart', zhTag: '取数 · 核对 · 出图' },
-  { id: 'dispatch-agent', demo: 'dp', title: 'Workflow Agent', zhTitle: '流程执行 Agent', line: 'Signs in, does the repetitive work, acts only on your yes.', zhLine: '登录系统完成重复操作，你确认后才执行。', tag: 'Multi-step tasks · approval', zhTag: '多步操作 · 人工审批' },
-  { id: 'knowledge-agent', demo: 'edc', title: 'Knowledge Agent', zhTitle: '知识问答 Agent', line: 'Answers from your own records, every claim cited.', zhLine: '基于你自己的资料回答，每句都有出处。', tag: 'Search · cite · draft', zhTag: '检索 · 引用 · 起草' },
+// One scene per core agent, in catalog order. `demo` names the scene in UseCases/markup.ts (#agent-panel-<demo>).
+const SCENES = [
+  { demo: 'ja', tag: 'Pull · reconcile · chart', zhTag: '取数 · 核对 · 出图' },
+  { demo: 'dp', tag: 'Multi-step tasks · approval', zhTag: '多步操作 · 人工审批' },
+  { demo: 'edc', tag: 'Search · cite · draft', zhTag: '检索 · 引用 · 起草' },
 ]
+const CASES = CORE_AGENTS.map((a, i) => ({ ...a, ...SCENES[i] }))
 
 /** One product section: three agent functions over a single stage that autoplays each agent in turn. */
 export default function Showcase() {
@@ -64,7 +66,7 @@ export default function Showcase() {
           const on = active === i
           return (
             <button
-              key={c.title}
+              key={c.id}
               type="button"
               role="tab"
               id={`agent-tab-${c.demo}`}
@@ -76,15 +78,15 @@ export default function Showcase() {
               className={`card grid content-start gap-1.5 p-3 text-left transition-colors md:p-5 ${on ? 'border-accent/50' : 'bg-transparent hover:border-line/20'}`}
             >
               <span className="label-caps hidden text-subtle md:block">0{i + 1}</span>
-              <strong className="text-sm font-medium tracking-tight text-primary md:text-lg">{zh ? c.zhTitle : c.title}</strong>
-              <span className="hidden text-sm leading-relaxed text-muted md:block">{zh ? c.zhLine : c.line}</span>
+              <strong className="text-sm font-medium tracking-tight text-primary md:text-lg">{zh ? c.zh : c.en}</strong>
+              <span className="hidden text-sm leading-relaxed text-muted md:block">{zh ? c.zhLine : c.enLine}</span>
               <span className="mt-1 hidden text-xs text-subtle md:block">{zh ? c.zhTag : c.tag}</span>
             </button>
           )
         })}
       </div>
 
-      <p className="mt-3 text-sm text-muted md:hidden">{zh ? CASES[active].zhLine : CASES[active].line}</p>
+      <p className="mt-3 text-sm text-muted md:hidden">{zh ? CASES[active].zhLine : CASES[active].enLine}</p>
 
       <div ref={stage} className="uc mt-4" />
 

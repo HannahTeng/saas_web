@@ -6,19 +6,19 @@ import Section from '@/components/Section'
 type QA = { q: string; a: string }
 
 const EN: QA[] = [
-  { q: 'What does Flowact actually build?', a: 'AI agents that run inside the systems and inbox your team already uses: reports from your OMP or ERP, daily dispatch plans, documents read, checked and filed. Each one waits for a person on every decision that matters.' },
+  { q: 'What does Flowact actually build?', a: 'AI agents that run inside the systems and inbox your team already uses: reports pulled from your own data, multi-step tasks done in your systems, documents read, checked and filed. Each one waits for a person on every decision that matters.' },
   { q: 'What happens on the scoping call?', a: 'In 60 minutes ($39) we map the job you described to your systems, data and approvals, and agree what "working" means. You leave with a written scope and a fixed quote.' },
   { q: 'Do I need to choose an agent or a plan first?', a: 'No. Describe the work in a sentence. We recommend the agent and the plan after the scoping call, and you decide then.' },
   { q: 'How fast do I hear back?', a: 'Within one business day of your request, to set up the call. The quote follows the call.' },
-  { q: 'Which systems can the agents work with?', a: 'Email (Gmail, Outlook), spreadsheets, SQL databases, and the web systems teams run on: OMP, WMS, ERP, TMS, EDC. Systems without an API are handled through the browser, the way a person would use them.' },
+  { q: 'Which systems can the agents work with?', a: 'Email (Gmail, Outlook), spreadsheets, SQL databases, and the web systems your team runs on, whether that is an ERP, a CRM, a clinical or e-commerce platform, or an internal tool. Systems without an API are handled through the browser, the way a person would use them.' },
   { q: 'Is my data safe?', a: 'Agents use access you grant and can revoke at any time, and they act only on the steps you approve. We never use your data to train models.' },
 ]
 const ZH: QA[] = [
-  { q: 'Flowact 到底做什么？', a: '做在你团队现有系统和邮箱里运行的 AI Agent：从 OMP、ERP 出报表，每天排调度计划，读取、核对、归档单据。每个关键决定都会先等人确认。' },
+  { q: 'Flowact 到底做什么？', a: '做在你团队现有系统和邮箱里运行的 AI Agent：从你自己的数据出报表，在你的系统里完成多步操作，读取、核对、归档单据。每个关键决定都会先等人确认。' },
   { q: '范围界定通话会聊什么？', a: '60 分钟（$39），把你描述的工作对应到你的系统、数据和审批人，一起定下"做成什么样算完成"。通话后你会拿到书面范围说明和固定报价。' },
   { q: '需要先选 Agent 或方案吗？', a: '不需要。一句话说说要做的事就行。通话后我们再推荐合适的 Agent 和合作方式，由你决定。' },
   { q: '多久能收到回复？', a: '提交后一个工作日内联系你约通话，报价在通话后给出。' },
-  { q: '能对接哪些系统？', a: '邮箱（Gmail、Outlook）、表格、SQL 数据库，以及团队日常用的网页系统：OMP、WMS、ERP、TMS、EDC。没有接口的系统，用浏览器像人一样操作。' },
+  { q: '能对接哪些系统？', a: '邮箱（Gmail、Outlook）、表格、SQL 数据库，以及团队日常用的网页系统：ERP、CRM、临床或电商平台、内部工具都可以。没有接口的系统，用浏览器像人一样操作。' },
   { q: '数据安全吗？', a: 'Agent 只使用你授权的权限，你随时可以收回，而且只在你批准的步骤上执行。我们不会用你的数据训练模型。' },
 ]
 
