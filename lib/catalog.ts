@@ -2,16 +2,17 @@
 
 export type Item = { id: string; en: string; zh: string; enLine: string; zhLine: string }
 
+/* The three core agents are named by the job they do, not the industry; the home-page Showcase lists the same three. */
 export const CORE_AGENTS: Item[] = [
-  { id: 'data-agent', en: 'Data Agent', zh: '数据 Agent', enLine: 'One question in; numbers, charts and a PDF out.', zhLine: '一句话提问，返回数字、图表和 PDF。' },
-  { id: 'dispatch-agent', en: 'Dispatch Agent', zh: '调度 Agent', enLine: 'Containers in; full trucks out, booked on your yes.', zhLine: '到货柜进来，整车方案出去，确认后约车。' },
-  { id: 'docs-agent', en: 'Docs Agent', zh: '单证 Agent', enLine: 'Invoices, B/Ls and customs forms read, checked and filed.', zhLine: '发票、提单、报关单：读取、核对、录入。' },
+  { id: 'data-agent', en: 'Data Agent', zh: '数据分析 Agent', enLine: 'Ask in plain words. Get the numbers, a chart and a report.', zhLine: '一句话提问，直接拿到数字、图表和报告。' },
+  { id: 'workflow-agent', en: 'Workflow Agent', zh: '流程执行 Agent', enLine: 'Signs in, does the repetitive work, acts only on your yes.', zhLine: '登录系统完成重复操作，你确认后才执行。' },
+  { id: 'knowledge-agent', en: 'Knowledge Agent', zh: '知识问答 Agent', enLine: 'Answers from your own records, every claim cited.', zhLine: '基于你自己的资料回答，每句都有出处。' },
 ]
 
 export const ADDON_AGENTS: Item[] = [
+  { id: 'document-agent', en: 'Document Agent', zh: '单据 Agent', enLine: 'Invoices, forms and contracts read, checked and filed.', zhLine: '发票、表单、合同：读取、核对、归档。' },
   { id: 'email-agent', en: 'Email Agent', zh: '邮件 Agent', enLine: 'Inbox triage, attachments, drafted replies.', zhLine: '邮件分拣、附件匹配、起草回复。' },
   { id: 'support-agent', en: 'Customer Support Agent', zh: '客服 Agent', enLine: 'Answers from your docs and order data.', zhLine: '基于你的文档和订单数据回复客户。' },
-  { id: 'knowledge-agent', en: 'Knowledge Agent', zh: '知识 Agent', enLine: 'Plain-language questions, answers cited to the record.', zhLine: '自然语言提问，答案引用到原始记录。' },
   { id: 'personal-assistant', en: 'Personal Assistant', zh: '个人助理', enLine: 'Files, calendar and inbox, for one person.', zhLine: '面向个人的文件、日程和邮箱助理。' },
 ]
 

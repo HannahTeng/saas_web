@@ -121,7 +121,7 @@ export default function OrderPanel() {
 
               <div className="grid gap-2">
                 <label htmlFor="order-msg" className="text-sm font-medium">{zh ? '你想让 Agent 做什么？' : 'What should the agent do?'}</label>
-                <textarea id="order-msg" rows={4} value={message} onChange={(e) => setMessage(e.target.value)} className="field resize-y" placeholder={zh ? '例如：每天早上从 OMP 拉昨天各仓出库，做成 PDF 发给我。' : 'e.g. Every morning, pull yesterday’s outbound by warehouse from our OMP and send me a PDF.'} />
+                <textarea id="order-msg" rows={4} value={message} onChange={(e) => setMessage(e.target.value)} className="field resize-y" placeholder={zh ? '例如：每天早上从我们的系统拉昨天各区域的订单，做成 PDF 发给我。' : 'e.g. Every morning, pull yesterday’s orders by region from our system and send me a PDF.'} />
                 {tried && msgError ? <p className="text-xs text-danger" role="alert">{msgError}</p> : <p className="text-xs text-subtle">{zh ? '一句话就够，不用懂技术。' : 'One sentence is enough. No technical detail needed.'}</p>}
               </div>
 
