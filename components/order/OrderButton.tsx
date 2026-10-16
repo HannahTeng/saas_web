@@ -30,7 +30,6 @@ export function StickyOrderBar() {
   const zh = language === 'zh'
   const [pastHero, setPastHero] = useState(false)
   const [atClose, setAtClose] = useState(false)
-  const [overBleed, setOverBleed] = useState(false)
 
   useEffect(() => {
     const hero = document.getElementById('top')
@@ -47,22 +46,10 @@ export function StickyOrderBar() {
       io.observe(close)
       ios.push(io)
     }
-    // Edge-to-edge strips (the testimonial carousel) have no margin to sit in, so step aside while one is on screen.
-    const bleeds = Array.from(document.querySelectorAll('[data-full-bleed]'))
-    if (bleeds.length) {
-      const seen = new Set<Element>()
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach((e) => (e.isIntersecting ? seen.add(e.target) : seen.delete(e.target)))
-        setOverBleed(seen.size > 0)
-      })
-      bleeds.forEach((el) => io.observe(el))
-      ios.push(io)
-    }
     return () => ios.forEach((io) => io.disconnect())
   }, [])
 
   const show = pastHero && !atClose && !open
-  const showSide = show && !overBleed
   const label = zh ? '立即下单' : 'Order now'
 
   return (
@@ -70,7 +57,7 @@ export function StickyOrderBar() {
       {/* wide screens: margin card */}
       <aside
         aria-label={zh ? '下单' : 'Order'}
-        className={`card fixed bottom-8 right-8 z-40 hidden flex-col gap-4 bg-panel/90 p-5 backdrop-blur-xl transition-all duration-300 min-[1680px]:flex ${showSide ? 'visible translate-y-0 opacity-100' : 'invisible pointer-events-none translate-y-3 opacity-0'}`}
+        className={`card fixed bottom-8 right-8 z-40 hidden flex-col gap-4 bg-panel/90 p-5 backdrop-blur-xl transition-all duration-300 min-[1680px]:flex ${show ? 'visible translate-y-0 opacity-100' : 'invisible pointer-events-none translate-y-3 opacity-0'}`}
         style={{ width: 'min(300px, calc((100vw - 1152px) / 2 - 64px))' }}
       >
         <p className="text-base font-medium leading-snug text-primary">{zh ? '把重复的工作交出去。' : 'Hand off the repetition.'}</p>
@@ -86,7 +73,7 @@ export function StickyOrderBar() {
       <button
         type="button"
         onClick={() => openOrder()}
-        className={`fixed right-3 top-1/2 z-40 hidden -translate-y-1/2 rounded-full bg-accent px-2.5 py-5 text-sm font-medium text-accent-ink transition-[opacity,visibility] duration-300 [writing-mode:vertical-rl] hover:bg-accent-hover min-[1280px]:block min-[1680px]:hidden ${showSide ? 'visible opacity-100' : 'invisible pointer-events-none opacity-0'}`}
+        className={`fixed right-3 top-1/2 z-40 hidden -translate-y-1/2 rounded-full bg-accent px-2.5 py-5 text-sm font-medium text-accent-ink transition-[opacity,visibility] duration-300 [writing-mode:vertical-rl] hover:bg-accent-hover min-[1280px]:block min-[1680px]:hidden ${show ? 'visible opacity-100' : 'invisible pointer-events-none opacity-0'}`}
       >
         {label}
       </button>

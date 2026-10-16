@@ -4,49 +4,40 @@
 .uc p{margin:0}
 
 
-.uc .scene{position:relative;border-radius:24px;overflow:hidden;background:#151513;border:1px solid var(--line)}
-.uc .fit{position:relative;overflow:hidden}
+.uc .scene{position:relative;border-radius:16px;overflow:clip;background:var(--panel-bg);border:1px solid rgb(var(--line-rgb) / .1)}
+.uc .fit{position:relative;overflow:clip} /* clip, not hidden: nothing (a click, a focus) can scroll the stage sideways */
 .uc .canvas{position:absolute;left:0;top:0;width:1200px;height:790px;transform-origin:0 0}
-.uc .stage-bg{position:absolute;inset:0;background:radial-gradient(55% 60% at 50% 38%,rgba(239,237,232,.10),transparent 70%),linear-gradient(180deg,#151514 0%,#0d0d0c 72%,#0a0a09 100%)}
-.uc .stage-bg::after{content:"";position:absolute;left:8%;right:8%;bottom:9%;height:1px;background:linear-gradient(90deg,transparent,rgba(239,237,232,.12),transparent)}
+.uc .stage-bg{position:absolute;inset:0;background:linear-gradient(180deg,#151514 0%,#0e0e0d 100%)}
 .uc .cap.fade{opacity:0}
 
-.uc .strip{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line)}
-.uc .strip li{padding:18px 20px 4px 0;display:grid;gap:4px;border-top:2px solid transparent;margin-top:-1px;transition:border-color .3s}
-.uc .strip li+li{padding-left:20px}
-.uc .strip .n{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);transition:color .3s}
+.uc .strip{list-style:none;margin:28px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0 24px}
+.uc .strip li{padding:16px 0 4px;display:grid;align-content:start;gap:4px;border-top:1px solid var(--line-2);transition:border-color .3s}
+.uc .strip .n{font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;color:var(--dim);transition:color .3s}
 .uc .strip b{font-weight:500;font-size:15px;color:var(--muted);transition:color .3s}
 .uc .strip small{font-size:13px;color:var(--dim);line-height:1.45}
-.uc .strip li.active{border-top-color:var(--accent)}
-.uc .strip li.active .n{color:var(--accent)}
+.uc .strip li.active .n{color:var(--fg)}
 .uc .strip li.active b,.uc .strip li.done b{color:var(--fg)}
-@media (max-width:767px){.uc .strip{grid-template-columns:1fr 1fr}.uc .strip li:nth-child(3){padding-left:0}}
+@media (max-width:767px){.uc .strip{grid-template-columns:1fr 1fr;gap:0 16px}}
 
 /* ================= devices ================= */
 .uc .ui{font-family:var(--app);color:#1F2328;font-size:12px;line-height:1.4;-webkit-font-smoothing:antialiased}
 .uc .ui *{box-sizing:border-box}
 .uc .ui table{color:#1F2328;font-size:inherit;border-collapse:collapse;width:100%}
+/* No device chrome: the app windows float on the stage at their own scale. The frame elements stay in the markup for the scenes' geometry. */
 .uc .mbp{position:absolute}
-.uc .mbp .lid{position:relative;background:#0c0c0e;border-radius:18px 18px 8px 8px;padding:14px 14px 20px;box-shadow:0 0 0 1.5px #3a3a3e,0 50px 90px -30px rgba(0,0,0,.85)}
-.uc .mbp .notch{position:absolute;left:50%;top:12px;width:130px;height:16px;margin-left:-65px;background:#0c0c0e;border-radius:0 0 8px 8px;z-index:20}
-.uc .mbp .scr{position:relative;overflow:hidden;border-radius:4px;background:linear-gradient(135deg,#1d2a3b,#3b3150 55%,#1b2232)}
-.uc .mbp .base{position:relative;height:16px;margin:0 -64px;background:linear-gradient(#d6d7da,#9a9ca1);border-radius:0 0 16px 16px}
-.uc .mbp .base::before{content:"";position:absolute;left:50%;top:0;width:110px;height:6px;margin-left:-55px;background:#8b8d92;border-radius:0 0 8px 8px}
-.uc .menubar{height:22px;display:flex;align-items:center;gap:14px;padding:0 12px;font-size:11px;color:#fff;background:rgba(20,20,30,.35);backdrop-filter:blur(8px)}
-.uc .menubar b{font-weight:600}
-.uc .menubar span:last-child{margin-left:auto}
+.uc .mbp .lid{position:relative}
+.uc .mbp .notch,.uc .mbp .base,.uc .menubar,.uc .mon .neck,.uc .mon .foot{display:none}
+.uc .mbp .scr{position:relative;overflow:hidden}
 .uc .mon{position:absolute}
-.uc .mon .bez{background:#0f0f10;border-radius:14px;padding:12px;box-shadow:0 0 0 1.5px #343437,0 50px 90px -30px rgba(0,0,0,.85)}
-.uc .mon .neck{width:130px;height:62px;margin:0 auto;background:linear-gradient(90deg,#8d9096,#c9cbcf 50%,#8d9096)}
-.uc .mon .foot{width:300px;height:10px;margin:0 auto;border-radius:3px 3px 8px 8px;background:linear-gradient(#cfd1d4,#94969b)}
+.uc .mon .bez{padding:0}
 .uc .iph{position:absolute;width:270px;height:560px;border-radius:48px;background:#1b1b1d;padding:10px;box-shadow:0 0 0 2px #45454a,inset 0 0 0 2px #0a0a0a,0 50px 80px -24px rgba(0,0,0,.85)}
 .uc .iph .scr{position:relative;height:100%;border-radius:39px;background:#fff;overflow:hidden;display:flex;flex-direction:column}
 .uc .island{position:absolute;left:50%;top:9px;width:84px;height:24px;margin-left:-42px;border-radius:20px;background:#000;z-index:5}
 .uc .sbar{height:44px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:6px 24px 0 30px;font-weight:600;font-size:13px}
 .uc .sbar svg{display:block}
-.uc .win{position:absolute;background:#fff;border-radius:10px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 22px 60px rgba(0,0,0,.45),0 0 0 .5px rgba(0,0,0,.35)}
+.uc .win{position:absolute;background:#fff;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 30px 80px -20px rgba(0,0,0,.7),0 0 0 1px rgb(239 237 232 / .14)}
 .uc .lights{display:flex;gap:7px}.uc .lights i{width:11px;height:11px;border-radius:50%}
-.uc .lights i:nth-child(1){background:#FF5F57}.uc .lights i:nth-child(2){background:#FEBC2E}.uc .lights i:nth-child(3){background:#28C840}
+.uc .lights i{background:#cfc9bf;opacity:.55}
 .uc .chrome{flex:none;height:36px;display:flex;align-items:center;gap:12px;padding:0 12px;background:#ECECEF;border-bottom:1px solid #D4D4D8}
 .uc .chrome .ar{color:#9a9aa1;font-size:14px;letter-spacing:7px}
 .uc .url{flex:1;max-width:420px;margin:0 auto;height:24px;border-radius:7px;background:#fff;border:1px solid #DADADF;display:flex;align-items:center;justify-content:center;gap:5px;font-size:11px;color:#6b6d73;white-space:nowrap;overflow:hidden}
@@ -56,7 +47,7 @@
 .uc .macbar .tt{position:absolute;left:0;right:0;text-align:center;font-size:11.5px;font-weight:600;color:#4b4d52;pointer-events:none}
 .uc .view{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
 .uc .view.on{opacity:1;visibility:visible}
-.uc .cursor{position:absolute;left:0;top:0;width:20px;height:22px;z-index:100;pointer-events:none;opacity:0;transform:translate(600px,640px);transition:transform .8s cubic-bezier(.55,0,.2,1),opacity .3s}
+.uc .cursor{display:none;position:absolute;left:0;top:0;width:20px;height:22px;z-index:100;pointer-events:none;opacity:0;transform:translate(600px,640px);transition:transform .8s cubic-bezier(.55,0,.2,1),opacity .3s}
 .uc .cursor svg{display:block;filter:drop-shadow(0 2px 3px rgba(0,0,0,.4))}
 .uc .cursor::after{content:"";position:absolute;left:-10px;top:-10px;width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.55);opacity:0}
 .uc .cursor.click::after{animation:clk .4s ease-out}
@@ -233,7 +224,7 @@
 .uc .fa-top{flex:none;height:34px;display:flex;align-items:center;gap:6px;padding:0 12px;border-bottom:1px solid #EFEFF1;font-size:10px;color:#6B7280}
 .uc .fa-top b{color:#111;font-size:11.5px;font-weight:600;margin-right:auto}
 .uc .fa-top span{border:1px solid #E4E4E7;border-radius:9px;padding:1px 7px;display:flex;align-items:center;gap:4px}
-.uc .fa-top span i{width:5px;height:5px;border-radius:50%;background:#22C55E}
+.uc .fa-top span i{width:5px;height:5px;border-radius:50%;background:#8a8580}
 .uc .fa-chat{flex:1;overflow:hidden;padding:10px 12px;display:flex;flex-direction:column;gap:9px}
 .uc .fu{align-self:flex-end;max-width:84%;background:#F1F1F3;padding:7px 11px;border-radius:12px;font-size:11.5px;animation:fi .25s ease-out}
 .uc .fr{display:grid;grid-template-columns:18px 1fr;gap:8px;font-size:11.5px;animation:fi .25s ease-out}
@@ -246,19 +237,19 @@
 .uc .mt td,.uc .mt th{border:1px solid #E4E4E7;padding:3px 7px;text-align:right}
 .uc .mt td:first-child,.uc .mt th:first-child{text-align:left}
 .uc .mt th{background:#FAFAFA;font-weight:600}
-.uc .mt tr.hi td{background:#FEF9C3;font-weight:600}
+.uc .mt tr.hi td{background:#F3EEE4;font-weight:600}
 .uc .defn{margin-top:5px;font-size:10px;color:#6B7280}
 .uc .atts{display:flex;gap:6px;margin-top:7px;flex-wrap:wrap}
 .uc .att{display:flex;align-items:center;gap:7px;border:1px solid #E4E4E7;border-radius:8px;padding:5px 8px;font-size:10px;animation:fi .25s ease-out}
 .uc .att .ic{width:20px;height:24px;border-radius:3px;display:grid;place-items:center;font-size:6.5px;font-weight:800}
-.uc .att .ic.pdf{background:#FDECEC;color:#D33A3A}
-.uc .att .ic.png{background:#EEF2FF;color:#4338CA}
+.uc .att .ic.pdf{background:#EFE8DF;color:#6b6762}
+.uc .att .ic.png{background:#E9E4DA;color:#5a5248}
 .uc .att b{display:block;font-size:10.5px;font-weight:600}
 .uc .att small{color:#6B7280}
 .uc .fa-in{margin:0 12px 12px;border:1px solid #E4E4E7;border-radius:11px;padding:7px 7px 7px 11px;display:flex;align-items:center;gap:7px;font-size:11.5px;min-height:38px}
 .uc .fa-in .tx{flex:1;min-width:0}
 .uc .fa-in .ph{color:#A1A1AA}
-.uc .fa-in b{flex:none;width:24px;height:24px;border-radius:50%;background:#E5484D;color:#fff;display:grid;place-items:center;font-size:12px}
+.uc .fa-in b{flex:none;width:24px;height:24px;border-radius:50%;background:#171614;color:#fff;display:grid;place-items:center;font-size:12px}
 
 /* ---------- EDC (client study platform) ---------- */
 .uc .edc{display:grid;grid-template-rows:40px 1fr;height:100%}
@@ -326,8 +317,8 @@
 
 /* ---------- real Flowact desktop apps (title bar + chat) ---------- */
 .uc .ja{background:#FAFAF9}
-.uc .ja-bar{flex:none;height:28px;background:#151A24;display:flex;align-items:center;padding:0 10px;position:relative}
-.uc .ja-bar .tt{position:absolute;left:0;right:0;text-align:center;color:#C9CED8;font-size:11.5px;pointer-events:none}
+.uc .ja-bar{flex:none;height:28px;background:#1c1a17;display:flex;align-items:center;padding:0 10px;position:relative}
+.uc .ja-bar .tt{position:absolute;left:0;right:0;text-align:center;color:#cfc9bf;font-size:11.5px;pointer-events:none}
 .uc .ja-body{flex:1;display:grid;grid-template-columns:190px 1fr;min-height:0}
 .uc .ja-hist{background:#FBFAF9;border-right:1px solid #ECE8E4;padding:10px;display:flex;flex-direction:column;gap:4px;font-size:11px;color:#3d3a37}
 .uc .jh-h{display:flex;justify-content:space-between;color:#7a7570;padding:2px 4px 8px;border-bottom:1px solid #ECE8E4;margin-bottom:6px}
@@ -337,25 +328,25 @@
 .uc .jh-i.on{background:#F1E9E6;font-weight:600;color:#1f1d1b}
 .uc .ja-main{display:flex;flex-direction:column;min-width:0;min-height:0}
 .uc .ja-head{flex:none;height:52px;display:flex;align-items:center;gap:7px;padding:0 14px;border-bottom:1px solid #F0E3E1;background:#fff}
-.uc .jl{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,#E9B8D9,#B9C6F2,#F2D9B0)}
+.uc .jl{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,#e7dcc8,#b8a98c)}
 .uc .jt{display:grid;margin-right:auto;line-height:1.25}
 .uc .jt b{font-size:13px}
 .uc .jt small{font-size:10px;color:#8a8580}
 .uc .jp{display:flex;align-items:center;gap:5px;background:#EFEBE8;border-radius:999px;padding:4px 9px;font-size:10.5px;color:#3d3a37}
-.uc .jp i{width:6px;height:6px;border-radius:50%;background:#3A9A3A}
+.uc .jp i{width:6px;height:6px;border-radius:50%;background:#8a8580}
 .uc .jp.g i{background:#9a948e}
 .uc .jp.g span{font-family:ui-monospace,Menlo,monospace}
 .uc .jb{border:1px solid #DDD8D3;border-radius:8px;padding:5px 10px;font-size:10.5px;background:#fff}
 .uc .ja-chat{flex:1;overflow:hidden;padding:14px 18px;display:flex;flex-direction:column;gap:10px;min-height:0}
 .uc .jw{font-size:10px;color:#9a948e;margin-bottom:-4px}
 .uc .jw.r{align-self:flex-end}
-.uc .ju{align-self:flex-end;max-width:70%;background:#FBE4E4;padding:9px 13px;border-radius:12px;font-size:12px;animation:fi .25s ease-out}
+.uc .ju{align-self:flex-end;max-width:70%;background:#EFE8DF;padding:9px 13px;border-radius:12px;font-size:12px;animation:fi .25s ease-out}
 .uc .jbox{border:1px solid #E8E4E0;border-radius:10px;background:#fff;padding:9px 12px;font-size:11px;color:#3d3a37;display:flex;align-items:center;gap:8px;animation:fi .25s ease-out}
 .uc .jbox .s{margin-left:auto;color:#9a948e;font-size:10px}
 .uc .jtrace{border:1px solid #E8E4E0;border-radius:10px;background:#fff;padding:8px 12px;display:grid;gap:6px;animation:fi .25s ease-out}
 .uc .jtrace div{display:grid;grid-template-columns:44px 1fr;gap:8px;font-size:10.5px;align-items:baseline;animation:fi .2s ease-out}
 .uc .jtrace b{font-weight:700;font-size:10px}
-.uc .jtrace b.x{color:#C0392B}
+.uc .jtrace b.x{color:#B9493C}
 .uc .jtrace code{font-family:ui-monospace,Menlo,monospace;font-size:10px;color:#4b4743;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .uc .jtrace code.n{font-family:inherit;font-size:10.5px;white-space:normal}
 .uc .jans{font-size:12px;line-height:1.6;color:#1f1d1b;animation:fi .25s ease-out}
@@ -382,10 +373,10 @@
 .uc .jfoot span.ok{background:#1f1d1b;color:#fff;border-color:#1f1d1b}
 .uc .ja-comp{flex:none;padding:10px 18px 12px;border-top:1px solid #F0EDEA;background:#FAFAF9}
 .uc .ja-in{display:flex;gap:9px;align-items:stretch}
-.uc .ja-in .tx{flex:1;min-height:38px;border:1.5px solid #E07A7A;border-radius:10px;background:#fff;padding:9px 12px;font-size:12px;display:flex;align-items:center}
+.uc .ja-in .tx{flex:1;min-height:38px;border:1px solid #D9D4CF;border-radius:10px;background:#fff;padding:9px 12px;font-size:12px;display:flex;align-items:center}
 .uc .ja-in .ph{color:#A8A29C}
-.uc .ja-send{width:64px;border-radius:10px;background:#F4AFAF;color:#fff;display:grid;place-items:center;font-size:12px;font-weight:600;transition:background .2s}
-.uc .ja-send.on{background:#E5484D}
+.uc .ja-send{width:64px;border-radius:10px;background:#EFE8DF;color:#9a948e;display:grid;place-items:center;font-size:12px;font-weight:600;transition:background .2s,color .2s}
+.uc .ja-send.on{background:#d8cbb3;color:#171614}
 .uc .ja-sug{display:flex;gap:6px;margin-top:8px;flex-wrap:nowrap;overflow:hidden}
 .uc .ja-sug span{border:1px solid #DDD8D3;border-radius:999px;padding:4px 10px;font-size:10px;color:#3d3a37;background:#fff;white-space:nowrap}
 .uc .dp-body{position:relative;flex:1;min-height:0;background:#F6F6F4}
@@ -435,7 +426,45 @@
 /* Showcase: the cards above the stage carry each case title, so the scene's own caption stays hidden. */
 .uc .cap{display:none!important}
 
-/* Showcase: the cards above the stage carry each case title */
-.uc .scene{border-radius:20px}
 .uc .fit.cam .canvas{transition:transform .7s cubic-bezier(.4,0,.2,1)}
 .uc .instant .fit.cam .canvas{transition:none}
+.uc .jp.g{display:none} /* the running-cost pill is product chrome, not part of the story */
+/* Only the exchange: no history sidebar, status pills or suggestion chips around it. The answer runs the full width. */
+.uc .ja-hist,.uc .jp,.uc .jb,.uc .ja-sug{display:none}
+.uc .ja-body{grid-template-columns:1fr}
+.uc .ja-chat{padding:16px 22px}
+.uc .ja{font-variant-numeric:tabular-nums}
+.uc .jans table{width:100%;max-width:640px}
+.uc .jans td:last-child,.uc .jans th:last-child{text-align:right;padding-right:0}
+.uc .ju,.uc .jbox,.uc .jtrace,.uc .jchart,.uc .ja-in .tx,.uc .ja-send{border-radius:8px}
+.uc .ja-comp{padding:12px 22px 14px}
+/* The chat column is a fixed-height flex column: children must not shrink, or a tall card (the chart) collapses and clips itself. */
+.uc .ja-chat > *{flex-shrink:0}
+.uc .ja{font-size:12.5px}
+.uc .jans table{max-width:none}
+.uc .strip{display:none} /* the exchange narrates itself; the step strip repeated it */
+.uc .jans td:not(:first-child),.uc .jans th:not(:first-child){text-align:right;padding-right:0;padding-left:24px}
+.uc .jchart .dt{display:none} /* lines only; one series carries the colour */
+.uc .jchart .ln.hi{stroke-width:2.2}
+.uc .jl{display:none}
+/* Empty state of the assistant window, before the first question. Fills the chat column and fades out on send. */
+.uc .ja-empty{flex:1 1 auto;display:grid;place-items:center;padding:12px;transition:opacity .3s}
+.uc .ja-empty.out{opacity:0}
+.uc .ja-empty-in{width:min(100%,540px);text-align:center}
+.uc .ja-empty b{display:block;font-size:15px;font-weight:600;color:#1f1d1b}
+.uc .ja-empty small{display:block;margin-top:6px;font-size:11px;color:#8a8580}
+.uc .ja-starters{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:18px}
+/* The four questions are real controls, in the empty state and again after every answer. */
+.uc .ja [data-starter]{cursor:pointer;border:1px solid #E8E4E0;border-radius:8px;background:#fff;padding:10px 12px;font-size:11.5px;color:#3d3a37;text-align:left;transition:border-color .15s,background .15s}
+.uc .ja [data-starter]:hover{border-color:#8a6a3c;background:#FBF8F3}
+.uc .ja-again{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:2px;animation:fi .25s ease-out}
+.uc .ja-again small{margin-right:4px;font-size:10.5px;color:#8a8580}
+.uc .ja-again [data-starter]{padding:6px 10px;font-size:10.5px}
+/* Ranked bars inside a chart card; widths animate in with the card's draw state. */
+.uc .jbars{display:grid;gap:7px;padding:10px 16px 12px}
+.uc .jbars > div{display:grid;grid-template-columns:96px 1fr 40px;align-items:center;gap:10px;font-size:11px;color:#3d3a37}
+.uc .jbars i{display:block;height:8px;border-radius:4px;background:#F0EDEA;overflow:hidden}
+.uc .jbars i b{display:block;height:100%;width:0;border-radius:4px;background:#8a6a3c;transition:width .9s cubic-bezier(.3,0,.2,1)}
+.uc .jbars .w i b{background:#d9a441}
+.uc .jchart.draw .jbars i b{width:var(--w)}
+.uc .jbars em{font-style:normal;text-align:right;font-variant-numeric:tabular-nums;color:#1f1d1b}

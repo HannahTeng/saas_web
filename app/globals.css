@@ -48,6 +48,7 @@ body {
   background: var(--page-bg);
   color: var(--text-primary);
   overflow-x: clip;
+  font-variant-numeric: tabular-nums; /* every index, price and count lines up like a ledger column */
 }
 
 ::selection {
@@ -75,14 +76,9 @@ body {
     overflow: visible;
   }
 
-  .marquee-mask {
-    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
-    -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
-  }
-
-  .pause-on-hover:hover .marquee-row,
-  .pause-on-hover:focus-within .marquee-row {
-    animation-play-state: paused;
+  /* The same emphasis on an accent surface, where the accent itself would vanish. */
+  .em-ink {
+    color: var(--accent-ink);
   }
 }
 
@@ -95,6 +91,7 @@ body {
 .h-section {
   @apply text-3xl font-medium tracking-tight md:text-5xl;
   line-height: 1.1;
+  text-wrap: balance; /* no one-word last lines */
 }
 
 .h-card {
@@ -120,10 +117,6 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .marquee-row {
-    animation: none !important;
-  }
-
   html {
     scroll-behavior: auto;
   }

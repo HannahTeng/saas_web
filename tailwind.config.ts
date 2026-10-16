@@ -28,20 +28,6 @@ const config: Config = {
       boxShadow: {
         panel: '0 20px 60px rgb(0 0 0 / 0.5)',
       },
-      animation: {
-        'marquee-left': 'marquee-left 34s linear infinite',
-        'marquee-right': 'marquee-right 38s linear infinite',
-      },
-      keyframes: {
-        'marquee-left': {
-          from: { transform: 'translateX(0)' },
-          to: { transform: 'translateX(-50%)' },
-        },
-        'marquee-right': {
-          from: { transform: 'translateX(-50%)' },
-          to: { transform: 'translateX(0)' },
-        },
-      },
     },
   },
   plugins: [],
