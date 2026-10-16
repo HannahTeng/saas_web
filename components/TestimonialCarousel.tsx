@@ -3,6 +3,7 @@
 import FadeIn from '@/components/FadeIn'
 import Avatar from '@/components/Avatar'
 import { useLanguage } from '@/components/LanguageProvider'
+import Section from '@/components/Section'
 
 type Testimonial = {
   name: string
@@ -104,9 +105,9 @@ export default function TestimonialCarousel() {
   const testimonials = zh ? ZH_TESTIMONIALS : [...ROW_A, ...ROW_B]
 
   return (
-    <section data-full-bleed className="overflow-hidden py-8 md:py-14">
+    <Section data-full-bleed bleed className="overflow-hidden">
       <FadeIn className="text-center px-6">
-        <h2 className="text-2xl md:text-3xl font-medium tracking-tight">
+        <h2 className="h-section">
           {zh ? '一线使用者' : 'What operators'}{' '}
           <em className="em-accent">{zh ? '怎么说' : 'say'}</em>
         </h2>
@@ -122,6 +123,6 @@ export default function TestimonialCarousel() {
           <Row items={testimonials} direction="left" />
         </div>
       </FadeIn>
-    </section>
+    </Section>
   )
 }

@@ -63,7 +63,11 @@ body {
 
 @layer utilities {
   .em-accent {
+    font-family: var(--font-serif);
     font-style: italic;
+    font-weight: 400;
+    font-size: 1.08em;
+    letter-spacing: -0.03em;
     color: var(--accent);
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
@@ -86,6 +90,20 @@ body {
 .section-kicker {
   @apply text-sm font-medium text-subtle;
   letter-spacing: 0.01em;
+}
+
+/* Type roles: one size per job, so every section reads as the same system. */
+.h-section {
+  @apply text-3xl font-medium tracking-tight md:text-5xl;
+  line-height: 1.1;
+}
+
+.h-card {
+  @apply text-lg font-medium tracking-tight;
+}
+
+.label-caps {
+  @apply text-xs font-medium uppercase tracking-[0.08em];
 }
 
 .agent-input {

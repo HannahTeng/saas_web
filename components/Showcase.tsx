@@ -7,6 +7,7 @@ import { USE_CASES_HTML } from '@/components/UseCases/markup'
 import { startShowcase } from '@/components/UseCases/engine'
 import '@/components/UseCases/useCases.css'
 import { OrderButton } from '@/components/order/OrderButton'
+import Section from '@/components/Section'
 
 const CASES = [
   { id: 'data-agent', title: 'Data Agent', zhTitle: '数据分析 Agent', line: 'Ask in plain words. Get the numbers, a chart and a report.', zhLine: '一句话提问，直接拿到数字、图表和报告。', tag: 'Pull · reconcile · chart', zhTag: '取数 · 核对 · 出图' },
@@ -39,67 +40,65 @@ export default function Showcase() {
   }, [zh])
 
   return (
-    <section id="products" className="scroll-mt-16 border-b border-line/[0.07] px-4 py-14 sm:px-6 md:py-28">
-      <div className="mx-auto max-w-6xl">
-        <FadeIn>
-          <div className="grid gap-4 md:grid-cols-[1.2fr_1fr] md:items-end md:gap-12">
-            <div>
-              <p className="section-kicker">{zh ? 'Agent 能做什么' : 'What our agents do'}</p>
-              <h2 className="mt-4 text-3xl font-medium tracking-tight md:text-5xl">
-                {zh ? <>分析、执行、问答，<em className="em-accent">都在你自己的系统里</em>。</> : <>Analyze, act, answer. <em className="em-accent">Inside your own systems</em>.</>}
-              </h2>
-            </div>
-            <p className="text-sm leading-relaxed text-muted md:text-base">
-              {zh
-                ? '不分行业，按工作类型配置：每个 Agent 直接接入你现有的系统，关键决策等人确认。往下看它们干活，或直接选一个。'
-                : 'Built around the job, not the industry. Each agent works through the systems you already use and waits for a person on every decision that matters. Watch them work, or pick one.'}
-            </p>
+    <Section id="products">
+      <FadeIn>
+        <div className="grid gap-4 md:grid-cols-[1.2fr_1fr] md:items-end md:gap-12">
+          <div>
+            <p className="section-kicker">{zh ? 'Agent 能做什么' : 'What our agents do'}</p>
+            <h2 className="h-section mt-4">
+              {zh ? <>分析、执行、问答，<br className="hidden lg:inline" /><em className="em-accent">都在你自己的系统里</em>。</> : <>Analyze, act, answer. <br className="hidden lg:inline" /><em className="em-accent">Inside your own systems</em>.</>}
+            </h2>
           </div>
-        </FadeIn>
-
-        <div className="mt-9 grid grid-cols-3 gap-2 md:gap-3" role="tablist" aria-label={zh ? 'Agent 案例' : 'Agent cases'}>
-          {CASES.map((c, i) => {
-            const on = active === i
-            return (
-              <button
-                key={c.title}
-                type="button"
-                role="tab"
-                aria-selected={on}
-                onClick={() => pick(i)}
-                onKeyDown={(e) => {
-                  if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return
-                  const n = (i + (e.key === 'ArrowRight' ? 1 : CASES.length - 1)) % CASES.length
-                  ;(e.currentTarget.parentElement?.children[n] as HTMLElement | undefined)?.focus()
-                  pick(n)
-                }}
-                className={`grid content-start gap-1.5 rounded-2xl border p-3 text-left transition-colors md:p-5 ${
-                  on ? 'border-accent/45 bg-panel' : 'border-line/10 hover:border-line/25'
-                }`}
-              >
-                <span className="hidden text-xs tracking-wide text-subtle md:block">0{i + 1}</span>
-                <strong className="text-sm font-semibold tracking-tight text-primary md:text-lg">{zh ? c.zhTitle : c.title}</strong>
-                <span className="hidden text-sm leading-relaxed text-muted md:block">{zh ? c.zhLine : c.line}</span>
-                <span className="mt-1 hidden text-xs text-subtle md:block">{zh ? c.zhTag : c.tag}</span>
-              </button>
-            )
-          })}
-        </div>
-
-        <p className="mt-3 text-sm text-muted md:hidden">{zh ? CASES[active].zhLine : CASES[active].line}</p>
-
-        <div ref={stage} className="uc mt-4" />
-
-        <div className="mt-8 flex flex-col items-start justify-between gap-4 border-t border-line/10 pt-6 md:flex-row md:items-center">
-          <p className="max-w-3xl text-sm leading-relaxed text-muted">
-            <span className="font-medium text-primary">{zh ? '同一个平台：' : 'One platform underneath: '}</span>
+          <p className="text-sm leading-relaxed text-muted md:text-base">
             {zh
-              ? '连接你现有的业务系统、数据库和邮箱 · 共享知识层 · 审批节点 · 操作留痕 · 云端或私有部署。年度授权或按月代运营。'
-              : 'connectors to your existing business systems, databases and email · shared knowledge · approval checkpoints · audit trail · cloud or self-hosted. Annual license or monthly managed plan.'}
+              ? '不分行业，按工作类型配置：每个 Agent 直接接入你现有的系统，关键决策等人确认。往下看它们干活，或直接选一个。'
+              : 'Built around the job, not the industry. Each agent works through the systems you already use and waits for a person on every decision that matters. Watch them work, or pick one.'}
           </p>
-          <OrderButton preset={{ agents: [CASES[active].id] }} className="shrink-0" />
         </div>
+      </FadeIn>
+
+      <div className="mt-9 grid grid-cols-3 gap-2 md:gap-3" role="tablist" aria-label={zh ? 'Agent 案例' : 'Agent cases'}>
+        {CASES.map((c, i) => {
+          const on = active === i
+          return (
+            <button
+              key={c.title}
+              type="button"
+              role="tab"
+              aria-selected={on}
+              onClick={() => pick(i)}
+              onKeyDown={(e) => {
+                if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return
+                const n = (i + (e.key === 'ArrowRight' ? 1 : CASES.length - 1)) % CASES.length
+                ;(e.currentTarget.parentElement?.children[n] as HTMLElement | undefined)?.focus()
+                pick(n)
+              }}
+              className={`grid content-start gap-1.5 rounded-2xl border p-3 text-left transition-colors md:p-5 ${
+                on ? 'border-accent/45 bg-panel' : 'border-line/10 hover:border-line/25'
+              }`}
+            >
+              <span className="label-caps hidden text-subtle md:block">0{i + 1}</span>
+              <strong className="text-sm font-medium tracking-tight text-primary md:text-lg">{zh ? c.zhTitle : c.title}</strong>
+              <span className="hidden text-sm leading-relaxed text-muted md:block">{zh ? c.zhLine : c.line}</span>
+              <span className="mt-1 hidden text-xs text-subtle md:block">{zh ? c.zhTag : c.tag}</span>
+            </button>
+          )
+        })}
       </div>
-    </section>
+
+      <p className="mt-3 text-sm text-muted md:hidden">{zh ? CASES[active].zhLine : CASES[active].line}</p>
+
+      <div ref={stage} className="uc mt-4" />
+
+      <div className="mt-8 flex flex-col items-start justify-between gap-4 border-t border-line/10 pt-6 md:flex-row md:items-center">
+        <p className="max-w-3xl text-sm leading-relaxed text-muted">
+          <span className="font-medium text-primary">{zh ? '同一个平台：' : 'One platform underneath: '}</span>
+          {zh
+            ? '连接你现有的业务系统、数据库和邮箱 · 共享知识层 · 审批节点 · 操作留痕 · 云端或私有部署。年度授权或按月代运营。'
+            : 'connectors to your existing business systems, databases and email · shared knowledge · approval checkpoints · audit trail · cloud or self-hosted. Annual license or monthly managed plan.'}
+        </p>
+        <OrderButton preset={{ agents: [CASES[active].id] }} className="shrink-0" />
+      </div>
+    </Section>
   )
 }

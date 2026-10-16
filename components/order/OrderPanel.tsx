@@ -6,7 +6,7 @@ import { useOrder } from './OrderProvider'
 import { ADDON_AGENTS, CORE_AGENTS, PLANS } from '@/lib/catalog'
 import { submitRequest, startScopingCheckout } from '@/lib/submitRequest'
 
-const inputCls = 'agent-input w-full rounded-xl border border-line/15 px-4 py-3 text-[15px] text-primary outline-none placeholder:text-subtle focus:border-accent'
+const inputCls = 'agent-input w-full rounded-xl border border-line/15 px-4 py-3 text-base text-primary outline-none placeholder:text-subtle focus:border-accent'
 
 /** The one order panel: say what you need, leave a contact, we book a $39 scoping call. No agent or plan picking up front. */
 export default function OrderPanel() {
@@ -66,7 +66,7 @@ export default function OrderPanel() {
         style={{ paddingTop: 'env(safe-area-inset-top, 0px)', paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
       >
         <div className="flex items-center justify-between border-b border-line/10 px-6 py-4">
-          <h2 id="order-title" className="text-lg font-semibold tracking-tight">{zh ? '预约范围界定通话' : 'Book a scoping call'}</h2>
+          <h2 id="order-title" className="h-card">{zh ? '预约范围界定通话' : 'Book a scoping call'}</h2>
           <button type="button" onClick={closeOrder} aria-label={zh ? '关闭' : 'Close'} className="grid h-9 w-9 place-items-center rounded-lg border border-line/15 text-muted hover:text-primary">×</button>
         </div>
 
@@ -80,7 +80,7 @@ export default function OrderPanel() {
           <form onSubmit={send} noValidate className="flex min-h-0 flex-1 flex-col">
             <input type="text" name="website" value={honey} onChange={(e) => setHoney(e.target.value)} className="hidden" tabIndex={-1} autoComplete="off" aria-hidden />
             <div className="min-h-0 flex-1 overflow-y-auto px-6 py-5">
-              <ol className="mb-6 grid gap-2 rounded-xl border border-line/10 bg-panel px-4 py-3 text-[13px] text-muted">
+              <ol className="mb-6 grid gap-2 rounded-xl border border-line/10 bg-panel px-4 py-3 text-sm text-muted">
                 <li><span className="text-primary">1.</span> {zh ? '一句话说说要自动化的事，留个联系方式' : 'Tell us the job in a sentence and leave a contact'}</li>
                 <li><span className="text-primary">2.</span> {zh ? '60 分钟范围界定通话（$39），一起梳理流程和系统' : '60-minute scoping call ($39) to map the workflow and systems'}</li>
                 <li><span className="text-primary">3.</span> {zh ? '拿到方案和固定报价，再决定要不要做' : 'Get a plan and a fixed quote, then decide'}</li>

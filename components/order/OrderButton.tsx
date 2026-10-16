@@ -74,8 +74,8 @@ export function StickyOrderBar() {
         className={`fixed bottom-8 right-8 z-40 hidden flex-col gap-4 rounded-2xl border border-line/10 bg-panel/90 p-5 backdrop-blur-xl transition-all duration-300 min-[1680px]:flex ${showSide ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-3 opacity-0'}`}
         style={{ width: 'min(300px, calc((100vw - 1152px) / 2 - 64px))' }}
       >
-        <p className="text-[15px] font-medium leading-snug text-primary">{zh ? '把重复的工作交出去。' : 'Hand off the repetition.'}</p>
-        <ul className="space-y-1.5 text-[13px] leading-snug text-muted">
+        <p className="text-base font-medium leading-snug text-primary">{zh ? '把重复的工作交出去。' : 'Hand off the repetition.'}</p>
+        <ul className="space-y-1.5 text-sm leading-snug text-muted">
           <li>{zh ? '$39 · 60 分钟范围界定通话' : '$39 · 60-min scoping call'}</li>
           <li>{zh ? '通话后给固定报价' : 'Fixed quote after the call'}</li>
           <li>{zh ? '一个工作日内回复' : 'Reply within one business day'}</li>
