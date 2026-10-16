@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLanguage } from '@/components/LanguageProvider'
 import Section from '@/components/Section'
+import { onTabKey } from '@/components/tabs'
 
 /**
  * "Runs inside your walls" banner. One perimeter (the customer's laptop or company network), the agent inside it,
@@ -10,7 +11,8 @@ import Section from '@/components/Section'
  * a human, an outbound call is stopped at the wall, and every step lands in the audit log.
  */
 
-type Mode = 'personal' | 'business'
+const MODES = ['personal', 'business'] as const
+type Mode = (typeof MODES)[number]
 type Pt = { x: number; y: number }
 type Kind = 'read' | 'write' | 'wait' | 'ok' | 'block'
 type Step = { to: number | 'gate' | 'wall' | null; kind: Kind; en: string; zh: string; hold?: boolean }
@@ -125,9 +127,10 @@ export default function PrivateAgentBanner() {
                 : 'Generic AI assistants take your data to their cloud. Flowact builds the agent into your own laptop or company systems: privately deployed, run under your controls, every step on the record.'}
             </p>
           </div>
-          <div role="tablist" aria-label={zh ? '场景' : 'Setting'} className="inline-flex w-fit rounded-full border border-line/15 p-1 text-sm">
-            {(['personal', 'business'] as Mode[]).map((m) => (
-              <button key={m} role="tab" aria-selected={mode === m} onClick={() => switchMode(m)}
+          <div role="tablist" aria-label={zh ? '场景' : 'Setting'} className="inline-flex w-fit rounded-full border border-line/20 p-1 text-sm">
+            {MODES.map((m, i) => (
+              <button key={m} type="button" role="tab" id={`pab-tab-${m}`} aria-controls="pab-panel" aria-selected={mode === m} tabIndex={mode === m ? 0 : -1}
+                onClick={() => switchMode(m)} onKeyDown={(e) => onTabKey(e, i, MODES.length, (n) => switchMode(MODES[n]))}
                 className={`rounded-full px-4 py-1.5 transition-colors ${mode === m ? 'bg-accent text-accent-ink' : 'text-muted hover:text-primary'}`}>
                 {m === 'personal' ? (zh ? '个人' : 'Personal') : (zh ? '企业' : 'Business')}
               </button>
@@ -135,7 +138,7 @@ export default function PrivateAgentBanner() {
           </div>
         </div>
 
-        <div className="mt-8 grid overflow-hidden rounded-2xl border border-line/10 bg-panel md:grid-cols-[1.45fr_1fr]">
+        <div id="pab-panel" role="tabpanel" aria-labelledby={`pab-tab-${mode}`} className="card mt-8 grid overflow-hidden md:grid-cols-[1.45fr_1fr]">
           {/* Stage */}
           <div className="relative border-b border-line/10 p-3 md:border-b-0 md:border-r md:p-6">
             <svg viewBox="0 0 560 400" className="h-auto w-full" role="img"
@@ -242,7 +245,7 @@ export default function PrivateAgentBanner() {
         </div>
 
         {/* Claims */}
-        <dl className="mt-8 grid gap-px overflow-hidden rounded-2xl border border-line/10 bg-line/10 sm:grid-cols-2 lg:grid-cols-4">
+        <dl className="card mt-8 grid gap-px overflow-hidden bg-line/10 sm:grid-cols-2 lg:grid-cols-4">
           {(zh
             ? [
                 ['运行在你的环境', '部署在你的电脑、服务器或私有云，不是我们的平台。'],

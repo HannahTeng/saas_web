@@ -8,7 +8,7 @@ export default function Footer() {
   const zh = language === 'zh'
 
   return (
-    <footer className="bg-page border-t border-line/5 px-4 py-9 sm:px-6 md:py-12">
+    <footer className="bg-page border-t border-line/[0.07] px-4 py-9 sm:px-6 md:py-12">
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col items-center gap-6 text-center md:flex-row md:justify-between md:text-left">
           <div className="flex items-center gap-3">
@@ -30,7 +30,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 flex flex-col items-center justify-between gap-3 border-t border-line/5 pt-5 text-center sm:flex-row sm:text-left md:mt-10 md:pt-6">
+        <div className="mt-8 flex flex-col items-center justify-between gap-3 border-t border-line/[0.07] pt-5 text-center sm:flex-row sm:text-left md:mt-10 md:pt-6">
           <p className="text-sm text-subtle">© 2026 Flowact, Inc. {zh ? '保留所有权利。' : 'All rights reserved.'}</p>
           <nav className="flex flex-wrap items-center justify-center gap-4 text-sm text-subtle">
             <a href="/terms" className="hover:text-primary transition-colors">{zh ? '服务条款' : 'Terms'}</a>

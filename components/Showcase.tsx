@@ -8,11 +8,13 @@ import { startShowcase } from '@/components/UseCases/engine'
 import '@/components/UseCases/useCases.css'
 import { OrderButton } from '@/components/order/OrderButton'
 import Section from '@/components/Section'
+import { onTabKey } from '@/components/tabs'
 
+// `demo` names the scene in UseCases/markup.ts; the tab points at that scene's panel (#agent-panel-<demo>).
 const CASES = [
-  { id: 'data-agent', title: 'Data Agent', zhTitle: '数据分析 Agent', line: 'Ask in plain words. Get the numbers, a chart and a report.', zhLine: '一句话提问，直接拿到数字、图表和报告。', tag: 'Pull · reconcile · chart', zhTag: '取数 · 核对 · 出图' },
-  { id: 'dispatch-agent', title: 'Workflow Agent', zhTitle: '流程执行 Agent', line: 'Signs in, does the repetitive work, acts only on your yes.', zhLine: '登录系统完成重复操作，你确认后才执行。', tag: 'Multi-step tasks · approval', zhTag: '多步操作 · 人工审批' },
-  { id: 'knowledge-agent', title: 'Knowledge Agent', zhTitle: '知识问答 Agent', line: 'Answers from your own records, every claim cited.', zhLine: '基于你自己的资料回答，每句都有出处。', tag: 'Search · cite · draft', zhTag: '检索 · 引用 · 起草' },
+  { id: 'data-agent', demo: 'ja', title: 'Data Agent', zhTitle: '数据分析 Agent', line: 'Ask in plain words. Get the numbers, a chart and a report.', zhLine: '一句话提问，直接拿到数字、图表和报告。', tag: 'Pull · reconcile · chart', zhTag: '取数 · 核对 · 出图' },
+  { id: 'dispatch-agent', demo: 'dp', title: 'Workflow Agent', zhTitle: '流程执行 Agent', line: 'Signs in, does the repetitive work, acts only on your yes.', zhLine: '登录系统完成重复操作，你确认后才执行。', tag: 'Multi-step tasks · approval', zhTag: '多步操作 · 人工审批' },
+  { id: 'knowledge-agent', demo: 'edc', title: 'Knowledge Agent', zhTitle: '知识问答 Agent', line: 'Answers from your own records, every claim cited.', zhLine: '基于你自己的资料回答，每句都有出处。', tag: 'Search · cite · draft', zhTag: '检索 · 引用 · 起草' },
 ]
 
 /** One product section: three agent functions over a single stage that autoplays each agent in turn. */
@@ -65,17 +67,13 @@ export default function Showcase() {
               key={c.title}
               type="button"
               role="tab"
+              id={`agent-tab-${c.demo}`}
+              aria-controls={`agent-panel-${c.demo}`}
               aria-selected={on}
+              tabIndex={on ? 0 : -1}
               onClick={() => pick(i)}
-              onKeyDown={(e) => {
-                if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return
-                const n = (i + (e.key === 'ArrowRight' ? 1 : CASES.length - 1)) % CASES.length
-                ;(e.currentTarget.parentElement?.children[n] as HTMLElement | undefined)?.focus()
-                pick(n)
-              }}
-              className={`grid content-start gap-1.5 rounded-2xl border p-3 text-left transition-colors md:p-5 ${
-                on ? 'border-accent/45 bg-panel' : 'border-line/10 hover:border-line/25'
-              }`}
+              onKeyDown={(e) => onTabKey(e, i, CASES.length, pick)}
+              className={`card grid content-start gap-1.5 p-3 text-left transition-colors md:p-5 ${on ? 'border-accent/50' : 'bg-transparent hover:border-line/20'}`}
             >
               <span className="label-caps hidden text-subtle md:block">0{i + 1}</span>
               <strong className="text-sm font-medium tracking-tight text-primary md:text-lg">{zh ? c.zhTitle : c.title}</strong>

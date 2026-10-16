@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import Button from '@/components/Button'
 import { useLanguage } from '@/components/LanguageProvider'
 import styles from './Landing.module.css'
 import { Wordmark } from './Logo'
@@ -53,7 +54,7 @@ export default function Navbar() {
       </nav>
       <div className={styles.headerActions}>
         <button type="button" className={styles.language} onClick={toggleLanguage} aria-label={zh ? 'Switch site language to English' : '将网站切换为中文'}>{zh ? 'EN' : '中文'}</button>
-        <button type="button" onClick={() => { setOpen(false); openOrder() }} className={`${styles.button} ${styles.solid}`}>{zh ? '立即下单' : 'Order now'}</button>
+        <Button onClick={() => { setOpen(false); openOrder() }}>{zh ? '立即下单' : 'Order now'}</Button>
         <button ref={toggle} type="button" className={styles.burger} aria-controls="site-nav" aria-expanded={open} aria-label={open ? (zh ? '关闭菜单' : 'Close menu') : (zh ? '打开菜单' : 'Open menu')} onClick={() => setOpen(!open)}>
           <span /><span /><span />
         </button>
