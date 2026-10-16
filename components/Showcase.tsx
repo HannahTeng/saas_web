@@ -83,41 +83,42 @@ export default function Showcase() {
         </div>
       </FadeIn>
 
-      {/* The index: three ruled entries that select the scene. The open one is set in the primary text colour, the others in muted.
-          Phones stack them as rows; wider screens set them as columns whose tags share one baseline. */}
-      <div className="mt-10 grid gap-3 md:grid-cols-3 md:gap-6" role="tablist" aria-label={zh ? '交付形式' : 'Delivery forms'}>
-        {CASES.map((c, i) => {
-          const on = active === i
-          return (
-            <button
-              key={c.demo}
-              type="button"
-              role="tab"
-              id={`agent-tab-${c.demo}`}
-              aria-controls={`agent-panel-${c.demo}`}
-              aria-selected={on}
-              tabIndex={on ? 0 : -1}
-              onClick={() => pick(i)}
-              onKeyDown={(e) => onTabKey(e, i, CASES.length, pick)}
-              className="group grid cursor-pointer grid-cols-[2.5rem_1fr] items-baseline gap-x-2 gap-y-1 border-t border-line/[0.12] py-4 text-left transition-colors md:grid-cols-1 md:grid-rows-[auto_auto_1fr_auto] md:items-start md:gap-1.5 md:pb-0 md:pt-5"
-            >
-              <span className={`label-caps ${on ? 'text-primary' : 'text-subtle'}`}>0{i + 1}</span>
-              <strong className={`text-base font-medium tracking-tight underline-offset-4 transition-colors group-hover:underline md:text-lg ${on ? 'text-primary' : 'text-muted group-hover:text-primary'}`}>{zh ? c.zh : c.en}</strong>
-              <span className="col-start-2 text-sm leading-relaxed text-muted md:col-start-auto">{zh ? c.zhLine : c.enLine}</span>
-              <span className="hidden text-xs text-subtle md:flex md:items-center md:justify-between md:gap-3">
-                {zh ? c.zhTag : c.tag}
-                {/* The entry is a control: say so on the ones not playing. */}
-                {!on && <span className="shrink-0 transition-colors group-hover:text-primary">{zh ? '播放 →' : 'Play →'}</span>}
-              </span>
-            </button>
-          )
-        })}
-      </div>
+      {/* The index on the left, as a column of three ruled entries that select the scene; the stage on the right.
+          The open entry is set in the primary text colour, the others in muted. Phones stack the entries above the transcript card. */}
+      <div className="mt-10 grid gap-8 md:grid-cols-[280px_minmax(0,1fr)] md:items-start md:gap-12">
+        <div className="grid gap-3 md:gap-0" role="tablist" aria-label={zh ? '交付形式' : 'Delivery forms'} aria-orientation="vertical">
+          {CASES.map((c, i) => {
+            const on = active === i
+            return (
+              <button
+                key={c.demo}
+                type="button"
+                role="tab"
+                id={`agent-tab-${c.demo}`}
+                aria-controls={`agent-panel-${c.demo}`}
+                aria-selected={on}
+                tabIndex={on ? 0 : -1}
+                onClick={() => pick(i)}
+                onKeyDown={(e) => onTabKey(e, i, CASES.length, pick)}
+                className="group grid cursor-pointer grid-cols-[2.5rem_1fr] items-baseline gap-x-2 gap-y-1 border-t border-line/[0.12] py-4 text-left transition-colors md:py-5 md:last:border-b"
+              >
+                <span className={`label-caps ${on ? 'text-primary' : 'text-subtle'}`}>0{i + 1}</span>
+                <strong className={`text-base font-medium tracking-tight underline-offset-4 transition-colors group-hover:underline md:text-lg ${on ? 'text-primary' : 'text-muted group-hover:text-primary'}`}>{zh ? c.zh : c.en}</strong>
+                <span className="col-start-2 text-sm leading-relaxed text-muted">{zh ? c.zhLine : c.enLine}</span>
+                <span className="col-start-2 hidden text-xs text-subtle md:flex md:items-center md:justify-between md:gap-3">
+                  {zh ? c.zhTag : c.tag}
+                  {/* The entry is a control: say so on the ones not playing. */}
+                  {!on && <span className="shrink-0 transition-colors group-hover:text-primary">{zh ? '播放 →' : 'Play →'}</span>}
+                </span>
+              </button>
+            )
+          })}
+        </div>
 
-      {/* The animated stage plays from tablets up; it only runs while on screen, so it idles when hidden. */}
-      <div ref={stage} className="uc mx-auto mt-10 hidden max-w-[960px] md:block" />
+        {/* The animated stage plays from tablets up; it only runs while on screen, so it idles when hidden. */}
+        <div ref={stage} className="uc hidden md:block" />
 
-      <div className="card mt-6 grid gap-4 p-4 text-sm md:hidden" aria-live="polite">
+        <div className="card grid gap-4 p-4 text-sm md:hidden" aria-live="polite">
         <p className="max-w-[88%] justify-self-end rounded-lg bg-accent/15 px-3 py-2 text-primary">{transcript.q}</p>
         <p className="text-xs leading-relaxed text-subtle">{transcript.steps}</p>
         <div>
@@ -146,6 +147,7 @@ export default function Showcase() {
               </div>
             </div>
           )}
+        </div>
         </div>
       </div>
     </Section>
