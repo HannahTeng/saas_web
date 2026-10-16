@@ -73,7 +73,7 @@ const ZH_TESTIMONIALS: Testimonial[] = [
 
 function Card({ t }: { t: Testimonial }) {
   return (
-    <figure className="w-[78vw] max-w-[290px] md:w-[320px] md:max-w-none shrink-0 rounded-xl bg-panel border border-line/[0.06] p-4 md:p-5 transition-colors hover:border-line/[0.12]">
+    <figure className="card w-[78vw] max-w-[290px] shrink-0 p-4 transition-colors hover:border-line/20 md:w-[320px] md:max-w-none md:p-5">
       <Avatar name={t.name} className="w-9 h-9" />
       <blockquote className="mt-3 text-xs md:text-sm text-copy leading-relaxed">
         &ldquo;{t.quote}&rdquo;

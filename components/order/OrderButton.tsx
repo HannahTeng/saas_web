@@ -1,20 +1,18 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Button from '@/components/Button'
 import { useLanguage } from '@/components/LanguageProvider'
 import { useOrder, type OrderPreset } from './OrderProvider'
 
 /** The site's one call to action. Same label, same panel, wherever it appears. */
-export function OrderButton({ preset, variant = 'solid', className = '' }: { preset?: OrderPreset; variant?: 'solid' | 'ghost'; className?: string }) {
+export function OrderButton({ preset, variant = 'solid', size = 'md', className = '' }: { preset?: OrderPreset; variant?: 'solid' | 'ghost'; size?: 'md' | 'lg'; className?: string }) {
   const { language } = useLanguage()
   const { openOrder } = useOrder()
-  const zh = language === 'zh'
-  const base = 'inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-semibold transition-colors'
-  const look = variant === 'solid' ? 'form-submit' : 'border border-line/20 text-primary hover:border-accent'
   return (
-    <button type="button" onClick={() => openOrder(preset)} className={`${base} ${look} ${className}`}>
-      {zh ? '立即下单' : 'Order now'}
-    </button>
+    <Button variant={variant} size={size} className={className} onClick={() => openOrder(preset)}>
+      {language === 'zh' ? '立即下单' : 'Order now'}
+    </Button>
   )
 }
 
@@ -24,6 +22,7 @@ export function OrderButton({ preset, variant = 'solid', className = '' }: { pre
  * - ≥1680px: a small card (sized to the margin).
  * - 1280–1679px: a slim vertical tab on the right edge (the margin is 64–264px there).
  * - <1280px (tablets, phones, no margin): the bottom bar, with a spacer at the end of the page so nothing ends under it.
+ * Hidden variants go `invisible` at the end of their transition, so they leave the tab order and the accessibility tree.
  */
 export function StickyOrderBar() {
   const { language } = useLanguage()
@@ -71,7 +70,7 @@ export function StickyOrderBar() {
       {/* wide screens: margin card */}
       <aside
         aria-label={zh ? '下单' : 'Order'}
-        className={`fixed bottom-8 right-8 z-40 hidden flex-col gap-4 rounded-2xl border border-line/10 bg-panel/90 p-5 backdrop-blur-xl transition-all duration-300 min-[1680px]:flex ${showSide ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-3 opacity-0'}`}
+        className={`card fixed bottom-8 right-8 z-40 hidden flex-col gap-4 bg-panel/90 p-5 backdrop-blur-xl transition-all duration-300 min-[1680px]:flex ${showSide ? 'visible translate-y-0 opacity-100' : 'invisible pointer-events-none translate-y-3 opacity-0'}`}
         style={{ width: 'min(300px, calc((100vw - 1152px) / 2 - 64px))' }}
       >
         <p className="text-base font-medium leading-snug text-primary">{zh ? '把重复的工作交出去。' : 'Hand off the repetition.'}</p>
@@ -80,29 +79,26 @@ export function StickyOrderBar() {
           <li>{zh ? '通话后给固定报价' : 'Fixed quote after the call'}</li>
           <li>{zh ? '一个工作日内回复' : 'Reply within one business day'}</li>
         </ul>
-        <button type="button" onClick={() => openOrder()} className="form-submit w-full rounded-lg px-4 py-2.5 text-sm font-semibold">{label}</button>
+        <Button className="w-full" onClick={() => openOrder()}>{label}</Button>
       </aside>
 
-      {/* laptops: vertical tab in the right margin */}
+      {/* laptops: vertical tab in the right margin (its own shape, same solid colours as Button) */}
       <button
         type="button"
         onClick={() => openOrder()}
-        tabIndex={showSide ? 0 : -1}
-        aria-hidden={!showSide}
-        className={`form-submit fixed right-3 top-1/2 z-40 hidden -translate-y-1/2 rounded-full px-2.5 py-5 text-sm font-semibold transition-opacity duration-300 [writing-mode:vertical-rl] min-[1280px]:block min-[1680px]:hidden ${showSide ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
+        className={`fixed right-3 top-1/2 z-40 hidden -translate-y-1/2 rounded-full bg-accent px-2.5 py-5 text-sm font-medium text-accent-ink transition-[opacity,visibility] duration-300 [writing-mode:vertical-rl] hover:bg-accent-hover min-[1280px]:block min-[1680px]:hidden ${showSide ? 'visible opacity-100' : 'invisible pointer-events-none opacity-0'}`}
       >
         {label}
       </button>
 
       {/* tablets and phones: bottom bar */}
       <div
-        className={`fixed inset-x-0 bottom-0 z-40 border-t border-line/10 bg-page/90 px-4 py-3 backdrop-blur-xl transition-transform duration-300 min-[1280px]:hidden ${show ? 'translate-y-0' : 'pointer-events-none translate-y-full'}`}
+        className={`fixed inset-x-0 bottom-0 z-40 border-t border-line/10 bg-page/90 px-4 py-3 backdrop-blur-xl transition-[transform,visibility] duration-300 min-[1280px]:hidden ${show ? 'visible translate-y-0' : 'invisible pointer-events-none translate-y-full'}`}
         style={{ paddingBottom: 'calc(0.75rem + env(safe-area-inset-bottom, 0px))' }}
-        aria-hidden={!show}
       >
         <div className="mx-auto flex max-w-[1152px] items-center justify-between gap-3">
           <p className="min-w-0 truncate text-sm text-muted">{zh ? '$39 范围界定 · 一个工作日内回复' : '$39 scoping call · Reply within one business day'}</p>
-          <button type="button" tabIndex={show ? 0 : -1} onClick={() => openOrder()} className="form-submit shrink-0 rounded-lg px-4 py-2.5 text-sm font-semibold">{label}</button>
+          <Button onClick={() => openOrder()}>{label}</Button>
         </div>
       </div>
     </>

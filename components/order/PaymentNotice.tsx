@@ -24,7 +24,7 @@ export function PaymentNotice() {
   }
   return (
     <div role="status" className="fixed inset-x-0 top-0 z-[70] flex justify-center px-4 pt-4" style={{ paddingTop: 'calc(1rem + env(safe-area-inset-top, 0px))' }}>
-      <div className="flex max-w-xl items-start gap-4 rounded-xl border border-line/15 bg-panel px-5 py-4 shadow-panel">
+      <div className="card flex max-w-xl items-start gap-4 px-5 py-4 shadow-panel">
         <p className="text-sm text-primary">
           {state === 'paid'
             ? (zh ? '付款成功，订单已收到。我们会在一个工作日内联系你约 60 分钟的通话。' : 'Payment received and your order is in. We will reach out within one business day to schedule the 60-minute call.')

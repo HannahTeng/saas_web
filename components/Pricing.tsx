@@ -21,7 +21,7 @@ export default function Pricing() {
         <p className="mx-auto mt-5 max-w-xl text-muted">
           {zh ? '每个 Agent 都在你现有的系统里运行，关键决策由人确认。一个工作日内给出报价。' : 'Every agent runs inside the tools you already use, with a person approving what matters. Pricing within one business day.'}
         </p>
-        <div className="mt-8"><OrderButton /></div>
+        <div className="mt-8"><OrderButton size="lg" /></div>
       </Section>
 
       <Section>
@@ -29,7 +29,7 @@ export default function Pricing() {
         <div className="mt-5 grid gap-4 md:grid-cols-3">
           {CORE_AGENTS.map((a) => (
             <FadeIn key={a.id}>
-              <article className="flex h-full flex-col gap-3 rounded-2xl border border-line/10 bg-panel p-6">
+              <article className="card flex h-full flex-col gap-3 p-6">
                 <h2 className="h-card">{zh ? a.zh : a.en}</h2>
                 <p className="text-sm leading-relaxed text-muted">{zh ? a.zhLine : a.enLine}</p>
                 <div className="mt-auto pt-3"><OrderButton preset={{ agents: [a.id] }} variant="ghost" className="w-full" /></div>
@@ -40,7 +40,7 @@ export default function Pricing() {
         <p className="mt-10 section-kicker">{zh ? '可加购' : 'Add-ons'}</p>
         <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {ADDON_AGENTS.map((a) => (
-            <div key={a.id} className="rounded-xl border border-line/10 p-4">
+            <div key={a.id} className="card bg-transparent p-4">
               <p className="text-sm font-medium text-primary">{zh ? a.zh : a.en}</p>
               <p className="mt-1 text-xs leading-relaxed text-muted">{zh ? a.zhLine : a.enLine}</p>
             </div>
@@ -53,7 +53,7 @@ export default function Pricing() {
         <div className="mt-5 grid gap-4 md:grid-cols-3">
           {PLANS.map((p) => (
             <FadeIn key={p.id}>
-              <article className={`flex h-full flex-col gap-4 rounded-2xl border p-6 ${p.recommended ? 'border-accent/50 bg-panel' : 'border-line/10'}`}>
+              <article className={`card flex h-full flex-col gap-4 p-6 ${p.recommended ? 'border-accent/50' : 'bg-transparent'}`}>
                 {p.recommended && <p className="label-caps text-accent">{zh ? '推荐' : 'Recommended'}</p>}
                 <h2 className="h-card">{zh ? p.zh : p.en}</h2>
                 <p className="text-2xl font-medium tracking-tight">{zh ? p.priceZh : p.priceEn}</p>

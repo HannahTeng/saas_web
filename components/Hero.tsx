@@ -1,14 +1,14 @@
 'use client'
 
+import Button from '@/components/Button'
 import HeroBackground from '@/components/HeroBackground'
 import { useLanguage } from '@/components/LanguageProvider'
+import { OrderButton } from '@/components/order/OrderButton'
 import styles from './Landing.module.css'
-import { useOrder } from '@/components/order/OrderProvider'
 
 export default function Hero() {
   const { language } = useLanguage()
   const zh = language === 'zh'
-  const { openOrder } = useOrder()
 
   return (
     <section id="top" className={styles.hero} aria-labelledby="hero-heading">
@@ -43,8 +43,8 @@ export default function Hero() {
           {zh ? 'Flowact 的 Agent 在你现有的业务系统和邮箱里运行，处理重复工作，关键决策交给人审批。物流、医疗、电商、教育等 10+ 行业已交付。' : 'Flowact agents run inside the systems and inbox you already use. They do the repetitive work and wait for a person on every decision that matters. Delivered across logistics, healthcare, e-commerce, education and more.'}
         </p>
         <div className={`${styles.actions} ${styles.appear}`}>
-          <button type="button" onClick={() => openOrder()} className={`${styles.button} ${styles.solid}`}>{zh ? '立即下单' : 'Order now'}</button>
-          <a href="#products" className={`${styles.button} ${styles.ghost}`}>{zh ? '查看产品' : 'See the agents'}</a>
+          <OrderButton size="lg" />
+          <Button size="lg" variant="ghost" href="#products">{zh ? '查看产品' : 'See the agents'}</Button>
         </div>
       </div>
       <div className={`${styles.principles} ${styles.appear}`} aria-label={zh ? '构建原则' : 'Built around your work'}>

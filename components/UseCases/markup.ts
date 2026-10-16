@@ -1,5 +1,5 @@
 // Static markup for the three use-case scenes. Animated by ./engine.ts.
-export const USE_CASES_HTML = `<article data-kind="local" class="case demo" data-demo="ja">
+export const USE_CASES_HTML = `<article data-kind="local" class="case demo" data-demo="ja" id="agent-panel-ja" role="tabpanel" aria-labelledby="agent-tab-ja">
         <div class="scene">
           <div class="fit"><div class="canvas">
             <div class="stage-bg"></div>
@@ -35,7 +35,7 @@ export const USE_CASES_HTML = `<article data-kind="local" class="case demo" data
           <li><span class="n" data-en="04 · Charts" data-zh="04 · 出图">04 · Charts</span><b data-en="Chart and PDF" data-zh="图表和 PDF">Chart and PDF</b><small data-en="Ask for a chart, save it as a PDF." data-zh="要图就出图，一键存成 PDF。">Ask for a chart, save it as a PDF.</small></li>
         </ol>
       </article>
-<article data-kind="browser" class="case demo" data-demo="dp">
+<article data-kind="browser" class="case demo" data-demo="dp" id="agent-panel-dp" role="tabpanel" aria-labelledby="agent-tab-dp">
         <div class="scene">
           <div class="fit"><div class="canvas">
             <div class="stage-bg"></div>
@@ -88,7 +88,7 @@ export const USE_CASES_HTML = `<article data-kind="local" class="case demo" data
           <li><span class="n" data-en="04 · Asks you" data-zh="04 · 等确认">04 · Asks you</span><b data-en="Books on &quot;yes&quot;" data-zh="你说"好"才约车">Books on "yes"</b><small data-en="Nothing is booked without the dispatcher&#x27;s reply." data-zh="调度不回复，什么都不会约。">Nothing is booked without the dispatcher's reply.</small></li>
         </ol>
       </article>
-<article data-kind="knowledge" class="case demo" data-demo="edc">
+<article data-kind="knowledge" class="case demo" data-demo="edc" id="agent-panel-edc" role="tabpanel" aria-labelledby="agent-tab-edc">
         <div class="scene">
           <div class="fit"><div class="canvas">
             <div class="stage-bg"></div>

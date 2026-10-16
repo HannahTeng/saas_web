@@ -19,7 +19,6 @@
   --accent-hover: #e7dcc8;
   --accent-ink: #171614; /* text on an accent surface */
   --line-rgb: 239 237 232;
-  --control-border: #60605b;
   /* Status: approvals, waits, blocked actions, form errors. */
   --ok-rgb: 127 199 154;
   --warn-rgb: 232 176 74;
@@ -106,24 +105,18 @@ body {
   @apply text-xs font-medium uppercase tracking-[0.08em];
 }
 
-.agent-input {
-  background: var(--field-bg);
-}
+/* Surface recipes. Borders use three strengths only: line/[0.07] hairline rules, line/10 surfaces, line/20 controls.
+   Radii: lg for controls and callouts, 2xl for cards and panels, full for pills. */
+@layer components {
+  /* The one card: outline-only cards add bg-transparent, selected cards add border-accent/50. */
+  .card {
+    @apply rounded-2xl border border-line/10 bg-panel;
+  }
 
-.agent-input:focus {
-  border-color: var(--accent);
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-}
-
-.form-submit {
-  color: var(--accent-ink);
-  background: var(--accent);
-  transition: background 250ms ease;
-}
-
-.form-submit:hover {
-  background: var(--accent-hover);
+  /* The one text field. The global focus ring above does the rest. */
+  .field {
+    @apply w-full rounded-lg border border-line/20 bg-field px-4 py-3 text-base text-primary placeholder:text-subtle focus:border-accent;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
