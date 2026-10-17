@@ -1,6 +1,6 @@
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react'
 
-type Variant = 'solid' | 'ghost'
+type Variant = 'solid' | 'ghost' | 'inverse'
 type Size = 'md' | 'lg'
 
 type Common = { variant?: Variant; size?: Size; className?: string; children: ReactNode }
@@ -12,11 +12,12 @@ const SIZE: Record<Size, string> = { md: 'h-10 px-4 text-sm', lg: 'h-12 px-6 tex
 const LOOK: Record<Variant, string> = {
   solid: 'bg-accent text-accent-ink hover:bg-accent-hover',
   ghost: 'border border-line/20 text-primary hover:border-accent',
+  inverse: 'bg-accent-ink text-accent hover:bg-black', // the primary action on an accent surface
 }
 
 /**
- * The site's one button: solid for the primary action, ghost for the secondary one; md (40px) everywhere,
- * lg (48px) in the hero and the closing CTA. Renders a link when given an href.
+ * The site's one button: solid for the primary action, ghost for the secondary one, inverse on an accent surface;
+ * md (40px) everywhere, lg (48px) in the hero and the closing CTA. Renders a link when given an href.
  */
 export default function Button(props: AsButton | AsLink) {
   const { variant = 'solid', size = 'md', className = '', children, ...rest } = props

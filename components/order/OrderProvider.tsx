@@ -3,7 +3,8 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 
-export type OrderPreset = { agents?: string[]; plan?: string }
+/** What the opener already knows: agents or a plan the visitor was looking at, or the sentence they typed on the page. */
+export type OrderPreset = { agents?: string[]; plan?: string; message?: string }
 
 type OrderContextValue = {
   open: boolean

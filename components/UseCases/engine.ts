@@ -69,89 +69,160 @@ class Demo{
 }
 
 /* ============ CASE · warehouse data (real Flowact desktop assistant) ============ */
+// Daily outbound orders per warehouse, 2026-08-04 onward. The chart draws the last `span` days of it.
 const JS = [
-  {k:'WH-USCA03', c:'#4E79A7', v:[1100,820,560,700,760,2250,1700,60,1900,1150,1650,5000,1700,1420,60,2900,4420,1240,1420,1400,1350,0,0,0,0,0,0,0,0]},
-  {k:'WH-USGA01', c:'#F28E2B', v:[5950,1750,1700,1650,1700,5950,1020,1950,2000,2050,2260,8850,2780,2780,1900,1980,6650,3100,2480,2460,2650,7200,7200,7200,7200,7200,7200,7200,7200]},
-  {k:'WH-USNJ01', c:'#59A14F', v:[3780,1400,1450,1650,1550,4750,1700,1660,1600,1660,1660,5230,3020,2010,2050,2050,6150,150,1250,1300,1350,3800,3800,3800,3800,3800,3800,3800,3800]},
-  {k:'WH-USCA01', c:'#E15759', v:[5240,1320,1340,1080,1240,4050,1380,1180,1180,1210,1260,4520,1360,1220,1220,1200,3780,880,1100,850,950,0,0,0,0,0,0,0,0]},
-  {k:'WH-USAZ01', c:'#76B7B2', v:[0,160,40,40,40,90,40,40,40,40,40,120,10,10,60,20,80,20,20,20,10,0,0,0,0,0,0,0,0]},
+  {k:'WH-USCA03', v:[1100,820,560,700,760,2250,1700,60,1900,1150,1650,5000,1700,1420,60,2900,4420,1240,1420,1400,1350]},
+  {k:'WH-USGA01', v:[5950,1750,1700,1650,1700,5950,1020,1950,2000,2050,2260,8850,2780,2780,1900,1980,6650,3100,2480,2460,2650]},
+  {k:'WH-USNJ01', v:[3780,1400,1450,1650,1550,4750,1700,1660,1600,1660,1660,5230,3020,2010,2050,2050,6150,150,1250,1300,1350]},
+  {k:'WH-USCA01', v:[5240,1320,1340,1080,1240,4050,1380,1180,1180,1210,1260,4520,1360,1220,1220,1200,3780,880,1100,850,950]},
+  {k:'WH-USAZ01', v:[0,160,40,40,40,90,40,40,40,40,40,120,10,10,60,20,80,20,20,20,10]},
 ];
-const DAYS = 21;
-function jaChart(){
-  const x0 = 36, x1 = 588, yb = 150, yt = 14, max = 9000, X = i => x0 + i*(x1-x0)/(DAYS-1), Y = v => yb - v/max*(yb-yt);
+const HI = '#8a6a3c', MUTED = 'rgba(31,35,40,.22)';
+const mmdd = (i) => { const d = new Date(2026, 7, 4 + i); return `${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
+/* Line chart of the last `span` days, one warehouse highlighted. */
+function jaChart(hi, span = 21){
+  const x0 = 40, x1 = 876, yb = 150, yt = 14, max = 9000, n = span, off = 21 - span;
+  const X = i => x0 + i*(x1-x0)/(n-1), Y = v => yb - v/max*(yb-yt);
   let s = '';
   [0,2250,4500,6750,9000].forEach(v => s += `<line class="gl" x1="${x0}" x2="${x1}" y1="${Y(v)}" y2="${Y(v)}"/><text x="${x0-5}" y="${Y(v)+3}" text-anchor="end">${v.toLocaleString('en-US')}</text>`);
-  for (let i = 0; i < DAYS; i += 2){ const d = new Date(2026,7,4+i); s += `<text x="${X(i)}" y="${yb+13}" text-anchor="middle">${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}</text>`; }
+  for (let i = 0; i < n; i += n > 10 ? 2 : 1) s += `<text x="${X(i)}" y="${yb+13}" text-anchor="middle">${mmdd(off + i)}</text>`;
   JS.forEach(w => {
-    const v = w.v.slice(0,DAYS);
-    s += `<path class="ln" pathLength="1" stroke="${w.c}" d="${v.map((y,i)=>(i?'L':'M')+X(i).toFixed(1)+' '+Y(y).toFixed(1)).join(' ')}"/>`;
-    s += v.map((y,i)=>`<circle class="dt" cx="${X(i).toFixed(1)}" cy="${Y(y).toFixed(1)}" r="1.8" fill="${w.c}"/>`).join('');
+    const v = w.v.slice(off, off + n), on = w.k === hi;
+    s += `<path class="ln${on ? ' hi' : ''}" pathLength="1" stroke="${on ? HI : MUTED}" d="${v.map((y,i)=>(i?'L':'M')+X(i).toFixed(1)+' '+Y(y).toFixed(1)).join(' ')}"/>`;
   });
-  return `<svg viewBox="0 0 600 170" role="img" aria-label="Daily B2C outbound orders by warehouse">${s}</svg>`;
+  return `<svg viewBox="0 0 900 170" role="img" aria-label="Daily orders by warehouse">${s}</svg>`;
 }
+/* Horizontal bars for a ranked list; `warn` rows take the amber bar. */
+function jaBars(rows, max){
+  return `<div class="jbars">${rows.map(([label, v, text, warn]) => `<div class="${warn ? 'w' : ''}"><span>${label}</span><i><b style="--w:${Math.round(v / max * 100)}%"></b></i><em>${text}</em></div>`).join('')}</div>`;
+}
+const RUN = 'cd ~/agent/client/03-Code/client-logistics && python ';
 const ja = {
   ph:'<span class="ph">Ask anything… (Enter to send, Shift+Enter for a new line)</span>',
-  reset(d){ const r = d.root; $('#ja-chat', r).innerHTML = ''; $('#ja-tx', r).innerHTML = this.ph; $('#ja-send', r).classList.remove('on'); $('#ja-cost', r).textContent = '$8.0189'; d.step(-1); },
+  /* The four questions the window can answer. Autoplay asks the first; a visitor can click any of them, before or after. */
+  starters: [
+    { q: 'How much of the Christmas stock has arrived?', s: 'How much Christmas stock has arrived?' },
+    { q: 'Orders shipped in the last 7 days, by warehouse', s: 'Orders shipped last 7 days' },
+    { q: 'How many days of stock do we have at USGA01?', s: 'Days of stock at USGA01' },
+    { q: 'Which SKUs have not moved in 60 days?', s: 'Slow movers over 60 days' },
+  ],
+  chips(except){ return this.starters.map((st, k) => (k === except ? '' : `<span data-starter="${k}">${st.s}</span>`)).join(''); },
+  get empty(){ return `<div class="ja-empty"><div class="ja-empty-in"><b>Good morning. What do you need from the warehouse data?</b><small>Connected · 4 warehouses · synced 09:38</small><div class="ja-starters">${this.chips(-1)}</div></div></div>`; },
+  reset(d){ const r = d.root; $('#ja-chat', r).innerHTML = this.empty; $('#ja-tx', r).innerHTML = this.ph; $('#ja-send', r).classList.remove('on'); $('#ja-cost', r).textContent = '$8.0189'; d.step(-1); },
   add(d, html){ const c = $('#ja-chat', d.root); c.insertAdjacentHTML('beforeend', html); d.end(c); return c.lastElementChild; },
-  async ask(d, q){
+  /* Autoplay types the question into the composer; a clicked question is sent as it is, like a real suggested prompt. */
+  async ask(d, q, cps, direct){
     const r = d.root, tx = $('#ja-tx', r);
-    await d.to(tx, .3); await d.click(tx);
-    tx.innerHTML = '<span></span><i class="caret"></i>'; $('#ja-send', r).classList.add('on');
-    await d.type(tx.firstChild, q);
-    await d.tap($('#ja-send', r)); tx.innerHTML = this.ph; $('#ja-send', r).classList.remove('on');
+    if (!direct){
+      await d.to(tx, .3); await d.click(tx);
+      tx.innerHTML = '<span></span><i class="caret"></i>'; $('#ja-send', r).classList.add('on');
+      await d.type(tx.firstChild, q, cps);
+      await d.tap($('#ja-send', r)); tx.innerHTML = this.ph; $('#ja-send', r).classList.remove('on');
+    }
+    // The starters make way for the conversation.
+    const empty = $('.ja-empty', r);
+    if (empty){ if (!d.instant){ empty.classList.add('out'); await d.wait(direct ? 120 : 300); } empty.remove(); }
     this.add(d, '<div class="jw r">You</div>'); this.add(d, `<div class="ju">${q}</div>`);
   },
-  async play(d){
-    const r = d.root;
-    d.step(0, 'Operations asks one question in the desktop assistant.');
-    await this.ask(d, 'How much of the Christmas stock has arrived?');
-    const think = this.add(d, '<div class="jbox"><span class="spin"></span>Thinking…<span class="s">1s</span></div>');
-    await d.wait(800);
-
-    d.step(1, 'The agent signs in to the client\'s system and pulls the data itself.');
-    think.remove();
-    this.add(d, '<div class="jbox">▸ Querying…</div>');
+  async think(d, s){ const t = this.add(d, `<div class="jbox"><span class="spin"></span>Thinking…<span class="s">${s}</span></div>`); await d.wait(700); t.remove(); },
+  /* Runs the trace line by line, then folds it into one "Done" line so the question and the answer share the screen. */
+  async trace(d, lines, done){
     const tr = this.add(d, '<div class="jtrace"></div>');
-    const lines = [
-      ['x','Blocked','curl -s -o /dev/null -w "%{http_code}" --max-time 8 https://portal.client-system.com'],
-      ['','Run','cd ~/agent/client/03-Code/client-logistics && python system_login.py'],
-      ['','Note','Login complete. Pulling the last 30 days again.'],
-      ['','Run','cd ~/agent/client/03-Code/client-logistics && python export_inbound.py --season christmas --from 2026-08-03 --to 2026-08-31'],
-      ['','Note','Export is an async queue job, polling. 5–10 minutes; I\'ll tell you when the data is in.'],
-      ['','Run','cd ~/agent/client/03-Code/client-logistics && python reconcile.py --types linehaul,transfer,b2c_return'],
-    ];
-    for (const [c,l,t] of lines){ tr.insertAdjacentHTML('beforeend', `<div><b class="${c}">${l}</b><code class="${l==='Note'?'n':''}">${t}</code></div>`); d.end($('#ja-chat', r)); await d.wait(520); }
-    $('#ja-cost', r).textContent = '$8.2417';
-
-    d.step(2, 'It states exactly how the number was counted.');
-    this.add(d, '<div class="jw">Assistant</div>');
-    this.add(d, `<div class="jans">Christmas stock arrived: <b>113,190 units</b> shelved (15,577 cartons).
-      <table><thead><tr><th>Metric</th><th>Count</th></tr></thead><tbody>
-      <tr><td>Planned receipt</td><td>113,987 units / 15,691 cartons</td></tr>
-      <tr><td>Received</td><td>113,479 units / 15,602 cartons</td></tr>
-      <tr><td>Shelved (good)</td><td><b>113,190 units / 15,577 cartons</b></td></tr>
-      <tr><td>Shelf rate</td><td>99.75%</td></tr>
-      <tr><td>Awaiting put-away</td><td>289 units, 288 still in progress (not loss)</td></tr></tbody></table>
-      Mostly in <b>WH-USCA03</b> (74.45%) and <b>WH-USCA01</b> (19.56%); both are nearly done.
-      <div class="d">Definition: inbound export · created 2026-08-03 to 08-31 · 4 warehouses · line-haul, transfer and B2C return inbound · season = Christmas tag · count = good units shelved, cross-dock excluded</div></div>`);
-    await d.wait(2200);
-
-    d.step(3, 'Ask for a chart, get the chart. Save it as a PDF.');
-    await this.ask(d, 'Chart each warehouse\'s daily B2C outbound orders');
-    const th = this.add(d, '<div class="jbox"><span class="spin"></span>Thinking…<span class="s">2s</span></div>');
-    await d.wait(900); th.remove();
-    const ch = this.add(d, `<div class="jchart"><div class="ch"><b>Daily B2C outbound orders by warehouse</b><small>Data as of 2026-08-24</small></div>${jaChart()}
-      <div class="jleg">${JS.map(w=>`<span><i style="background:${w.c}"></i>${w.k}</span>`).join('')}</div>
-      <div class="jdef">Definition: 5 owned warehouses · B2C sales outbound · by completion date · 2026-08-04 to 08-24</div>
-      <div class="jfoot"><span>Open in new window</span><span>Download</span><span class="pdf">Save as PDF</span></div></div>`);
+    for (const [c, l, t] of lines){ tr.insertAdjacentHTML('beforeend', `<div><b class="${c}">${l}</b><code class="${l === 'Note' ? 'n' : ''}">${t}</code></div>`); d.end($('#ja-chat', d.root)); await d.wait(420); }
+    tr.innerHTML = `<div><b>Done</b><code class="n">${done}</code></div>`;
+  },
+  answer(d, html){ this.add(d, '<div class="jw">Assistant</div>'); this.add(d, `<div class="jans">${html}</div>`); },
+  chart(d, title, sub, body){
+    const ch = this.add(d, `<div class="jchart"><div class="ch"><b>${title}</b><small>${sub}</small></div>${body}<div class="jfoot"><span>Open in new window</span><span>Download</span><span class="pdf">Save as PDF</span></div></div>`);
     if (d.instant) ch.classList.add('draw'); else requestAnimationFrame(() => requestAnimationFrame(() => ch.classList.add('draw')));
-    await d.wait(2000);
-    d.end($('#ja-chat', r)); await d.wait(500);
-    const pdf = $('.pdf', ch); await d.tap(pdf);
-    pdf.textContent = 'Saved · B2C-outbound.pdf'; pdf.classList.add('ok');
-    $('#ja-cost', r).textContent = '$8.4739';
-    await d.wait(500); d.hideCursor(); d.step(4);
-  }
+    return ch;
+  },
+  async save(d, ch, file){
+    await d.wait(1600); d.end($('#ja-chat', d.root)); await d.wait(400);
+    const pdf = $('.pdf', ch); await d.tap(pdf); pdf.textContent = 'Saved · ' + file; pdf.classList.add('ok');
+  },
+  async play(d){ await this.run(d, 0); },
+  /* One question, one answer, one chart, then the other three questions to try. */
+  async run(d, k, direct = false){
+    const r = d.root;
+    d.step(0); await this.ask(d, this.starters[k].q, 28, direct);
+    await this.think(d, '1s'); d.step(1);
+    await [this.inbound, this.outbound, this.stock, this.slow][k].call(this, d);
+    $('#ja-cost', r).textContent = '$8.47';
+    this.add(d, `<div class="ja-again"><small>Try another</small>${this.chips(k)}</div>`); d.end($('#ja-chat', r));
+    await d.wait(400); d.hideCursor(); d.step(4);
+  },
+  async inbound(d){
+    await this.trace(d, [
+      ['x','Blocked','curl -s -o /dev/null -w "%{http_code}" --max-time 8 https://portal.client-system.com'],
+      ['','Run', RUN + 'system_login.py'],
+      ['','Note','Login complete. Pulling the last 30 days again.'],
+      ['','Run', RUN + 'export_inbound.py --season christmas --from 2026-08-03 --to 2026-08-31'],
+      ['','Note','Export is an async queue job, polling. 5–10 minutes; I\'ll tell you when the data is in.'],
+      ['','Run', RUN + 'reconcile.py --types linehaul,transfer,b2c_return'],
+    ], 'Signed in, exported 30 days of inbound, reconciled 3 types · 6 steps, 1 blocked call');
+    d.step(2);
+    this.answer(d, `Christmas stock arrived: <b>113,190 units</b> shelved (15,577 cartons), 99.75% of what was received. Mostly in <b>WH-USCA03</b> and <b>WH-USCA01</b>; both are nearly done.
+      <table><thead><tr><th>Metric</th><th>Units</th><th>Cartons</th></tr></thead><tbody>
+      <tr><td>Planned receipt</td><td>113,987</td><td>15,691</td></tr>
+      <tr><td>Received</td><td>113,479</td><td>15,602</td></tr>
+      <tr><td>Shelved (good)</td><td><b>113,190</b></td><td><b>15,577</b></td></tr></tbody></table>`);
+    await d.wait(1200); d.step(3);
+    const ch = this.chart(d, 'Daily inbound by warehouse', 'WH-USCA03 highlighted · 2026-08-04 to 08-24', jaChart('WH-USCA03', 21));
+    await this.save(d, ch, 'christmas-inbound.pdf');
+  },
+  async outbound(d){
+    await this.trace(d, [
+      ['','Run', RUN + 'export_outbound.py --last 7d --by warehouse'],
+      ['','Note','5 warehouses · 58,520 orders · by completion date'],
+    ], 'Pulled 7 days of outbound from the client system · 2 steps');
+    d.step(2);
+    this.answer(d, `<b>58,520 orders</b> shipped in the last 7 days across 5 warehouses. <b>WH-USGA01</b> carried 36%; the peak on 08-20 was the Tuesday batch release.
+      <table><thead><tr><th>Warehouse</th><th>Orders</th><th>Share</th></tr></thead><tbody>
+      <tr><td>WH-USGA01</td><td><b>21,220</b></td><td>36%</td></tr>
+      <tr><td>WH-USNJ01</td><td>14,300</td><td>24%</td></tr>
+      <tr><td>WH-USCA03</td><td>12,790</td><td>22%</td></tr>
+      <tr><td>WH-USCA01</td><td>9,980</td><td>17%</td></tr>
+      <tr><td>WH-USAZ01</td><td>230</td><td>0.4%</td></tr></tbody></table>`);
+    await d.wait(1200); d.step(3);
+    const ch = this.chart(d, 'Daily outbound by warehouse', 'Last 7 days · WH-USGA01 highlighted', jaChart('WH-USGA01', 7));
+    await this.save(d, ch, 'outbound-7d.pdf');
+  },
+  async stock(d){
+    await this.trace(d, [
+      ['','Run', RUN + 'stock_on_hand.py --wh USGA01 --by category'],
+      ['','Run', RUN + 'outbound_rate.py --wh USGA01 --days 7'],
+      ['','Note','Days of stock = on hand ÷ 7-day average daily outbound'],
+    ], 'On hand and 7-day outbound rate for USGA01 · 3 steps');
+    d.step(2);
+    this.answer(d, `<b>23 days</b> of stock at WH-USGA01 at the current rate (3,031 orders a day, 7-day average). Three categories are under 14 days and will need a transfer or a reorder this week.
+      <table><thead><tr><th>Category</th><th>On hand</th><th>Days</th></tr></thead><tbody>
+      <tr><td>Apparel</td><td>41,200</td><td>31</td></tr>
+      <tr><td>Home</td><td>18,600</td><td>22</td></tr>
+      <tr><td>Toys</td><td>9,800</td><td><b>12</b></td></tr>
+      <tr><td>Electronics</td><td>6,100</td><td><b>9</b></td></tr>
+      <tr><td>Beauty</td><td>4,300</td><td><b>8</b></td></tr></tbody></table>`);
+    await d.wait(1200); d.step(3);
+    const ch = this.chart(d, 'Days of stock by category', 'WH-USGA01 · amber = under 14 days', jaBars([['Apparel', 31, '31 d'], ['Home', 22, '22 d'], ['Toys', 12, '12 d', true], ['Electronics', 9, '9 d', true], ['Beauty', 8, '8 d', true]], 31));
+    await this.save(d, ch, 'usga01-days-of-stock.pdf');
+  },
+  async slow(d){
+    await this.trace(d, [
+      ['','Run', RUN + 'movement.py --idle 60d --all-warehouses'],
+      ['','Note','11,480 SKUs scanned · 312 idle · last movement before 2026-06-25'],
+    ], 'Scanned 11,480 SKUs for 60 days without movement · 2 steps');
+    d.step(2);
+    this.answer(d, `<b>312 SKUs</b> have not moved in 60+ days, holding 48,900 units. The top five account for 31% of that; all five are seasonal lines from spring.
+      <table><thead><tr><th>SKU</th><th>On hand</th><th>Last moved</th><th>Days</th></tr></thead><tbody>
+      <tr><td>AP-2204 Winter coat</td><td>2,410</td><td>05-28</td><td><b>89</b></td></tr>
+      <tr><td>HM-3321 Patio heater</td><td>4,120</td><td>06-02</td><td>84</td></tr>
+      <tr><td>TY-0871 Plush set</td><td>3,640</td><td>06-11</td><td>75</td></tr>
+      <tr><td>HM-2016 Floor lamp</td><td>2,050</td><td>06-14</td><td>72</td></tr>
+      <tr><td>EL-1190 Headphones</td><td>2,980</td><td>06-19</td><td>67</td></tr></tbody></table>`);
+    await d.wait(1200); d.step(3);
+    const ch = this.chart(d, 'Days without movement, top 5', 'All warehouses · as of 2026-08-24', jaBars([['AP-2204', 89, '89 d'], ['HM-3321', 84, '84 d'], ['TY-0871', 75, '75 d'], ['HM-2016', 72, '72 d'], ['EL-1190', 67, '67 d']], 90));
+    await this.save(d, ch, 'slow-movers-60d.pdf');
+  },
 };
 
 /* ============ CASE · dispatch (real dispatch agent + client system + iMessage) ============ */
@@ -312,20 +383,30 @@ const scripts = { ja, dp, edc };
  * the active scene plays, then hands over to the next. select(i) jumps and keeps auto-advancing.
  */
 /* Phones: instead of shrinking the whole scene, a "camera" frames the panel the agent is working in.
-   Each shot is a panel rect in canvas px, always shown whole. The frame height is fixed per demo
-   (tallest shot, capped) so the page never jumps mid-demo and the stage fits on one phone screen. */
+   Each shot is a panel rect in canvas px, always shown whole. The frame height is the same for every
+   demo (the tallest shot of any of them, capped) so the stage never changes size and fits one phone screen. */
 const CAMERA = {
-  ja: [{ x: 335, y: 70, w: 720, h: 540 }],
+  ja: [{ x: 136, y: 64, w: 540, h: 620 }], // the assistant window, narrowed for phones in useCases.css
   dp: [{ x: 870, y: 56, w: 290, h: 580 }, { x: 72, y: 124, w: 774, h: 466 }, { x: 72, y: 124, w: 774, h: 466 }, { x: 870, y: 56, w: 290, h: 580 }],
   edc: [{ x: 762, y: 100, w: 308, h: 500 }, { x: 140, y: 34, w: 640, h: 556 }, { x: 400, y: 34, w: 720, h: 556 }, { x: 430, y: 34, w: 640, h: 556 }],
 };
+const SHOTS = Object.values(CAMERA).flat();
+/* Tablets up: one frame of fixed proportion (FRAME = width / height) for every scene. Each scene is cropped
+   to its windows and fitted whole inside the frame with an even inset, so the stage keeps one size. */
+const DESK = {
+  ja: { x: 136, y: 64, w: 900, h: 680 }, // exactly the assistant window
+  dp: { x: 46, y: 50, w: 1118, h: 590 },
+  edc: { x: 128, y: 22, w: 920, h: 552 }, // exactly the browser window
+};
+const FRAME = 1.5;
+const INSET = 16; // px between the frame edge and the fitted crop
 const PHONE = 640;
-const MAX_TALL = 1.05; // frame height cap, as a share of frame width
+const MAX_TALL = 1.05; // phone frame height cap, as a share of frame width
 const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 // Top-left of a view of `view` px over a `size` px canvas: centered on c, inside the canvas, or centered if larger.
 const place = (c, view, size) => (view >= size ? (size - view) / 2 : clamp(c - view / 2, 0, size - view));
 
-export function startShowcase(root, { onActive }) {
+export function startShowcase(root, { onActive, start = 0 }) {
   STATE = { dead: false };
   const mine = STATE;
   RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -336,22 +417,26 @@ export function startShowcase(root, { onActive }) {
     const f = $('.fit', a), c = $('.canvas', a), cam = CAMERA[a.dataset.demo];
     const go = () => {
       const w = f.clientWidth;
-      if (w && w < PHONE && cam) {
-        const h = Math.round(Math.min(w * MAX_TALL, Math.max(...cam.map((q) => (q.h * w) / q.w))));
+      if (!w) return; // hidden scene: sized again when shown
+      if (w < PHONE && cam) {
+        const h = Math.round(Math.min(w * MAX_TALL, Math.max(...SHOTS.map((q) => (q.h * w) / q.w))));
         const r = cam[clamp(shots[idx], 0, cam.length - 1)], k = Math.min(w / r.w, h / r.h);
         const x = place(r.x + r.w / 2, w / k, CW), y = place(r.y + r.h / 2, h / k, CH);
         f._k = k; f.classList.add('cam');
         c.style.transform = `scale(${k}) translate(${-x}px, ${-y}px)`; f.style.height = h + 'px';
       } else {
-        const k = w / CW; f._k = k; f.classList.remove('cam');
-        c.style.transform = `scale(${k})`; f.style.height = CH * k + 'px';
+        const d = DESK[a.dataset.demo] || { x: 0, y: 0, w: CW, h: CH };
+        const h = Math.round(w / FRAME), k = Math.min((w - 2 * INSET) / d.w, (h - 2 * INSET) / d.h);
+        const x = d.x + d.w / 2 - w / k / 2, y = d.y + d.h / 2 - h / k / 2; // the crop centred in the frame
+        f._k = k; f.classList.remove('cam');
+        c.style.transform = `scale(${k}) translate(${-x}px, ${-y}px)`; f.style.height = h + 'px';
       }
     };
     go(); const ro = new ResizeObserver(go); ro.observe(f); ros.push(ro);
     return go;
   });
   const demos = arts.map((a) => new Demo(a, scripts[a.dataset.demo]));
-  let active = 0, started = false;
+  let active = start, started = false;
   demos.forEach((d, i) => {
     d.onStep = (s, n) => { shots[i] = s < 0 ? 0 : Math.min(n - 1, s); fits[i](); };
   });
@@ -378,8 +463,8 @@ export function startShowcase(root, { onActive }) {
         d.sc.reset(d); d.hideCursor();
         await d.wait(500);
         await d.sc.play(d); d.step(99);
-        await d.wait(2600);
-        if (d.gen === g && active === i) select((i + 1) % demos.length, true);
+        await d.wait(5000); // hold the finished state before replaying
+        if (d.gen === g && active === i) select(i, true); // replay this scene; the others play when their tab is chosen
       } catch (e) { /* interrupted by another selection or unmount */ }
     })();
   }
@@ -388,14 +473,31 @@ export function startShowcase(root, { onActive }) {
   (async () => {
     for (const d of demos) await settle(d);
     if (mine.dead) return;
-    select(0, false);
+    select(start, false);
     if (RM) return;
     io = new IntersectionObserver((es) => { if (es[0].isIntersecting && !started) { started = true; select(active, true); } }, { threshold: 0.35 });
     io.observe(root);
   })();
 
+  // A click on one of the assistant's questions plays that exchange in place of whatever was running; the replay loop stops there.
+  const onClick = (e) => {
+    const s = e.target.closest('[data-starter]');
+    if (!s || !root.contains(s)) return;
+    const i = arts.findIndex((a) => a.contains(s)), d = demos[i];
+    if (i < 0 || !d.sc.run) return;
+    started = true; active = i; onActive(i);
+    demos.forEach((x) => x.gen++);
+    if (RM){ d.instant = true; d.root.classList.add('instant'); }
+    (async () => {
+      try { d.sc.reset(d); d.hideCursor(); await d.sc.run(d, Number(s.dataset.starter), true); d.step(99); }
+      catch (err) { /* interrupted by another click, a tab change or unmount */ }
+      finally { if (RM){ d.instant = false; d.root.classList.remove('instant'); } }
+    })();
+  };
+  root.addEventListener('click', onClick);
+
   return {
     select: (i) => { started = true; select(i, true); },
-    destroy: () => { mine.dead = true; demos.forEach((d) => d.gen++); ros.forEach((r) => r.disconnect()); io && io.disconnect(); },
+    destroy: () => { mine.dead = true; demos.forEach((d) => d.gen++); ros.forEach((r) => r.disconnect()); io && io.disconnect(); root.removeEventListener('click', onClick); },
   };
 }

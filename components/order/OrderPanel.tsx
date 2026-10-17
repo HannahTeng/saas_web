@@ -32,7 +32,9 @@ export default function OrderPanel() {
     const plan = PLANS.find((p) => p.id === preset.plan)
     setContext([...names, ...(plan ? [zh ? plan.zh : plan.en] : [])])
     setStatus('idle'); setError(''); setTried(false)
-    window.setTimeout(() => panel.current?.querySelector<HTMLElement>('textarea')?.focus(), 50)
+    // A sentence typed on the page comes in already; then only the contact is missing.
+    if (preset.message) setMessage(preset.message)
+    window.setTimeout(() => panel.current?.querySelector<HTMLElement>(preset.message ? '#order-contact' : 'textarea')?.focus(), 50)
   }, [open, preset, zh])
 
   // Modal focus: Tab cycles inside the panel while it is open, and focus returns to the button that opened it on close.

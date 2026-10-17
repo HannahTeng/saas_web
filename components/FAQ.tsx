@@ -1,7 +1,6 @@
 'use client'
 
 import { useLanguage } from '@/components/LanguageProvider'
-import Section from '@/components/Section'
 
 type QA = { q: string; a: string }
 
@@ -22,30 +21,38 @@ const ZH: QA[] = [
   { q: '数据安全吗？', a: 'Agent 只使用你授权的权限，你随时可以收回，而且只在你批准的步骤上执行。我们不会用你的数据训练模型。' },
 ]
 
-/** Plain FAQ above the footer. Native <details>, so it works without JavaScript and is keyboard accessible. */
-export default function FAQ() {
+/**
+ * The questions under the closing call to action. Only the questions show; each one opens on a click.
+ * `onAccent` recolors it for the accent surface it sits on.
+ */
+export default function FAQ({ onAccent = false }: { onAccent?: boolean }) {
   const { language } = useLanguage()
   const zh = language === 'zh'
   const items = zh ? ZH : EN
+  const c = onAccent
+    ? { kicker: 'text-accent-ink/60', rule: 'border-accent-ink/15', q: 'text-accent-ink', a: 'text-accent-ink/75', sign: 'border-accent-ink/25 text-accent-ink/70' }
+    : { kicker: 'text-subtle', rule: 'border-line/10', q: 'text-primary', a: 'text-muted', sign: 'border-line/20 text-muted' }
+  // Two independent columns from tablets up, so opening a question moves only the entries under it.
+  const half = Math.ceil(items.length / 2)
+  const columns = [items.slice(0, half), items.slice(half)]
   return (
-    <Section id="faq" aria-labelledby="faq-title">
-      <div className="grid gap-10 md:grid-cols-[280px_1fr]">
-        <div>
-          <h2 id="faq-title" className="h-section">{zh ? '常见问题' : 'Questions'}</h2>
-          <p className="mt-3 text-sm text-muted">{zh ? '没找到答案？写信到 support@flowact.net' : 'Something else? support@flowact.net'}</p>
-        </div>
-        <div className="divide-y divide-line/10 border-y border-line/10">
-          {items.map((it) => (
-            <details key={it.q} className="group py-5">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-base font-medium text-primary marker:hidden">
-                {it.q}
-                <span aria-hidden className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-line/20 text-muted transition-transform group-open:rotate-45">+</span>
-              </summary>
-              <p className="mt-3 max-w-2xl text-base leading-relaxed text-muted">{it.a}</p>
-            </details>
-          ))}
-        </div>
+    <div id="faq" className="scroll-mt-16">
+      <p className={`text-sm font-medium ${c.kicker}`}>{zh ? '常见问题' : 'Questions'}</p>
+      <div className={`mt-4 border-t md:grid md:grid-cols-2 md:gap-x-16 ${c.rule}`}>
+        {columns.map((column, i) => (
+          <div key={i}>
+            {column.map((it) => (
+              <details key={it.q} className={`group border-b ${c.rule}`}>
+                <summary className={`flex cursor-pointer list-none items-center justify-between gap-6 py-4 text-base font-medium [&::-webkit-details-marker]:hidden ${c.q}`}>
+                  {it.q}
+                  <span aria-hidden className={`grid h-6 w-6 shrink-0 place-items-center rounded-full border text-sm leading-none transition-transform duration-200 group-open:rotate-45 ${c.sign}`}>+</span>
+                </summary>
+                <p className={`pb-5 text-sm leading-relaxed ${c.a}`}>{it.a}</p>
+              </details>
+            ))}
+          </div>
+        ))}
       </div>
-    </Section>
+    </div>
   )
 }
