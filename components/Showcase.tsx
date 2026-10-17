@@ -61,8 +61,8 @@ export default function Showcase() {
           </div>
           <p className="text-sm leading-relaxed text-muted md:text-base">
             {zh
-              ? '同一个 Agent，按你团队的习惯交付：嵌在现有系统里、装成桌面应用，或直接在消息里对话。往下看它们干活，或在下面选一个。'
-              : 'The same agent, delivered the way your team already works: inside the platform you use, as a desktop app, or in the messages you already send. Watch each one, or choose one below.'}
+              ? '同一个 Agent，嵌在现有系统里、装成桌面应用，或直接在消息里对话。'
+              : 'The same agent, inside the platform you use, as a desktop app, or in your messages.'}
           </p>
         </div>
       </FadeIn>

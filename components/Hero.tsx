@@ -5,14 +5,7 @@ import { useLanguage } from '@/components/LanguageProvider'
 import { OrderButton } from '@/components/order/OrderButton'
 import styles from './Landing.module.css'
 
-// Three delivered cases, led by their numbers. Each one is the exchange shown in full further down the page.
-const CASES = [
-  { n: '113,190', unit: 'units', zhUnit: '件', en: 'Christmas inbound reconciled across 4 warehouses, from one question in plain words.', zh: '一句话提问，跨 4 个仓完成圣诞备货的入库核对。' },
-  { n: '27 → 4', unit: 'containers to trucks', zhUnit: '个柜 → 车', en: 'Planned overnight, packed to 100 CBM each, booked only after the dispatcher’s yes.', zh: '一夜之间规划完成，每车凑满 100 CBM，调度员确认后才约车。' },
-  { n: '412 → 3', unit: 'rows to queries', zhUnit: '行 → 条质疑', en: 'Filtered inside the clinical platform, each draft cited to the source record.', zh: '在临床平台内筛选，每条质疑都引用原始记录。' },
-]
-
-/** The opening: the statement, then three delivered cases by their numbers. */
+/** The opening: the statement, the lede and the two actions. */
 export default function Hero() {
   const { language } = useLanguage()
   const zh = language === 'zh'
@@ -49,14 +42,6 @@ export default function Hero() {
           <OrderButton size="lg" />
           <Button size="lg" variant="ghost" href="#products">{zh ? '查看产品' : 'See the agents'}</Button>
         </div>
-        <ol className={`${styles.highlights} ${styles.appear}`} aria-label={zh ? '已交付案例' : 'Delivered cases'}>
-          {CASES.map((c) => (
-            <li key={c.n}>
-              <b>{c.n} <small>{zh ? c.zhUnit : c.unit}</small></b>
-              <span>{zh ? c.zh : c.en}</span>
-            </li>
-          ))}
-        </ol>
       </div>
     </section>
   )
