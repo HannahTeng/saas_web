@@ -17,7 +17,8 @@
   --accent-rgb: 216 203 179;
   --accent: rgb(var(--accent-rgb));
   --accent-hover: #e7dcc8;
-  --accent-ink: #171614; /* text on an accent surface */
+  --accent-ink-rgb: 23 22 20; /* text on an accent surface */
+  --accent-ink: rgb(var(--accent-ink-rgb));
   --line-rgb: 239 237 232;
   /* Status: approvals, waits, blocked actions, form errors. */
   --ok-rgb: 127 199 154;
