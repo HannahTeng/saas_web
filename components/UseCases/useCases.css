@@ -468,3 +468,7 @@
 .uc .jbars .w i b{background:#d9a441}
 .uc .jchart.draw .jbars i b{width:var(--w)}
 .uc .jbars em{font-style:normal;text-align:right;font-variant-numeric:tabular-nums;color:#1f1d1b}
+/* Phones: the assistant window narrows so the camera shows it whole at a readable scale (CAMERA.ja in engine.ts). */
+.uc [data-demo="ja"] .fit.cam .win.ja{width:540px!important;height:620px!important}
+/* One frame for every scene: the frame's own surface is the floor, so a view that runs past the canvas edge shows no seam. */
+.uc .stage-bg{display:none}

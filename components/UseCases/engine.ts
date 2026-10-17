@@ -383,21 +383,25 @@ const scripts = { ja, dp, edc };
  * the active scene plays, then hands over to the next. select(i) jumps and keeps auto-advancing.
  */
 /* Phones: instead of shrinking the whole scene, a "camera" frames the panel the agent is working in.
-   Each shot is a panel rect in canvas px, always shown whole. The frame height is fixed per demo
-   (tallest shot, capped) so the page never jumps mid-demo and the stage fits on one phone screen. */
+   Each shot is a panel rect in canvas px, always shown whole. The frame height is the same for every
+   demo (the tallest shot of any of them, capped) so the stage never changes size and fits one phone screen. */
 const CAMERA = {
-  ja: [{ x: 522, y: 60, w: 518, h: 540 }],
+  ja: [{ x: 136, y: 64, w: 540, h: 620 }], // the assistant window, narrowed for phones in useCases.css
   dp: [{ x: 870, y: 56, w: 290, h: 580 }, { x: 72, y: 124, w: 774, h: 466 }, { x: 72, y: 124, w: 774, h: 466 }, { x: 870, y: 56, w: 290, h: 580 }],
   edc: [{ x: 762, y: 100, w: 308, h: 500 }, { x: 140, y: 34, w: 640, h: 556 }, { x: 400, y: 34, w: 720, h: 556 }, { x: 430, y: 34, w: 640, h: 556 }],
 };
-/* Desktop: crop each scene to the windows themselves (no empty floor), so the app text renders larger. */
+const SHOTS = Object.values(CAMERA).flat();
+/* Tablets up: one frame of fixed proportion (FRAME = width / height) for every scene. Each scene is cropped
+   to its windows and fitted whole inside the frame with an even inset, so the stage keeps one size. */
 const DESK = {
   ja: { x: 136, y: 64, w: 900, h: 680 }, // exactly the assistant window
   dp: { x: 46, y: 50, w: 1118, h: 590 },
   edc: { x: 128, y: 22, w: 920, h: 552 }, // exactly the browser window
 };
+const FRAME = 1.5;
+const INSET = 16; // px between the frame edge and the fitted crop
 const PHONE = 640;
-const MAX_TALL = 1.05; // frame height cap, as a share of frame width
+const MAX_TALL = 1.05; // phone frame height cap, as a share of frame width
 const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 // Top-left of a view of `view` px over a `size` px canvas: centered on c, inside the canvas, or centered if larger.
 const place = (c, view, size) => (view >= size ? (size - view) / 2 : clamp(c - view / 2, 0, size - view));
@@ -413,16 +417,19 @@ export function startShowcase(root, { onActive, start = 0 }) {
     const f = $('.fit', a), c = $('.canvas', a), cam = CAMERA[a.dataset.demo];
     const go = () => {
       const w = f.clientWidth;
-      if (w && w < PHONE && cam) {
-        const h = Math.round(Math.min(w * MAX_TALL, Math.max(...cam.map((q) => (q.h * w) / q.w))));
+      if (!w) return; // hidden scene: sized again when shown
+      if (w < PHONE && cam) {
+        const h = Math.round(Math.min(w * MAX_TALL, Math.max(...SHOTS.map((q) => (q.h * w) / q.w))));
         const r = cam[clamp(shots[idx], 0, cam.length - 1)], k = Math.min(w / r.w, h / r.h);
         const x = place(r.x + r.w / 2, w / k, CW), y = place(r.y + r.h / 2, h / k, CH);
         f._k = k; f.classList.add('cam');
         c.style.transform = `scale(${k}) translate(${-x}px, ${-y}px)`; f.style.height = h + 'px';
       } else {
-        const d = DESK[a.dataset.demo] || { x: 0, y: 0, w: CW, h: CH }, k = w / d.w;
+        const d = DESK[a.dataset.demo] || { x: 0, y: 0, w: CW, h: CH };
+        const h = Math.round(w / FRAME), k = Math.min((w - 2 * INSET) / d.w, (h - 2 * INSET) / d.h);
+        const x = d.x + d.w / 2 - w / k / 2, y = d.y + d.h / 2 - h / k / 2; // the crop centred in the frame
         f._k = k; f.classList.remove('cam');
-        c.style.transform = `scale(${k}) translate(${-d.x}px, ${-d.y}px)`; f.style.height = Math.round(d.h * k) + 'px';
+        c.style.transform = `scale(${k}) translate(${-x}px, ${-y}px)`; f.style.height = h + 'px';
       }
     };
     go(); const ro = new ResizeObserver(go); ro.observe(f); ros.push(ro);

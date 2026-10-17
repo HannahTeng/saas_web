@@ -22,21 +22,6 @@ const CASES: Case[] = [
   { demo: 'dp', en: 'In iMessage', zh: '在 iMessage 里', enLine: 'Text it like a colleague. It does the work in the client’s system and asks before anything is booked.', zhLine: '像给同事发消息一样。它在客户系统里完成工作，约车前先问你。', tag: 'Messages · approval by reply', zhTag: '消息对话 · 回复即审批' },
 ]
 
-// Phones get the exchange itself, in page type, instead of a shrunken window: the question, what the agent did, the answer.
-type Transcript = { q: string; steps: string; a: string; rows?: [string, string][]; bars?: { label: string; items: [string, number][] } }
-const TRANSCRIPTS: Record<'en' | 'zh', Record<Demo, Transcript>> = {
-  en: {
-    edc: { q: 'Which visits after week 12 are missing a lab date?', steps: 'Used the platform’s own filters: visit after week 12, lab date empty · opened each source record and its audit trail', a: 'Found the visits with no lab date and drafted the query for each site. The team decides what goes out.', rows: [['Filter', 'Visit > week 12, lab date empty'], ['Checked', 'Source record + audit trail'], ['Draft', 'Query to the site, for review']] },
-    ja: { q: 'How much of the Christmas stock has arrived?', steps: 'Signed in · exported 30 days of inbound · reconciled 3 inbound types', a: '113,190 units shelved (15,577 cartons). Mostly in WH-USCA03 and WH-USCA01; both nearly done.', rows: [['Planned receipt', '113,987 units'], ['Received', '113,479 units'], ['Shelved (good)', '113,190 units'], ['Shelf rate', '99.75%']], bars: { label: 'Share of arrivals by warehouse', items: [['WH-USCA03', 74], ['WH-USCA01', 20], ['WH-USGA01', 4], ['WH-USNJ01', 2]] } },
-    dp: { q: '27 containers arrived overnight. Plan the trucks.', steps: 'Signed in to the client’s system · packed each truck to 100 CBM · grouped by destination · exported to Excel', a: '4 trucks planned. Nothing is booked until you say yes.', rows: [['Trucks', '4'], ['Fill', '100 CBM each'], ['Status', 'Waiting for your approval']] },
-  },
-  zh: {
-    edc: { q: '12 周之后哪些访视缺化验日期？', steps: '用平台自带筛选：访视晚于 12 周、化验日期为空 · 逐条打开原始记录和审计轨迹', a: '找到缺化验日期的访视，并为每个中心起草了质疑。发不发，由团队决定。', rows: [['筛选', '访视 > 12 周，化验日期为空'], ['核对', '原始记录 + 审计轨迹'], ['起草', '质疑函，待团队审阅']] },
-    ja: { q: '圣诞备货到了多少？', steps: '登录系统 · 导出 30 天入库 · 核对 3 类入库', a: '已上架 113,190 件（15,577 箱），主要在 WH-USCA03 和 WH-USCA01，均接近完成。', rows: [['计划入库', '113,987 件'], ['实收', '113,479 件'], ['良品上架', '113,190 件'], ['上架率', '99.75%']], bars: { label: '各仓到货占比', items: [['WH-USCA03', 74], ['WH-USCA01', 20], ['WH-USGA01', 4], ['WH-USNJ01', 2]] } },
-    dp: { q: '昨晚到了 27 个柜，安排整车。', steps: '登录客户系统 · 每车凑满 100 CBM · 按目的地分组 · 导出 Excel', a: '已规划 4 车。你确认之前不会约车。', rows: [['车次', '4'], ['装载', '每车 100 CBM'], ['状态', '等待你确认']] },
-  },
-}
-
 /** One product section: three delivery forms over a single stage that plays the chosen one. */
 export default function Showcase() {
   const { language } = useLanguage()
@@ -57,7 +42,6 @@ export default function Showcase() {
   }, [])
 
   const pick = (i: number) => { setActive(i); ctl.current?.select(SCENE_ORDER.indexOf(CASES[i].demo)) }
-  const transcript = TRANSCRIPTS[zh ? 'zh' : 'en'][CASES[active].demo]
 
   useEffect(() => {
     stage.current?.querySelectorAll<HTMLElement>('[data-en]').forEach((el) => {
@@ -83,72 +67,45 @@ export default function Showcase() {
         </div>
       </FadeIn>
 
-      {/* The index on the left, as a column of three ruled entries that select the scene; the stage on the right.
-          The open entry is set in the primary text colour, the others in muted. Phones stack the entries above the transcript card. */}
-      <div className="mt-10 grid gap-8 md:grid-cols-[280px_minmax(0,1fr)] md:items-start md:gap-12">
-        <div className="grid gap-3 md:gap-0" role="tablist" aria-label={zh ? '交付形式' : 'Delivery forms'} aria-orientation="vertical">
-          {CASES.map((c, i) => {
-            const on = active === i
-            return (
-              <button
-                key={c.demo}
-                type="button"
-                role="tab"
-                id={`agent-tab-${c.demo}`}
-                aria-controls={`agent-panel-${c.demo}`}
-                aria-selected={on}
-                tabIndex={on ? 0 : -1}
-                onClick={() => pick(i)}
-                onKeyDown={(e) => onTabKey(e, i, CASES.length, pick)}
-                className="group grid cursor-pointer grid-cols-[2.5rem_1fr] items-baseline gap-x-2 gap-y-1 border-t border-line/[0.12] py-4 text-left transition-colors md:py-5 md:last:border-b"
-              >
-                <span className={`label-caps ${on ? 'text-primary' : 'text-subtle'}`}>0{i + 1}</span>
-                <strong className={`text-base font-medium tracking-tight underline-offset-4 transition-colors group-hover:underline md:text-lg ${on ? 'text-primary' : 'text-muted group-hover:text-primary'}`}>{zh ? c.zh : c.en}</strong>
-                <span className="col-start-2 text-sm leading-relaxed text-muted">{zh ? c.zhLine : c.enLine}</span>
-                <span className="col-start-2 hidden text-xs text-subtle md:flex md:items-center md:justify-between md:gap-3">
-                  {zh ? c.zhTag : c.tag}
-                  {/* The entry is a control: say so on the ones not playing. */}
-                  {!on && <span className="shrink-0 transition-colors group-hover:text-primary">{zh ? '播放 →' : 'Play →'}</span>}
-                </span>
-              </button>
-            )
-          })}
-        </div>
-
-        {/* The animated stage plays from tablets up; it only runs while on screen, so it idles when hidden. */}
-        <div ref={stage} className="uc hidden md:block" />
-
-        <div className="card grid gap-4 p-4 text-sm md:hidden" aria-live="polite">
-        <p className="max-w-[88%] justify-self-end rounded-lg bg-accent/15 px-3 py-2 text-primary">{transcript.q}</p>
-        <p className="text-xs leading-relaxed text-subtle">{transcript.steps}</p>
+      {/* Wide screens: the index on the left, a column of three ruled entries that select the scene, and the stage on the right.
+          The open entry is set in the primary text colour, the others in muted.
+          Below that: the three titles in one row, the open entry's line under them, then the stage at full width;
+          on phones the stage's camera frames each panel whole (engine.ts). */}
+      <div className="mt-10 grid gap-6 lg:grid-cols-[280px_minmax(0,1fr)] lg:items-start lg:gap-12">
         <div>
-          <p className="leading-relaxed text-primary">{transcript.a}</p>
-          {transcript.rows && (
-            <dl className="mt-3 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 border-t border-line/10 pt-3 text-xs">
-              {transcript.rows.map(([k, v]) => (
-                <div key={k} className="contents">
-                  <dt className="text-subtle">{k}</dt>
-                  <dd className="text-copy">{v}</dd>
-                </div>
-              ))}
-            </dl>
-          )}
-          {transcript.bars && (
-            <div className="mt-3 border-t border-line/10 pt-3 text-xs">
-              <p className="text-subtle">{transcript.bars.label}</p>
-              <div className="mt-2 grid gap-1.5">
-                {transcript.bars.items.map(([k, v]) => (
-                  <div key={k} className="grid grid-cols-[5.5rem_1fr_2.5rem] items-center gap-2">
-                    <span className="text-subtle">{k}</span>
-                    <span className="h-1.5 overflow-hidden rounded-full bg-line/10"><span className="block h-full rounded-full bg-accent" style={{ width: `${v}%` }} /></span>
-                    <span className="text-right text-copy">{v}%</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+          <div className="grid grid-cols-3 gap-2 lg:grid-cols-1 lg:gap-0" role="tablist" aria-label={zh ? '交付形式' : 'Delivery forms'} aria-orientation="vertical">
+            {CASES.map((c, i) => {
+              const on = active === i
+              return (
+                <button
+                  key={c.demo}
+                  type="button"
+                  role="tab"
+                  id={`agent-tab-${c.demo}`}
+                  aria-controls={`agent-panel-${c.demo}`}
+                  aria-selected={on}
+                  tabIndex={on ? 0 : -1}
+                  onClick={() => pick(i)}
+                  onKeyDown={(e) => onTabKey(e, i, CASES.length, pick)}
+                  className="group grid cursor-pointer gap-y-1 border-t border-line/[0.12] py-3 text-left transition-colors lg:grid-cols-[2.5rem_1fr] lg:items-baseline lg:gap-x-2 lg:py-5 lg:last:border-b"
+                >
+                  <span className={`label-caps hidden lg:block ${on ? 'text-primary' : 'text-subtle'}`}>0{i + 1}</span>
+                  <strong className={`text-sm font-medium tracking-tight underline-offset-4 transition-colors group-hover:underline md:text-base lg:text-lg ${on ? 'text-primary' : 'text-muted group-hover:text-primary'}`}>{zh ? c.zh : c.en}</strong>
+                  <span className="hidden text-sm leading-relaxed text-muted lg:col-start-2 lg:block">{zh ? c.zhLine : c.enLine}</span>
+                  <span className="hidden text-xs text-subtle lg:col-start-2 lg:flex lg:items-center lg:justify-between lg:gap-3">
+                    {zh ? c.zhTag : c.tag}
+                    {/* The entry is a control: say so on the ones not playing. */}
+                    {!on && <span className="shrink-0 transition-colors group-hover:text-primary">{zh ? '播放 →' : 'Play →'}</span>}
+                  </span>
+                </button>
+              )
+            })}
+          </div>
+          <p className="mt-3 text-sm leading-relaxed text-muted lg:hidden">{zh ? CASES[active].zhLine : CASES[active].enLine}</p>
         </div>
-        </div>
+
+        {/* The animated stage; it only runs while on screen, so it idles when scrolled away. */}
+        <div ref={stage} className="uc" />
       </div>
     </Section>
   )

@@ -22,7 +22,7 @@ const ZH: QA[] = [
 ]
 
 /**
- * The questions under the closing call to action, answered in the open: no accordion to click through.
+ * The questions under the closing call to action. Only the questions show; each one opens on a click.
  * `onAccent` recolors it for the accent surface it sits on.
  */
 export default function FAQ({ onAccent = false }: { onAccent?: boolean }) {
@@ -30,20 +30,29 @@ export default function FAQ({ onAccent = false }: { onAccent?: boolean }) {
   const zh = language === 'zh'
   const items = zh ? ZH : EN
   const c = onAccent
-    ? { kicker: 'text-accent-ink/60', rule: 'border-accent-ink/15', q: 'text-accent-ink', a: 'text-accent-ink/75' }
-    : { kicker: 'text-subtle', rule: 'border-line/10', q: 'text-primary', a: 'text-muted' }
+    ? { kicker: 'text-accent-ink/60', rule: 'border-accent-ink/15', q: 'text-accent-ink', a: 'text-accent-ink/75', sign: 'border-accent-ink/25 text-accent-ink/70' }
+    : { kicker: 'text-subtle', rule: 'border-line/10', q: 'text-primary', a: 'text-muted', sign: 'border-line/20 text-muted' }
+  // Two independent columns from tablets up, so opening a question moves only the entries under it.
+  const half = Math.ceil(items.length / 2)
+  const columns = [items.slice(0, half), items.slice(half)]
   return (
     <div id="faq" className="scroll-mt-16">
       <p className={`text-sm font-medium ${c.kicker}`}>{zh ? '常见问题' : 'Questions'}</p>
-      {/* Each entry carries its own bottom rule, so the rules read the same in one column and in two. */}
-      <dl className={`mt-4 border-t md:grid md:grid-cols-2 md:gap-x-16 ${c.rule}`}>
-        {items.map((it) => (
-          <div key={it.q} className={`border-b py-5 ${c.rule}`}>
-            <dt className={`text-base font-medium ${c.q}`}>{it.q}</dt>
-            <dd className={`mt-2 text-sm leading-relaxed ${c.a}`}>{it.a}</dd>
+      <div className={`mt-4 border-t md:grid md:grid-cols-2 md:gap-x-16 ${c.rule}`}>
+        {columns.map((column, i) => (
+          <div key={i}>
+            {column.map((it) => (
+              <details key={it.q} className={`group border-b ${c.rule}`}>
+                <summary className={`flex cursor-pointer list-none items-center justify-between gap-6 py-4 text-base font-medium [&::-webkit-details-marker]:hidden ${c.q}`}>
+                  {it.q}
+                  <span aria-hidden className={`grid h-6 w-6 shrink-0 place-items-center rounded-full border text-sm leading-none transition-transform duration-200 group-open:rotate-45 ${c.sign}`}>+</span>
+                </summary>
+                <p className={`pb-5 text-sm leading-relaxed ${c.a}`}>{it.a}</p>
+              </details>
+            ))}
           </div>
         ))}
-      </dl>
+      </div>
     </div>
   )
 }
