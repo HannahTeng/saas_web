@@ -5,15 +5,15 @@ export const USE_CASES_HTML = `<article data-kind="local" class="case demo" data
             <div class="stage-bg"></div>
             <div class="mbp" style="left:126px;top:34px">
               <div class="lid"><div class="notch"></div>
-                <div class="scr" style="width:920px;height:560px">
+                <div class="scr" style="width:920px;height:720px">
                   <div class="menubar ui"><b>Logistics Data Assistant</b><span>File</span><span>Edit</span><span>View</span><span>Window</span><span>Thu Oct 1 &nbsp;9:41 AM</span></div>
-                  <div class="win ui ja" style="left:10px;top:30px;width:900px;height:522px">
+                  <div class="win ui ja" style="left:10px;top:30px;width:900px;height:680px">
                     <div class="ja-bar"><span class="lights"><i></i><i></i><i></i></span><span class="tt">Logistics Data Assistant · Overseas Warehouse</span></div>
                     <div class="ja-body">
-                      <aside class="ja-hist"><div class="jh-h">Chat history <span>×</span></div><div class="jh-new">+ New chat</div><div class="jh-g">Today</div><div class="jh-i on">How much Christmas stock arrived</div><div class="jh-g">Earlier</div><div class="jh-i">Last week pack rate</div><div class="jh-i">USGA01 days of stock</div><div class="jh-i">Slow movers over 60 days</div></aside>
+                      <aside class="ja-hist"><div class="jh-h">Chat history</div><div class="jh-new">+ New chat</div><div class="jh-g">Today</div><div class="jh-i on">How much Christmas stock arrived</div><div class="jh-g">Earlier</div><div class="jh-i">Last week pack rate</div><div class="jh-i">USGA01 days of stock</div><div class="jh-i">Slow movers over 60 days</div></aside>
                       <div class="ja-main">
-                        <div class="ja-head"><span class="jl blur"></span><span class="jt"><b>Logistics Assistant</b><small>Outbound &amp; inventory · Powered by Claude</small></span>
-                          <span class="jp"><i></i>VPN OK</span><span class="jp"><i></i>Data synced</span><span class="jp g"><i></i><span id="ja-cost">$8.0189</span></span><span class="jb">New chat</span><span class="jb">Settings</span></div>
+                        <div class="ja-head"><span class="jl"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M13 44 H37 C43.5 44 46.5 41.5 48.5 37 L54 19" fill="none" stroke="#d8cbb3" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="jt"><b>Logistics Assistant</b><small>Outbound &amp; inventory</small></span>
+                          <span class="jp"><i></i>Data synced</span><span class="jp g"><i></i><span id="ja-cost">$8.0189</span></span><span class="jb">New chat</span><span class="jb">Settings</span></div>
                         <div class="ja-chat" id="ja-chat"></div>
                         <div class="ja-comp"><div class="ja-in"><span class="tx" id="ja-tx"></span><span class="ja-send" id="ja-send">Send</span></div>
                           <div class="ja-sug"><span>Orders shipped last 7 days</span><span>Pack rate</span><span>Days of stock at USGA01</span><span>Slow movers</span><span>Build a board for my boss</span></div></div>
@@ -29,10 +29,10 @@ export const USE_CASES_HTML = `<article data-kind="local" class="case demo" data
           <p class="cap"></p>
         </div>
         <ol class="strip">
-          <li><span class="n" data-en="01 · Asks" data-zh="01 · 提问">01 · Asks</span><b data-en="One sentence" data-zh="一句话">One sentence</b><small data-en="Typed into the desktop assistant." data-zh="在桌面助手里输入。">Typed into the desktop assistant.</small></li>
-          <li><span class="n" data-en="02 · Signs in &amp; pulls" data-zh="02 · 登录拉数">02 · Signs in &amp; pulls</span><b data-en="Works the client&#x27;s system" data-zh="操作客户系统">Works the client's system</b><small data-en="Logs in, queues the export, polls until done." data-zh="登录、提交导出、轮询直到完成。">Logs in, queues the export, polls until done.</small></li>
-          <li><span class="n" data-en="03 · Checks" data-zh="03 · 核对">03 · Checks</span><b data-en="States the definition" data-zh="写明统计口径">States the definition</b><small data-en="Season tag, date range, inbound types." data-zh="季节标签、日期范围、入库类型。">Season tag, date range, inbound types.</small></li>
-          <li><span class="n" data-en="04 · Charts" data-zh="04 · 出图">04 · Charts</span><b data-en="Chart and PDF" data-zh="图表和 PDF">Chart and PDF</b><small data-en="Ask for a chart, save it as a PDF." data-zh="要图就出图，一键存成 PDF。">Ask for a chart, save it as a PDF.</small></li>
+          <li><span class="n" data-en="Asks" data-zh="提问">Asks</span><b data-en="One sentence" data-zh="一句话">One sentence</b><small data-en="Typed into the desktop assistant." data-zh="在桌面助手里输入。">Typed into the desktop assistant.</small></li>
+          <li><span class="n" data-en="Pulls" data-zh="拉数">Pulls</span><b data-en="Works the client&#x27;s system" data-zh="操作客户系统">Works the client's system</b><small data-en="Logs in, queues the export, polls until done." data-zh="登录、提交导出、轮询直到完成。">Logs in, queues the export, polls until done.</small></li>
+          <li><span class="n" data-en="Checks" data-zh="核对">Checks</span><b data-en="States the definition" data-zh="写明统计口径">States the definition</b><small data-en="Season tag, date range, inbound types." data-zh="季节标签、日期范围、入库类型。">Season tag, date range, inbound types.</small></li>
+          <li><span class="n" data-en="Charts" data-zh="出图">Charts</span><b data-en="Chart and PDF" data-zh="图表和 PDF">Chart and PDF</b><small data-en="Ask for a chart, save it as a PDF." data-zh="要图就出图，一键存成 PDF。">Ask for a chart, save it as a PDF.</small></li>
         </ol>
       </article>
 <article data-kind="browser" class="case demo" data-demo="dp" id="agent-panel-dp" role="tabpanel" aria-labelledby="agent-tab-dp">
@@ -82,10 +82,10 @@ export const USE_CASES_HTML = `<article data-kind="local" class="case demo" data
           <p class="cap"></p>
         </div>
         <ol class="strip">
-          <li><span class="n" data-en="01 · Watches" data-zh="01 · 盯到货">01 · Watches</span><b data-en="Overnight arrivals" data-zh="夜间到货柜">Overnight arrivals</b><small data-en="Texts the dispatcher before the day starts." data-zh="开工前先给调度发消息。">Texts the dispatcher before the day starts.</small></li>
-          <li><span class="n" data-en="02 · Signs in" data-zh="02 · 登录">02 · Signs in</span><b data-en="The client&#x27;s own system" data-zh="客户自己的系统">The client's own system</b><small data-en="Pulls every arrived container and waybill." data-zh="拉取所有到货柜和运单。">Pulls every arrived container and waybill.</small></li>
-          <li><span class="n" data-en="03 · Packs" data-zh="03 · 凑车">03 · Packs</span><b data-en="Full trucks at 100 CBM" data-zh="按 100 CBM 凑整车">Full trucks at 100 CBM</b><small data-en="Groups by destination, checks weight, exports Excel." data-zh="按目的地分组、核重量、导出 Excel。">Groups by destination, checks weight, exports Excel.</small></li>
-          <li><span class="n" data-en="04 · Asks you" data-zh="04 · 等确认">04 · Asks you</span><b data-en="Books on &quot;yes&quot;" data-zh="你说"好"才约车">Books on "yes"</b><small data-en="Nothing is booked without the dispatcher&#x27;s reply." data-zh="调度不回复，什么都不会约。">Nothing is booked without the dispatcher's reply.</small></li>
+          <li><span class="n" data-en="Watches" data-zh="盯到货">Watches</span><b data-en="Overnight arrivals" data-zh="夜间到货柜">Overnight arrivals</b><small data-en="Texts the dispatcher before the day starts." data-zh="开工前先给调度发消息。">Texts the dispatcher before the day starts.</small></li>
+          <li><span class="n" data-en="Signs in" data-zh="登录">Signs in</span><b data-en="The client&#x27;s own system" data-zh="客户自己的系统">The client's own system</b><small data-en="Pulls every arrived container and waybill." data-zh="拉取所有到货柜和运单。">Pulls every arrived container and waybill.</small></li>
+          <li><span class="n" data-en="Packs" data-zh="凑车">Packs</span><b data-en="Full trucks at 100 CBM" data-zh="按 100 CBM 凑整车">Full trucks at 100 CBM</b><small data-en="Groups by destination, checks weight, exports Excel." data-zh="按目的地分组、核重量、导出 Excel。">Groups by destination, checks weight, exports Excel.</small></li>
+          <li><span class="n" data-en="Asks you" data-zh="等确认">Asks you</span><b data-en="Books on &quot;yes&quot;" data-zh="你说"好"才约车">Books on "yes"</b><small data-en="Nothing is booked without the dispatcher&#x27;s reply." data-zh="调度不回复，什么都不会约。">Nothing is booked without the dispatcher's reply.</small></li>
         </ol>
       </article>
 <article data-kind="knowledge" class="case demo" data-demo="edc" id="agent-panel-edc" role="tabpanel" aria-labelledby="agent-tab-edc">
@@ -95,7 +95,7 @@ export const USE_CASES_HTML = `<article data-kind="local" class="case demo" data
             <div class="mon" style="left:128px;top:22px">
               <div class="bez"><div class="scr ui" style="position:relative;width:920px;height:556px;overflow:hidden;border-radius:3px;background:#fff">
                 <div class="win" style="left:0;top:0;width:920px;height:556px;border-radius:0;box-shadow:none">
-                  <div class="chrome"><span class="lights"><i></i><i></i><i></i></span><span class="ar">‹ ›</span><span class="url">🔒 edc.<span class="blur">clientsite</span>.org<b>/AD-204/listings/labs</b></span></div>
+                  <div class="chrome"><span class="lights"><i></i><i></i><i></i></span><span class="ar">‹ ›</span><span class="url">🔒 edc.studyhub.org<b>/AD-204/listings/labs</b></span></div>
                   <div class="edc" style="flex:1;min-height:0">
                     <div class="e-top"><span class="lg"><i></i>StudyHub</span><span class="sd">Study AD-204 ▾</span><span>Listings</span><span>Reports</span><span>Sites</span><span class="ini">DM</span></div>
                     <div class="e-b">
@@ -133,10 +133,10 @@ export const USE_CASES_HTML = `<article data-kind="local" class="case demo" data
           <p class="cap"></p>
         </div>
         <ol class="strip">
-          <li><span class="n" data-en="01 · Asks" data-zh="01 · 提问">01 · Asks</span><b data-en="Plain English" data-zh="自然语言">Plain English</b><small data-en="Typed into the panel inside the platform." data-zh="在平台内的面板里输入。">Typed into the panel inside the platform.</small></li>
-          <li><span class="n" data-en="02 · Filters" data-zh="02 · 筛选">02 · Filters</span><b data-en="The platform&#x27;s own filters" data-zh="用平台自带的筛选">The platform's own filters</b><small data-en="Visit after week 12, lab date empty." data-zh="第 12 周之后、化验日期为空。">Visit after week 12, lab date empty.</small></li>
-          <li><span class="n" data-en="03 · Verifies" data-zh="03 · 核验">03 · Verifies</span><b data-en="Opens the source record" data-zh="打开原始记录">Opens the source record</b><small data-en="Checks the CRF and audit trail first." data-zh="先看 CRF 和审计记录。">Checks the CRF and audit trail first.</small></li>
-          <li><span class="n" data-en="04 · Drafts" data-zh="04 · 起草">04 · Drafts</span><b data-en="Queries wait for review" data-zh="质询等待审核">Queries wait for review</b><small data-en="Your team decides what goes to sites." data-zh="发不发给中心，由你的团队决定。">Your team decides what goes to sites.</small></li>
+          <li><span class="n" data-en="Asks" data-zh="提问">Asks</span><b data-en="Plain English" data-zh="自然语言">Plain English</b><small data-en="Typed into the panel inside the platform." data-zh="在平台内的面板里输入。">Typed into the panel inside the platform.</small></li>
+          <li><span class="n" data-en="Filters" data-zh="筛选">Filters</span><b data-en="The platform&#x27;s own filters" data-zh="用平台自带的筛选">The platform's own filters</b><small data-en="Visit after week 12, lab date empty." data-zh="第 12 周之后、化验日期为空。">Visit after week 12, lab date empty.</small></li>
+          <li><span class="n" data-en="Verifies" data-zh="核验">Verifies</span><b data-en="Opens the source record" data-zh="打开原始记录">Opens the source record</b><small data-en="Checks the CRF and audit trail first." data-zh="先看 CRF 和审计记录。">Checks the CRF and audit trail first.</small></li>
+          <li><span class="n" data-en="Drafts" data-zh="起草">Drafts</span><b data-en="Queries wait for review" data-zh="质询等待审核">Queries wait for review</b><small data-en="Your team decides what goes to sites." data-zh="发不发给中心，由你的团队决定。">Your team decides what goes to sites.</small></li>
         </ol>
       </article>
 `
