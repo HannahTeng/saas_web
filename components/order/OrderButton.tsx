@@ -80,6 +80,7 @@ export function StickyOrderBar() {
 
       {/* tablets and phones: bottom bar */}
       <div
+        data-order-bar
         className={`fixed inset-x-0 bottom-0 z-40 border-t border-line/10 bg-page/90 px-4 py-3 backdrop-blur-xl transition-[transform,visibility] duration-300 min-[1280px]:hidden ${show ? 'visible translate-y-0' : 'invisible pointer-events-none translate-y-full'}`}
         style={{ paddingBottom: 'calc(0.75rem + env(safe-area-inset-bottom, 0px))' }}
       >
