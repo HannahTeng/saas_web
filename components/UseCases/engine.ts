@@ -383,7 +383,8 @@ const scripts = { ja, dp, edc };
  * the active scene plays, then hands over to the next. select(i) jumps and keeps auto-advancing.
  */
 /* Phones: instead of shrinking the whole scene, a "camera" frames the panel the agent is working in.
-   Each shot is a panel rect in canvas px, always shown whole. The frame height is the same for every
+   Each shot is a panel rect in canvas px, always shown whole, centred, and clipped to itself so no
+   neighbouring window shows cut off at the frame edge. The frame height is the same for every
    demo (the tallest shot of any of them, capped) so the stage never changes size and fits one phone screen. */
 const CAMERA = {
   ja: [{ x: 136, y: 64, w: 540, h: 620 }], // the assistant window, narrowed for phones in useCases.css
@@ -403,8 +404,6 @@ const INSET = 16; // px between the frame edge and the fitted crop
 const PHONE = 640;
 const MAX_TALL = 1.05; // phone frame height cap, as a share of frame width
 const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
-// Top-left of a view of `view` px over a `size` px canvas: centered on c, inside the canvas, or centered if larger.
-const place = (c, view, size) => (view >= size ? (size - view) / 2 : clamp(c - view / 2, 0, size - view));
 
 export function startShowcase(root, { onActive, start = 0 }) {
   STATE = { dead: false };
@@ -421,14 +420,15 @@ export function startShowcase(root, { onActive, start = 0 }) {
       if (w < PHONE && cam) {
         const h = Math.round(Math.min(w * MAX_TALL, Math.max(...SHOTS.map((q) => (q.h * w) / q.w))));
         const r = cam[clamp(shots[idx], 0, cam.length - 1)], k = Math.min(w / r.w, h / r.h);
-        const x = place(r.x + r.w / 2, w / k, CW), y = place(r.y + r.h / 2, h / k, CH);
+        const x = r.x + r.w / 2 - w / k / 2, y = r.y + r.h / 2 - h / k / 2;
         f._k = k; f.classList.add('cam');
+        c.style.clipPath = `inset(${r.y}px ${CW - r.x - r.w}px ${CH - r.y - r.h}px ${r.x}px)`;
         c.style.transform = `scale(${k}) translate(${-x}px, ${-y}px)`; f.style.height = h + 'px';
       } else {
         const d = DESK[a.dataset.demo] || { x: 0, y: 0, w: CW, h: CH };
         const h = Math.round(w / FRAME), k = Math.min((w - 2 * INSET) / d.w, (h - 2 * INSET) / d.h);
         const x = d.x + d.w / 2 - w / k / 2, y = d.y + d.h / 2 - h / k / 2; // the crop centred in the frame
-        f._k = k; f.classList.remove('cam');
+        f._k = k; f.classList.remove('cam'); c.style.clipPath = '';
         c.style.transform = `scale(${k}) translate(${-x}px, ${-y}px)`; f.style.height = h + 'px';
       }
     };
