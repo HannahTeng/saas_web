@@ -20,7 +20,7 @@ export async function POST(request: Request) {
     const { id } = await deliver(parsed.data)
     return NextResponse.json({ ok: true, id })
   } catch {
-    // Nothing is configured on the server yet (or every channel failed): let the browser try a direct relay.
+    // Every channel failed: the visitor is asked to email us instead.
     return NextResponse.json({ ok: false, code: 'undelivered', error: 'We couldn’t send that. Please email support@flowact.net.' }, { status: 502 })
   }
 }

@@ -1,12 +1,16 @@
+import { createHmac } from 'node:crypto'
+
 /**
  * One place that defines what an order is and where it goes.
  *
- * Delivery, in order:
- *   1. Save to the orders store (Upstash Redis via Vercel; env KV_REST_API_URL / KV_REST_API_TOKEN
+ * Delivery, all in parallel:
+ *   1. Flowact Ops inbox (env FLOWACT_INTAKE_URL + FLOWACT_INTAKE_SECRET): the order becomes a lead, signed with
+ *      HMAC-SHA256 over "<timestamp>.<body>". Ops sends the client an acknowledgement. This is the main channel.
+ *   2. Save to the orders store (Upstash Redis via Vercel; env KV_REST_API_URL / KV_REST_API_TOKEN
  *      or UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN). Shown on /admin.
- *   2. Email support@flowact.net through Resend (env RESEND_API_KEY, optional RESEND_FROM).
- *   3. Optional webhook (env REQUEST_WEBHOOK_URL) for Slack, Sheets, Zapier…
- * The order succeeds if the store or the email worked. Stripe later: add a step here.
+ *   3. Email support@flowact.net through Resend (env RESEND_API_KEY, optional RESEND_FROM).
+ *   4. Optional webhook (env REQUEST_WEBHOOK_URL) for Slack, Sheets, Zapier…
+ * The order succeeds if any of 1–3 worked.
  */
 
 export type RequestKind = 'brief' | 'consultation' | 'quote'
@@ -148,9 +152,27 @@ async function sendEmail(o: StoredOrder): Promise<void> {
   if (!res.ok) throw new Error(`email ${res.status}: ${await res.text()}`)
 }
 
+/* ---------- Flowact Ops inbox ---------- */
+
+async function sendToOps(o: StoredOrder): Promise<void> {
+  const url = process.env.FLOWACT_INTAKE_URL
+  const secret = process.env.FLOWACT_INTAKE_SECRET
+  if (!url || !secret) throw new Error('ops intake not configured')
+  const body = JSON.stringify(o)
+  const ts = String(Math.floor(Date.now() / 1000))
+  const signature = createHmac('sha256', secret).update(`${ts}.${body}`).digest('hex')
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-flowact-timestamp': ts, 'x-flowact-signature': signature },
+    body,
+    cache: 'no-store',
+  })
+  if (!res.ok) throw new Error(`ops intake ${res.status}: ${(await res.text()).slice(0, 200)}`)
+}
+
 /* ---------- deliver ---------- */
 
-export async function deliver(req: AgentRequest): Promise<{ id: string; stored: boolean; emailed: boolean }> {
+export async function deliver(req: AgentRequest): Promise<{ id: string; inbox: boolean; stored: boolean; emailed: boolean }> {
   const order: StoredOrder = {
     ...req,
     id: `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`,
@@ -158,7 +180,8 @@ export async function deliver(req: AgentRequest): Promise<{ id: string; stored: 
     status: 'new',
   }
 
-  const [stored, emailed] = await Promise.all([
+  const [inbox, stored, emailed] = await Promise.all([
+    sendToOps(order).then(() => true, (e) => { console.error('[orders] ops inbox failed:', e); return false }),
     saveOrder(order).then(() => true, (e) => { console.error('[orders] store failed:', e); return false }),
     sendEmail(order).then(() => true, (e) => { console.error('[orders] email failed:', e); return false }),
   ])
@@ -167,9 +190,9 @@ export async function deliver(req: AgentRequest): Promise<{ id: string; stored: 
     fetch(process.env.REQUEST_WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(order) }).catch(() => {})
   }
 
-  if (!stored && !emailed) {
+  if (!inbox && !stored && !emailed) {
     console.error('[orders] UNDELIVERED ORDER', JSON.stringify(order))
     throw new Error('delivery failed')
   }
-  return { id: order.id, stored, emailed }
+  return { id: order.id, inbox, stored, emailed }
 }
