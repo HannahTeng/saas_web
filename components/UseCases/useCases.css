@@ -426,7 +426,7 @@
 /* Showcase: the cards above the stage carry each case title, so the scene's own caption stays hidden. */
 .uc .cap{display:none!important}
 
-.uc .fit.cam .canvas{transition:transform .7s cubic-bezier(.4,0,.2,1)}
+.uc .fit.cam .canvas{transition:transform .7s cubic-bezier(.4,0,.2,1),clip-path .7s cubic-bezier(.4,0,.2,1)}
 .uc .instant .fit.cam .canvas{transition:none}
 .uc .jp.g{display:none} /* the running-cost pill is product chrome, not part of the story */
 /* Only the exchange: no history sidebar, status pills or suggestion chips around it. The answer runs the full width. */

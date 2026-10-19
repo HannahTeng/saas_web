@@ -382,14 +382,19 @@ const scripts = { ja, dp, edc };
  * Every scene first renders its finished state (complete at rest); once the stage is on screen
  * the active scene plays, then hands over to the next. select(i) jumps and keeps auto-advancing.
  */
-/* Phones: instead of shrinking the whole scene, a "camera" frames the panel the agent is working in.
-   Each shot is a panel rect in canvas px, always shown whole. The frame height is the same for every
-   demo (the tallest shot of any of them, capped) so the stage never changes size and fits one phone screen. */
+/* Phones: instead of shrinking the whole scene, a "camera" frames the part the agent is working in.
+   A shot is one rect, shown whole and centred with PAD around it, and the view is clipped to it, so the
+   frame edge never cuts through a window or shows a neighbouring one. The frame height is the same for
+   every demo (the tallest shot of any of them, capped) so the stage never changes size, and never taller
+   than the screen it is seen on (room()), so the whole frame shows above the order bar on any phone.
+   Rects are [x, y, w, h] in canvas px, as laid out by markup.ts (measured, not guessed). */
 const CAMERA = {
-  ja: [{ x: 136, y: 64, w: 540, h: 620 }], // the assistant window, narrowed for phones in useCases.css
-  dp: [{ x: 870, y: 56, w: 290, h: 580 }, { x: 72, y: 124, w: 774, h: 466 }, { x: 72, y: 124, w: 774, h: 466 }, { x: 870, y: 56, w: 290, h: 580 }],
-  edc: [{ x: 762, y: 100, w: 308, h: 500 }, { x: 140, y: 34, w: 640, h: 556 }, { x: 400, y: 34, w: 720, h: 556 }, { x: 430, y: 34, w: 640, h: 556 }],
+  ja: [[136, 64, 540, 620]], // the assistant window, narrowed for phones in useCases.css
+  dp: [[880, 66, 270, 560], [68, 120, 754, 446], [68, 120, 754, 446], [880, 66, 270, 560]], // the phone, the dispatch window
+  // Columns of the browser under its top bar: the assistant, the listing, then an open drawer beside the assistant.
+  edc: [[758, 58, 290, 520], [128, 58, 630, 520], [428, 58, 620, 520], [428, 58, 620, 520]],
 };
+const PAD = 12; // canvas px between a shot and the frame edge
 const SHOTS = Object.values(CAMERA).flat();
 /* Tablets up: one frame of fixed proportion (FRAME = width / height) for every scene. Each scene is cropped
    to its windows and fitted whole inside the frame with an even inset, so the stage keeps one size. */
@@ -403,8 +408,16 @@ const INSET = 16; // px between the frame edge and the fitted crop
 const PHONE = 640;
 const MAX_TALL = 1.05; // phone frame height cap, as a share of frame width
 const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
-// Top-left of a view of `view` px over a `size` px canvas: centered on c, inside the canvas, or centered if larger.
-const place = (c, view, size) => (view >= size ? (size - view) / 2 : clamp(c - view / 2, 0, size - view));
+const SPARE = 16; // px kept clear between the frame and the order bar
+// Screen height left for the stage: the small viewport (so the frame does not resize as the URL bar slides away), less the order bar.
+const room = () => {
+  const p = document.createElement('div');
+  p.style.cssText = 'position:fixed;top:0;height:100svh;visibility:hidden;pointer-events:none';
+  document.body.appendChild(p);
+  const vh = p.offsetHeight || window.innerHeight;
+  p.remove();
+  return vh - (document.querySelector('[data-order-bar]')?.offsetHeight || 0) - SPARE;
+};
 
 export function startShowcase(root, { onActive, start = 0 }) {
   STATE = { dead: false };
@@ -413,28 +426,33 @@ export function startShowcase(root, { onActive, start = 0 }) {
   const arts = $$('article.demo', root);
   const ros = [];
   const shots = arts.map(() => 0);
+  let ROOM = room();
   const fits = arts.map((a, idx) => {
     const f = $('.fit', a), c = $('.canvas', a), cam = CAMERA[a.dataset.demo];
     const go = () => {
       const w = f.clientWidth;
       if (!w) return; // hidden scene: sized again when shown
       if (w < PHONE && cam) {
-        const h = Math.round(Math.min(w * MAX_TALL, Math.max(...SHOTS.map((q) => (q.h * w) / q.w))));
-        const r = cam[clamp(shots[idx], 0, cam.length - 1)], k = Math.min(w / r.w, h / r.h);
-        const x = place(r.x + r.w / 2, w / k, CW), y = place(r.y + r.h / 2, h / k, CH);
+        const h = Math.round(Math.min(w * MAX_TALL, Math.max(...SHOTS.map((q) => ((q[3] + 2 * PAD) * w) / (q[2] + 2 * PAD))), ROOM));
+        const [rx, ry, rw, rh] = cam[clamp(shots[idx], 0, cam.length - 1)], k = Math.min(w / (rw + 2 * PAD), h / (rh + 2 * PAD));
+        const x = rx + rw / 2 - w / k / 2, y = ry + rh / 2 - h / k / 2;
         f._k = k; f.classList.add('cam');
+        c.style.clipPath = `inset(${ry}px ${CW - rx - rw}px ${CH - ry - rh}px ${rx}px)`;
         c.style.transform = `scale(${k}) translate(${-x}px, ${-y}px)`; f.style.height = h + 'px';
       } else {
         const d = DESK[a.dataset.demo] || { x: 0, y: 0, w: CW, h: CH };
-        const h = Math.round(w / FRAME), k = Math.min((w - 2 * INSET) / d.w, (h - 2 * INSET) / d.h);
+        const h = Math.round(Math.min(w / FRAME, ROOM)), k = Math.min((w - 2 * INSET) / d.w, (h - 2 * INSET) / d.h);
         const x = d.x + d.w / 2 - w / k / 2, y = d.y + d.h / 2 - h / k / 2; // the crop centred in the frame
-        f._k = k; f.classList.remove('cam');
+        f._k = k; f.classList.remove('cam'); c.style.clipPath = '';
         c.style.transform = `scale(${k}) translate(${-x}px, ${-y}px)`; f.style.height = h + 'px';
       }
     };
     go(); const ro = new ResizeObserver(go); ro.observe(f); ros.push(ro);
     return go;
   });
+  // A turned phone or a resized window changes the room the frame has, not its width alone.
+  const onResize = () => { ROOM = room(); fits.forEach((g) => g()); };
+  window.addEventListener('resize', onResize);
   const demos = arts.map((a) => new Demo(a, scripts[a.dataset.demo]));
   let active = start, started = false;
   demos.forEach((d, i) => {
@@ -498,6 +516,6 @@ export function startShowcase(root, { onActive, start = 0 }) {
 
   return {
     select: (i) => { started = true; select(i, true); },
-    destroy: () => { mine.dead = true; demos.forEach((d) => d.gen++); ros.forEach((r) => r.disconnect()); io && io.disconnect(); root.removeEventListener('click', onClick); },
+    destroy: () => { mine.dead = true; demos.forEach((d) => d.gen++); ros.forEach((r) => r.disconnect()); io && io.disconnect(); root.removeEventListener('click', onClick); window.removeEventListener('resize', onResize); },
   };
 }
