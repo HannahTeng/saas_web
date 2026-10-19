@@ -36,6 +36,34 @@
 .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; animation-delay: .4s; }
 .appear { opacity: 1; animation: entrance 1.05s cubic-bezier(.16,1,.3,1) backwards; }
 @keyframes entrance { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+/* Desktop flow panel: one job moving through an agent and stopping for a person. Hidden below 1024px. */
+.flow { display: none; }
+@media (min-width:1024px) {
+  .heroInner { display: grid; grid-template-columns: minmax(0,1fr) minmax(340px,420px); gap: 72px; align-items: center; }
+  .flow { display: block; padding: 22px 24px; border: 1px solid rgb(var(--line-rgb) / .1); border-radius: 12px; background: var(--panel-bg); animation-delay: .45s; }
+}
+.flowHead { display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 1px solid rgb(var(--line-rgb) / .08); font-size: 14px; font-weight: 500; }
+.flowLive { display: inline-flex; align-items: center; gap: 7px; color: var(--text-muted); font-size: 12.5px; font-weight: 400; }
+.flowLive::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--ok); }
+.flowSteps { position: relative; margin: 6px -12px 0; padding: 0 12px; list-style: none; overflow: hidden; }
+.flowSteps::before, .flowSteps::after { content: ''; position: absolute; left: 17px; width: 1px; }
+.flowSteps::before { top: 24px; bottom: 24px; background: rgb(var(--line-rgb) / .14); }
+.flowSteps::after { top: 0; height: 56px; background: linear-gradient(transparent, var(--accent), transparent); animation: flow-run 3.2s cubic-bezier(.45,0,.55,1) infinite; }
+@keyframes flow-run { from { transform: translateY(-56px); } to { transform: translateY(260px); } }
+.flowSteps li { position: relative; display: grid; grid-template-columns: 11px 64px minmax(0,1fr) auto; align-items: center; gap: 14px; margin: 0 -12px; padding: 14px 12px; border-radius: 8px; font-size: 14px; }
+.flowDot { position: relative; z-index: 1; width: 11px; height: 11px; border: 1px solid rgb(var(--line-rgb) / .3); border-radius: 50%; background: var(--panel-bg); }
+.flowWho { color: var(--text-subtle); font-size: 12.5px; }
+.flowWhat { overflow: hidden; color: var(--text-copy); text-overflow: ellipsis; white-space: nowrap; }
+.flowSteps li[data-state="done"] .flowDot { border-color: transparent; background: var(--text-muted); }
+.flowSteps li[data-state="wait"] { background: rgb(var(--accent-rgb) / .07); }
+.flowSteps li[data-state="wait"] .flowDot { border-color: var(--accent); background: var(--accent); animation: flow-pulse 2s ease-out infinite; }
+.flowSteps li[data-state="wait"] .flowWhat { color: var(--text-primary); }
+.flowSteps li[data-state="next"] .flowWhat { color: var(--text-subtle); }
+@keyframes flow-pulse { from { box-shadow: 0 0 0 0 rgb(var(--accent-rgb) / .45); } to { box-shadow: 0 0 0 9px rgb(var(--accent-rgb) / 0); } }
+.flowChip { padding: 3px 9px; border-radius: 999px; background: var(--accent); color: var(--accent-ink); font-size: 11.5px; font-weight: 500; white-space: nowrap; }
+.flowFoot { margin: 10px 0 0; padding-top: 16px; border-top: 1px solid rgb(var(--line-rgb) / .08); color: var(--text-subtle); font-size: 13px; }
+@media (prefers-reduced-motion:reduce) { .flowSteps::after { display: none; } .flowSteps li[data-state="wait"] .flowDot { animation: none; } }
 @media (min-width:1280px) and (max-width:1599px) { .header { --header-x:48px; } .headline { font-size:80px; } .lede { font-size:20px; } }
 @media (min-width:1600px) { .header { --header-x:64px; height:100px; } .logo { font-size:17px; } .hero { margin-top:-100px; padding-top:calc(100px + 112px); } .headline { font-size:88px; } .lede { max-width:680px; font-size:21px; } .badge { font-size:15px; } }
 @media (min-width:1920px) { .header { --header-x:80px; height:112px; } .logo { font-size:18px; } .hero { margin-top:-112px; padding-top:calc(112px + 128px); } .headline { font-size:96px; } .lede { max-width:720px; font-size:22px; } }
@@ -66,7 +94,7 @@
 /* Reserve the complete phrase so typing never moves the rest of the heading. */
 .typed { position: relative; display: inline-block; vertical-align: baseline; padding: 0 .04em .12em; margin-bottom: -.12em; line-height: 1.15; }
 .typeMeasure { opacity: 0; }
-.typeText { position: absolute; inset: 0 auto 0 0; display: block; width: 100%; padding: 0 .04em .12em; overflow: hidden; white-space: nowrap; border-right: .025em solid transparent; color: var(--accent); animation: type-reveal .95s steps(9,end) .5s both, type-caret .4s step-end .5s 4; }
+.typeText { position: absolute; inset: 0 auto 0 0; display: block; width: 100%; padding: 0 .04em .12em; overflow: hidden; white-space: nowrap; border-right: .025em solid transparent; color: var(--accent); animation: type-reveal .7s steps(5,end) .5s both, type-caret .4s step-end .5s 4; }
 @keyframes type-reveal { from { width: 0; } to { width: 100%; } }
 @keyframes type-caret { 0%,100% { border-color: transparent; } 50% { border-color: var(--accent); } }
 @media (prefers-reduced-motion: reduce) { .typeText { width: 100%; border-right: 0; animation: none; } }
