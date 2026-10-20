@@ -15,7 +15,7 @@ type OrderContextValue = {
 
 const OrderContext = createContext<OrderContextValue | null>(null)
 
-/** One order flow for the whole site: every "Order now" button opens the same panel. */
+/** One order flow for the whole site: every "Free check" button opens the same panel. */
 export function OrderProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false)
   const [preset, setPreset] = useState<OrderPreset>({})

@@ -11,7 +11,7 @@ export function OrderButton({ preset, variant = 'solid', size = 'md', className 
   const { openOrder } = useOrder()
   return (
     <Button variant={variant} size={size} className={className} onClick={() => openOrder(preset)}>
-      {language === 'zh' ? '立即下单' : 'Order now'}
+      {language === 'zh' ? '免费体检' : 'Free check'}
     </Button>
   )
 }
@@ -50,21 +50,21 @@ export function StickyOrderBar() {
   }, [])
 
   const show = pastHero && !atClose && !open
-  const label = zh ? '立即下单' : 'Order now'
+  const label = zh ? '免费体检' : 'Free check'
 
   return (
     <>
       {/* wide screens: margin card */}
       <aside
-        aria-label={zh ? '下单' : 'Order'}
+        aria-label={zh ? '免费流程体检' : 'Free workflow check'}
         className={`card fixed bottom-8 right-8 z-40 hidden flex-col gap-4 bg-panel/90 p-5 backdrop-blur-xl transition-all duration-300 min-[1680px]:flex ${show ? 'visible translate-y-0 opacity-100' : 'invisible pointer-events-none translate-y-3 opacity-0'}`}
         style={{ width: 'min(300px, calc((100vw - 1152px) / 2 - 64px))' }}
       >
         <p className="text-base font-medium leading-snug text-primary">{zh ? '把重复的工作交出去。' : 'Hand off the repetition.'}</p>
         <ul className="space-y-1.5 text-sm leading-snug text-muted">
-          <li>{zh ? '$39 · 60 分钟范围界定通话' : '$39 · 60-min scoping call'}</li>
-          <li>{zh ? '通话后给固定报价' : 'Fixed quote after the call'}</li>
-          <li>{zh ? '一个工作日内回复' : 'Reply within one business day'}</li>
+          <li>{zh ? '免费 · 60 秒填完' : 'Free · 60 seconds'}</li>
+          <li>{zh ? '一个工作日内收到书面结果' : 'Written result within one business day'}</li>
+          <li>{zh ? '试点验收不过不付钱' : 'Pilots: no pass, no pay'}</li>
         </ul>
         <Button className="w-full" onClick={() => openOrder()}>{label}</Button>
       </aside>
@@ -85,7 +85,7 @@ export function StickyOrderBar() {
         style={{ paddingBottom: 'calc(0.75rem + env(safe-area-inset-bottom, 0px))' }}
       >
         <div className="mx-auto flex max-w-[1152px] items-center justify-between gap-3">
-          <p className="min-w-0 truncate text-sm text-muted">{zh ? '$39 范围界定 · 一个工作日内回复' : '$39 scoping call · Reply within one business day'}</p>
+          <p className="min-w-0 truncate text-sm text-muted">{zh ? '免费流程体检 · 一个工作日内回复' : 'Free workflow check · Reply within one business day'}</p>
           <Button onClick={() => openOrder()}>{label}</Button>
         </div>
       </div>

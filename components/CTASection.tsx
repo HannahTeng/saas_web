@@ -7,11 +7,11 @@ import { useLanguage } from '@/components/LanguageProvider'
 import { useOrder } from '@/components/order/OrderProvider'
 import Section from '@/components/Section'
 
-// The path from this page to an agent at work, in the order it happens. The order panel repeats it as a checklist.
+// The path from this page to a pilot, in the order it happens.
 const STEPS = [
-  { en: 'Tell us the job', zh: '说说要做的事', enLine: 'One sentence and a contact. Free.', zhLine: '一句话加一个联系方式。免费。' },
-  { en: '60-minute scoping call', zh: '60 分钟范围界定通话', enLine: '$39, within one business day. We map the job to your systems, data and approvals.', zhLine: '$39，一个工作日内约好。一起把这件事对应到你的系统、数据和审批人。' },
-  { en: 'Written scope, fixed quote', zh: '书面范围和固定报价', enLine: 'The build starts only when you say yes.', zhLine: '你点头之后才开工。' },
+  { en: 'Take the free check', zh: '填免费流程体检', enLine: 'About 60 seconds, mostly taps: what takes time, which systems, how many orders.', zhLine: '约 60 秒，基本都是点选：哪些事占时间、用什么系统、每天多少单。' },
+  { en: 'Get the result in writing', zh: '收到书面体检结果', enLine: 'Within one business day: the 2–3 jobs most worth automating and roughly what each saves. No call needed.', zhLine: '一个工作日内：最值得自动化的 2–3 件事，以及每件大概能省多少。不用约电话。' },
+  { en: 'Pilot, quoted per warehouse', zh: '试点，按仓库报价', enLine: 'The work starts only when you say yes, and you pay only if it passes acceptance.', zhLine: '你点头才开工，验收通过才付钱。' },
 ]
 
 /** The close, on the accent as a surface: the three-step path and one large button that opens the order panel; then the questions. */
@@ -30,7 +30,7 @@ export default function CTASection() {
               {zh ? <>把重复的工作<em className="em-accent em-ink">交出去。</em></> : <>Hand off the <em className="em-accent em-ink">repetition.</em></>}
             </h2>
             <p className="mt-4 max-w-md text-accent-ink/70">
-              {zh ? '从这一页到 Agent 上岗，只有三步。第一步一分钟。' : 'Three steps from this page to an agent at work. The first one takes a minute.'}
+              {zh ? '从这一页到试点，只有三步。第一步一分钟，免费。' : 'Three steps from this page to a pilot. The first takes a minute and is free.'}
             </p>
           </div>
 
@@ -47,10 +47,10 @@ export default function CTASection() {
 
           <div className="grid gap-3 md:col-start-1 md:row-start-2">
             <Button size="lg" variant="inverse" onClick={() => openOrder()} className="h-14 w-full px-10 text-base sm:w-auto sm:min-w-[16rem] sm:justify-self-start">
-              {zh ? '立即下单 · $39' : 'Order now · $39'}
+              {zh ? '获取免费体检' : 'Get a free check'}
             </Button>
             <p className="max-w-md text-sm leading-relaxed text-accent-ink/60">
-              {zh ? '面板里写一句要做的事、留联系方式，在线付 $39，我们一个工作日内约好时间。' : 'The panel asks for the job and a contact, then takes the $39 by card. We schedule within one business day.'}{' '}
+              {zh ? '不收费、不用绑卡、不用约电话。一个工作日内把结果发给你。' : 'Free, no card and no call. We send the result within one business day.'}{' '}
               <a href="/build" className="underline underline-offset-4 hover:text-accent-ink">{zh ? '各类 Agent 和方案价格' : 'Agents and plan prices'}</a>
             </p>
           </div>

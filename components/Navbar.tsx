@@ -56,7 +56,7 @@ export default function Navbar() {
         <button type="button" className={styles.language} onClick={toggleLanguage} aria-label={zh ? 'Switch site language to English' : '将网站切换为中文'}>
           <span className={zh ? '' : styles.on}>EN</span><span aria-hidden>/</span><span className={zh ? styles.on : ''}>中文</span>
         </button>
-        <Button variant="ghost" className="hidden sm:inline-flex" onClick={() => { setOpen(false); openOrder() }}>{zh ? '立即下单' : 'Order now'}</Button>
+        <Button variant="ghost" className="hidden sm:inline-flex" onClick={() => { setOpen(false); openOrder() }}>{zh ? '免费体检' : 'Free check'}</Button>
         <button ref={toggle} type="button" className={styles.burger} aria-controls="site-nav" aria-expanded={open} aria-label={open ? (zh ? '关闭菜单' : 'Close menu') : (zh ? '打开菜单' : 'Open menu')} onClick={() => setOpen(!open)}>
           <span /><span /><span />
         </button>

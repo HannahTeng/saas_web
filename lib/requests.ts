@@ -1,4 +1,5 @@
 import { createHmac } from 'node:crypto'
+import { cleanProfile, profileText, type CheckProfile } from './check'
 
 /**
  * One place that defines what an order is and where it goes.
@@ -13,7 +14,7 @@ import { createHmac } from 'node:crypto'
  * The order succeeds if any of 1–3 worked.
  */
 
-export type RequestKind = 'brief' | 'consultation' | 'quote'
+export type RequestKind = 'check' | 'brief' | 'consultation' | 'quote'
 
 export type AgentRequest = {
   kind: RequestKind
@@ -24,6 +25,8 @@ export type AgentRequest = {
   modules?: string[]
   preferredTime?: string
   page?: string
+  /** Answers from the free workflow check. */
+  profile?: CheckProfile
 }
 
 export type StoredOrder = AgentRequest & { id: string; receivedAt: string; status: 'new' | 'contacted' }
@@ -31,7 +34,7 @@ export type StoredOrder = AgentRequest & { id: string; receivedAt: string; statu
 export const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL || 'support@flowact.net'
 export const CONSULTATION_RATE_USD = 39
 
-const KINDS: RequestKind[] = ['brief', 'consultation', 'quote']
+const KINDS: RequestKind[] = ['check', 'brief', 'consultation', 'quote']
 const clip = (v: unknown, n: number) => (typeof v === 'string' ? v.trim().slice(0, n) : '')
 
 export function parseRequest(body: unknown): { ok: true; data: AgentRequest } | { ok: false; error: string } {
@@ -44,7 +47,9 @@ export function parseRequest(body: unknown): { ok: true; data: AgentRequest } | 
   if (!/@|^[A-Za-z][\w-]{3,}$/.test(contact) && (contact.match(/\d/g) ?? []).length < 7) return { ok: false, error: 'Enter a work email, phone or WeChat ID so we can reply.' }
   const message = clip(b.message, 4000)
   const modules = Array.isArray(b.modules) ? b.modules.map((m) => clip(m, 80)).filter(Boolean).slice(0, 20) : []
-  if (!message && modules.length === 0) return { ok: false, error: 'Tell us a little about the job.' }
+  const profile = kind === 'check' ? cleanProfile(b.profile) : undefined
+  const answered = Boolean(profile && (profile.pains.length || profile.wms || profile.daily_orders))
+  if (!message && modules.length === 0 && !answered) return { ok: false, error: 'Tell us a little about the job.' }
   return {
     ok: true,
     data: {
@@ -53,6 +58,7 @@ export function parseRequest(body: unknown): { ok: true; data: AgentRequest } | 
       company: clip(b.company, 160) || undefined,
       preferredTime: clip(b.preferredTime, 80) || undefined,
       page: clip(b.page, 200) || undefined,
+      profile,
     },
   }
 }
@@ -104,12 +110,12 @@ export async function setOrderStatus(id: string, status: StoredOrder['status']):
 
 /* ---------- email (Resend) ---------- */
 
-const KIND_LABEL: Record<RequestKind, string> = { brief: 'Request', consultation: 'Scoping session', quote: 'Order' }
+const KIND_LABEL: Record<RequestKind, string> = { check: 'Free workflow check', brief: 'Request', consultation: 'Scoping session', quote: 'Order' }
 
 export function orderSubject(o: AgentRequest): string {
   const agents = (o.modules ?? []).filter((m) => !m.startsWith('Plan:'))
   const plan = (o.modules ?? []).find((m) => m.startsWith('Plan:'))?.replace('Plan: ', '')
-  const parts = [`New ${KIND_LABEL[o.kind].toLowerCase()}`, agents.slice(0, 2).join(' + ') || (o.kind === 'consultation' ? '' : 'custom'), plan].filter(Boolean)
+  const parts = [`New ${KIND_LABEL[o.kind].toLowerCase()}`, agents.slice(0, 2).join(' + ') || (o.kind === 'consultation' || o.kind === 'check' ? '' : 'custom'), plan].filter(Boolean)
   return parts.join(' · ') + ' (flowact.net)'
 }
 
@@ -127,6 +133,7 @@ function orderText(o: StoredOrder): string {
     `Plan: ${plan}`,
     o.preferredTime ? `Preferred time: ${o.preferredTime}` : null,
     '',
+    ...(o.profile ? ['Free workflow check:', ...profileText(o.profile), ''] : []),
     'Message:',
     o.message || '—',
     '',

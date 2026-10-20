@@ -32,10 +32,10 @@ export const PLANS: (Item & { priceEn: string; priceZh: string; bulletsEn: strin
     bulletsZh: ['每月可提新需求', '专人支持，快速响应', '随时可取消'],
   },
   {
-    id: 'scoping', en: 'Scoping session', zh: '需求梳理会',
-    enLine: '60 minutes to map your workflow to the right agents.', zhLine: '60 分钟，把你的流程对应到合适的 Agent。',
-    priceEn: '$39 · 60 min', priceZh: '$39 · 60 分钟',
-    bulletsEn: ['Walk through your real workflow and tools', 'Which agent fits, and what stays manual', 'A written rollout plan afterwards'],
-    bulletsZh: ['走一遍真实流程和工具', '哪些该交给 Agent，哪些保留人工', '会后给出书面实施方案'],
+    id: 'check', en: 'Free workflow check', zh: '免费流程体检',
+    enLine: 'About 60 seconds of taps; a written result within one business day.', zhLine: '点选约 60 秒，一个工作日内收到书面结果。',
+    priceEn: 'Free', priceZh: '免费',
+    bulletsEn: ['What takes your team the most time', 'The 2–3 jobs most worth automating', 'Roughly how much each would save'],
+    bulletsZh: ['你们团队最占时间的事', '最值得自动化的 2–3 件事', '每件大概能省多少'],
   },
 ]
