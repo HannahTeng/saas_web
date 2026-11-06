@@ -31,8 +31,8 @@ export default function FAQ() {
     <Section id="faq" aria-labelledby="faq-heading">
       <div className="grid gap-7 md:grid-cols-[0.75fr_1.25fr] md:gap-[85px]">
         <div>
-          <h2 id="faq-heading" className="h-section md:max-w-[245px]">{zh ? '常见问题，一次说清。' : 'Questions, answered.'}</h2>
-          <p className="lede mt-3.5 text-xs md:mt-[18px]">
+          <h2 id="faq-heading" className="h-section md:max-w-[300px]">{zh ? '常见问题，一次说清。' : 'Questions, answered.'}</h2>
+          <p className="lede mt-3.5 !text-sm md:mt-[18px]">
             {zh ? '还有更具体的问题？' : 'Something more specific?'}<br />
             <a className="underline underline-offset-4 hover:text-primary" href="mailto:support@flowact.net">support@flowact.net</a>
           </p>

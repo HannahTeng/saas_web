@@ -18,11 +18,28 @@ export function Wordmark({ height = 22, title = 'Flowact' }: { height?: number; 
   )
 }
 
-/** The rising line on its own, for small spaces (favicon, avatar, app icon). */
-export function Symbol({ size = 24, mono = false }: { size?: number; mono?: boolean }) {
+/** The mark on its own: a loop that lifts off. The work goes round, then it moves. Same drawing as app/icon.svg. */
+export function Symbol({ size = 24 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden>
-      <path d="M13 44 H37 C43.5 44 46.5 41.5 48.5 37 L54 19" fill="none" stroke={mono ? 'currentColor' : 'var(--accent)'} strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" />
+      <defs>
+        <linearGradient id="flowact-mark" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#4a96a4" />
+          <stop offset="1" stopColor="#1d5a66" />
+        </linearGradient>
+      </defs>
+      <rect width="64" height="64" rx="15" fill="url(#flowact-mark)" />
+      <path d="M44.8 31.4 A15 15 0 1 1 30 19 C40 19 47 17 53 9" fill="none" stroke="#fff" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
+  )
+}
+
+/** The logo as it appears in the header and footer: the mark, then the wordmark. */
+export function Logo({ height = 24 }: { height?: number }) {
+  return (
+    <span className="inline-flex items-center" style={{ gap: Math.round(height * 0.42) }}>
+      <Symbol size={Math.round(height * 1.3)} />
+      <Wordmark height={height} />
+    </span>
   )
 }

@@ -47,7 +47,7 @@ export default function Process() {
   return (
     <Section id="how-it-works" aria-labelledby="process-heading">
       <h2 id="process-heading" className="h-section text-center">{zh ? '从一个流程，到一个上岗的 Agent。' : 'From one workflow to a working agent.'}</h2>
-      <p className="lede mx-auto mt-3 max-w-[560px] text-center">
+      <p className="lede mx-auto mt-3 max-w-[640px] text-center">
         {zh ? '从这一页到上线，只有三步。先花 $39 看一个真实的演示。' : 'Three steps from this page to a working agent. It starts with a $39 demo.'}
       </p>
       <div ref={route} id="process-route" className="process-route">
@@ -59,9 +59,9 @@ export default function Process() {
       <ol className="grid gap-6 sm:grid-cols-3 sm:gap-11 sm:text-center">
         {STEPS.map((s, i) => (
           <li key={s.en} className="grid grid-cols-[30px_1fr] items-baseline gap-x-3 sm:block">
-            <span className="text-[11px] text-subtle">0{i + 1}</span>
+            <span className="text-[13px] text-subtle">0{i + 1}</span>
             <h3 className="h-card sm:mt-[13px]">{zh ? s.zh : s.en}</h3>
-            <p className="lede col-start-2 mt-2 max-w-[290px] text-xs sm:mx-auto sm:mt-3">{zh ? s.zhLine : s.enLine}</p>
+            <p className="lede col-start-2 mt-2 max-w-[310px] !text-sm sm:mx-auto sm:mt-3">{zh ? s.zhLine : s.enLine}</p>
           </li>
         ))}
       </ol>

@@ -80,7 +80,7 @@ export default function Showcase() {
   return (
     <Section id="products" className="!pt-4" aria-labelledby="products-heading">
       <h2 id="products-heading" className="h-section text-center">{zh ? '看看 Agent 怎么工作。' : 'See your agent at work.'}</h2>
-      <p className="lede mx-auto mt-3 max-w-[560px] text-center">
+      <p className="lede mx-auto mt-3 max-w-[640px] text-center">
         {zh
           ? '在现有平台里、桌面上、消息里，或团队的办公软件里。不用学新系统。'
           : 'Inside your platform, on your desktop, in your messages or in your team chat. No new system to learn.'}
@@ -122,14 +122,14 @@ export default function Showcase() {
         <div className="grid items-center gap-6 lg:grid-cols-[0.65fr_1.75fr] lg:gap-7">
           <div key={now.demo} className="story px-0.5 lg:px-2 lg:py-2">
             <h3>{t(now.title[0])} <br className="hidden lg:inline" />{t(now.title[1])}</h3>
-            <p className="lede mt-3.5 max-w-[530px] lg:mt-[18px] lg:max-w-[270px]">{t(now.line)}</p>
-            <p className="mt-4 text-[11px] text-subtle lg:mt-[22px]">{t(now.tag)}</p>
+            <p className="lede mt-3.5 max-w-[530px] lg:mt-[18px] lg:max-w-[300px]">{t(now.line)}</p>
+            <p className="mt-4 text-[13px] text-subtle lg:mt-[22px]">{t(now.tag)}</p>
           </div>
           {/* The animated stage; it only runs while on screen, so it idles when scrolled away. */}
           <div ref={stage} className="uc min-w-0" />
         </div>
       </div>
-      <p className="mt-4 text-center text-[11px] leading-relaxed text-subtle">
+      <p className="mt-4 text-center text-[13px] leading-relaxed text-subtle">
         {zh ? '以上为 Flowact 的产品演示示例。你的演示会照你自己的流程来做。' : 'Illustrative product walkthroughs from Flowact. Your demo is built around your own workflow.'}
       </p>
     </Section>

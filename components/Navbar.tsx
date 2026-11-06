@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useLanguage } from '@/components/LanguageProvider'
 import { OrderButton } from '@/components/order/OrderButton'
 import styles from './Landing.module.css'
-import { Wordmark } from './Logo'
+import { Logo } from './Logo'
 
 const LINKS = [
   { href: '/#products', en: 'Agents', zh: '产品' },
@@ -46,7 +46,7 @@ export default function Navbar() {
   return (
     <header ref={header} className={`glass ${styles.header} ${open ? styles.menuOpen : ''}`}>
       <a href="/#top" aria-label="Flowact home" className={styles.logo} onClick={() => setOpen(false)}>
-        <Wordmark height={21} />
+        <Logo height={22} />
       </a>
       <nav id="site-nav" aria-label={zh ? '主导航' : 'Primary'} className={styles.nav}>
         {LINKS.map((l) => (

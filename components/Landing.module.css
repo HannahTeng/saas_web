@@ -9,36 +9,36 @@
   gap: 25px;
   width: calc(100% - 64px);
   max-width: 1240px;
-  height: 65px;
+  height: 74px;
   margin: 16px auto 0;
-  padding: 0 15px 0 24px;
+  padding: 0 17px 0 22px;
   border-radius: 999px;
   color: var(--text-primary);
 }
 .logo { display: inline-flex; align-items: center; flex: none; }
-.nav { display: flex; align-items: center; gap: 31px; }
-.nav a { font-size: 12px; color: var(--text-muted); white-space: nowrap; transition: color .2s; }
+.nav { display: flex; align-items: center; gap: 38px; }
+.nav a { font-size: 14.5px; color: var(--text-muted); white-space: nowrap; transition: color .2s; }
 .nav a:hover { color: var(--text-primary); }
 .nav a span, .nav .language { display: none; } /* the arrows and the language switch belong to the phone menu */
 .headerActions { display: flex; align-items: center; gap: 16px; }
-.language { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; color: var(--text-subtle); font-size: 12px; white-space: nowrap; }
+.language { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; color: var(--text-subtle); font-size: 14px; white-space: nowrap; }
 .language .on { color: var(--text-primary); }
 .language:hover { color: var(--text-muted); }
-.menuButton { display: none; padding: 10px 0; font-size: 12px; }
+.menuButton { display: none; padding: 10px 0; font-size: 14px; }
 
 /* The opening: one statement under the sculpture, the lede and the two actions, centred. */
 .hero { position: relative; padding: 136px 24px 64px; text-align: center; color: var(--text-primary); }
-.heroInner { max-width: 640px; margin: 0 auto; }
-.badge { margin-bottom: 18px; color: var(--text-muted); font-size: 12px; letter-spacing: .015em; }
-.headline { font-size: clamp(48px, 4.3vw, 60px); font-weight: 450; letter-spacing: -.052em; line-height: 1.1; }
+.heroInner { max-width: 760px; margin: 0 auto; }
+.badge { margin-bottom: 20px; color: var(--text-muted); font-size: 14px; letter-spacing: .015em; }
+.headline { font-size: clamp(52px, 5vw, 72px); font-weight: 450; letter-spacing: -.052em; line-height: 1.1; }
 .headline > span { display: block; overflow: hidden; padding: .04em .15em .1em; }
 .headline > span > span { display: block; }
 .headline > span:first-child > span { animation-delay: .14s; }
 .headline > span:last-child > span { animation-delay: .25s; }
 .headline em { white-space: nowrap; font-family: var(--font-serif); font-weight: 400; font-size: 1.17em; letter-spacing: -.035em; word-spacing: .14em; color: var(--serif-ink); }
-.lede { max-width: 470px; margin: 14px auto 0; color: var(--text-muted); font-size: 14px; line-height: 1.8; animation-delay: .3s; }
+.lede { max-width: 540px; margin: 16px auto 0; color: var(--text-muted); font-size: 17px; line-height: 1.7; animation-delay: .3s; }
 .actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; margin-top: 25px; animation-delay: .4s; }
-.actions > * { width: 190px; } /* a matched pair */
+.actions > * { width: 210px; } /* a matched pair */
 .appear { opacity: 1; animation: entrance 1.05s cubic-bezier(.16,1,.3,1) backwards; }
 @keyframes entrance { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 
@@ -50,7 +50,7 @@
 @keyframes type-caret { 0%,100% { border-color: transparent; } 50% { border-color: var(--serif-ink); } }
 
 @media (min-width:1450px) { .hero { padding-top: 150px; padding-bottom: 72px; } }
-@media (min-width:801px) and (max-width:1100px) { .header { width: calc(100% - 40px); } .nav { gap: 23px; } .hero { padding-top: 130px; } .headline { font-size: 52px; } }
+@media (min-width:801px) and (max-width:1100px) { .header { width: calc(100% - 40px); } .nav { gap: 26px; } .hero { padding-top: 130px; } .headline { font-size: 56px; } }
 @media (max-width:800px) {
   .header { width: calc(100% - 32px); height: 62px; top: 12px; margin-top: 12px; padding: 0 13px 0 19px; gap: 12px; }
   .headerActions { gap: 16px; }
@@ -63,7 +63,7 @@
   .nav .language { display: inline-flex; margin: 4px 5px 0; padding-top: 8px; border-top: 1px solid var(--rule); font-size: 13px; }
   .hero { padding: 116px 24px 48px; }
   .headline { font-size: 49px; }
-  .lede { max-width: 420px; font-size: 13px; }
+  .lede { max-width: 440px; font-size: 15px; }
 }
 @media (max-width:540px) { .headerActions > .language { display: none; } }
 @media (max-width:480px) {

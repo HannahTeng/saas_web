@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useLanguage } from '@/components/LanguageProvider'
-import { Wordmark } from '@/components/Logo'
+import { Logo } from '@/components/Logo'
 
 export default function Footer() {
   const { language } = useLanguage()
@@ -16,15 +16,15 @@ export default function Footer() {
     <footer className="relative z-[1] px-6 pb-7 sm:px-10 lg:px-14">
       <div className="mx-auto max-w-[1120px]">
         <div className="grid grid-cols-[1fr_auto] items-center gap-x-6 gap-y-5 pb-7 md:grid-cols-[1fr_1.4fr_auto]">
-          <a href="/#top" aria-label="Flowact home" className="col-start-1 row-start-1 justify-self-start"><Wordmark height={22} /></a>
-          <p className="col-span-2 row-start-2 text-[11px] leading-[1.9] text-muted md:col-span-1 md:col-start-2 md:row-start-1">
+          <a href="/#top" aria-label="Flowact home" className="col-start-1 row-start-1 justify-self-start"><Logo height={22} /></a>
+          <p className="col-span-2 row-start-2 text-[13px] leading-[1.8] text-muted md:col-span-1 md:col-start-2 md:row-start-1">
             {zh ? 'AI Agent 咨询与开发服务。' : 'AI agent consulting and development.'}<br />
             {zh ? '围绕你的工作方式来建。' : 'Built around the way you work.'}
           </p>
-          <a href="mailto:support@flowact.net" className="col-start-2 row-start-1 justify-self-end text-xs hover:underline hover:underline-offset-4 md:col-start-3">support@flowact.net</a>
+          <a href="mailto:support@flowact.net" className="col-start-2 row-start-1 justify-self-end text-sm hover:underline hover:underline-offset-4 md:col-start-3">support@flowact.net</a>
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-x-5 gap-y-3 border-t border-[var(--rule)] pt-[23px] text-[11px] text-subtle">
+        <div className="flex flex-wrap items-center justify-between gap-x-5 gap-y-3 border-t border-[var(--rule)] pt-[23px] text-[13px] text-subtle">
           <span>© 2026 Flowact, Inc. {zh ? '保留所有权利。' : 'All rights reserved.'}</span>
           <nav aria-label={zh ? '法律条款' : 'Legal'} className="flex gap-[23px]">
             <a href="/terms" className="hover:underline hover:underline-offset-4">{zh ? '服务条款' : 'Terms'}</a>

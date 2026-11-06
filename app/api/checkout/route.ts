@@ -40,7 +40,7 @@ export async function POST(request: Request) {
     const json = await res.json().catch(() => ({}))
     if (res.ok && json.url) return NextResponse.json({ url: json.url })
     console.error('[checkout] stripe error', res.status, json?.error?.message)
-    return NextResponse.json({ url: null, error: 'stripe' }, { status: 502 })
+    // Fall through: a Payment Link, when one is set, still takes the payment.
   }
 
   const link = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK
@@ -51,5 +51,5 @@ export async function POST(request: Request) {
     return NextResponse.json({ url: u.toString() })
   }
 
-  return NextResponse.json({ url: null })
+  return NextResponse.json({ url: null, ...(key ? { error: 'stripe' } : {}) }, { status: key ? 502 : 200 })
 }

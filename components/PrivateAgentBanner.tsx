@@ -32,13 +32,13 @@ export default function PrivateAgentBanner() {
     <Section id="control" aria-labelledby="control-heading">
       <div className="mx-auto max-w-3xl text-center">
         <h2 id="control-heading" className="h-section">{zh ? '你的系统，你说了算。' : <>Your systems. Your control.</>}</h2>
-        <p className="lede mx-auto mt-3 max-w-[560px]">
+        <p className="lede mx-auto mt-3 max-w-[640px]">
           {zh ? 'Agent 私有部署在你的环境里，关键步骤等人批准，每一步都留有记录。' : 'Privately deployed in your environment, with approval points and a record of what happened.'}
         </p>
       </div>
 
       <div className="card arrive flow-card mt-6 overflow-hidden">
-        <p className="pt-6 text-center text-xs text-muted sm:pt-7">{zh ? '一点自主，一条清楚的边界。' : 'A little autonomy. A clear boundary.'}</p>
+        <p className="pt-6 text-center text-sm text-muted sm:pt-7">{zh ? '一点自主，一条清楚的边界。' : 'A little autonomy. A clear boundary.'}</p>
 
         <div className="flow-stage" role="img" aria-label={zh ? '邮箱、系统和办公软件的信息汇入 Action Agent；它准备好的操作要等你批准，然后才发出报表、更新记录、开具发票' : 'Inbox, systems and team chat feed the Action agent; what it prepares waits for your approval, then reports are sent, records updated and invoices issued'}>
           <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden>
@@ -69,8 +69,8 @@ export default function PrivateAgentBanner() {
         <dl className="grid gap-5 border-t border-white/60 px-6 py-6 text-center sm:grid-cols-3 sm:gap-8 sm:px-10 sm:py-7">
           {FACTS.map((f) => (
             <div key={f.title.en}>
-              <dt className="text-[13px] font-medium">{t(f.title)}</dt>
-              <dd className="lede mx-auto mt-1.5 max-w-[260px] text-xs">{t(f.line)}</dd>
+              <dt className="text-[15px] font-medium">{t(f.title)}</dt>
+              <dd className="lede mx-auto mt-1.5 max-w-[280px] !text-sm">{t(f.line)}</dd>
             </div>
           ))}
         </dl>

@@ -54,10 +54,10 @@ export default function CTASection() {
           {Array.from({ length: LINES }, (_, i) => <path key={i} />)}
         </svg>
         <div className="relative flex flex-col items-center text-center">
-          <h2 className="text-[26px] font-[430] leading-[1.22] tracking-[-0.036em] sm:text-[30px]">
+          <h2 className="text-[28px] font-[430] leading-[1.22] tracking-[-0.036em] sm:text-[40px]">
             {zh ? <>把重复的工作<em className="em-accent">交出去。</em></> : <>Hand off the <em className="em-accent">repetition.</em></>}
           </h2>
-          <p className="lede mt-3 text-xs sm:mt-3.5">
+          <p className="lede mt-3 sm:mt-4">
             {zh ? '$39，换一个跑在你自己流程上的演示，外加完整应用的报价。' : '$39 gets you a working demo on your own workflow, and a quote for the full app.'}
           </p>
           <OrderButton size="lg" className="mt-6" />
