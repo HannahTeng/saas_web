@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server'
 
 /**
- * POST { orderId, contact } → { url } for paying the $39 scoping call.
+ * POST { orderId, contact } → { url } for paying the $39 demo.
  *
  * Uses, in order:
  *  1. STRIPE_SECRET_KEY → creates a Stripe Checkout Session (order id in metadata, email prefilled).
  *  2. NEXT_PUBLIC_STRIPE_PAYMENT_LINK → a Stripe Payment Link, with the order id as client_reference_id.
- *  3. Neither set → { url: null }; the order is still delivered, payment is arranged after the call.
+ *  3. Neither set → { url: null }; the order is still delivered, we send a payment link by hand.
  */
 const PRICE_CENTS = Number(process.env.SCOPING_PRICE_CENTS ?? 3900)
 
@@ -23,8 +23,8 @@ export async function POST(request: Request) {
       'line_items[0][quantity]': '1',
       'line_items[0][price_data][currency]': 'usd',
       'line_items[0][price_data][unit_amount]': String(PRICE_CENTS),
-      'line_items[0][price_data][product_data][name]': 'Flowact scoping call (60 min)',
-      'line_items[0][price_data][product_data][description]': 'Map your workflow to the right agents. Written scope and fixed quote after the call.',
+      'line_items[0][price_data][product_data][name]': 'Flowact demo and quote',
+      'line_items[0][price_data][product_data][description]': 'A working demo of an agent on your workflow, with a written quote for the full build.',
       success_url: `${origin}/?paid=1&order=${encodeURIComponent(id)}`,
       cancel_url: `${origin}/?paid=0&order=${encodeURIComponent(id)}`,
       client_reference_id: id,
@@ -34,7 +34,7 @@ export async function POST(request: Request) {
     if (email) form.set('customer_email', email)
     const res = await fetch('https://api.stripe.com/v1/checkout/sessions', {
       method: 'POST',
-      headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/x-www-form-urlencoded', 'Idempotency-Key': `scoping-${id}` },
+      headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/x-www-form-urlencoded', 'Idempotency-Key': `demo-${id}` },
       body: form,
     })
     const json = await res.json().catch(() => ({}))

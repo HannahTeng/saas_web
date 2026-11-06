@@ -1,34 +1,39 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { useLanguage } from '@/components/LanguageProvider'
 import { Wordmark } from '@/components/Logo'
 
 export default function Footer() {
   const { language } = useLanguage()
   const zh = language === 'zh'
+  const [paused, setPaused] = useState(false)
+
+  // The sculpture, the closing lines and the scroll-in surfaces all read this one switch.
+  useEffect(() => { document.body.dataset.motion = paused ? 'paused' : 'running' }, [paused])
 
   return (
-    <footer className="bg-page border-t border-line/[0.07] px-4 py-9 sm:px-6 md:py-12">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <div>
-            <Wordmark height={26} />
-            <p className="mt-2 text-sm text-subtle">
-              {zh ? 'AI Agent 咨询与开发服务。' : 'AI agent consulting and development services.'}
-            </p>
-          </div>
-          <a href="mailto:support@flowact.net" className="text-sm text-subtle transition-colors hover:text-primary">
-            support@flowact.net
-          </a>
+    <footer className="relative z-[1] px-6 pb-7 sm:px-10 lg:px-14">
+      <div className="mx-auto max-w-[1120px]">
+        <div className="grid grid-cols-[1fr_auto] items-center gap-x-6 gap-y-5 pb-7 md:grid-cols-[1fr_1.4fr_auto]">
+          <a href="/#top" aria-label="Flowact home" className="col-start-1 row-start-1 justify-self-start"><Wordmark height={22} /></a>
+          <p className="col-span-2 row-start-2 text-[11px] leading-[1.9] text-muted md:col-span-1 md:col-start-2 md:row-start-1">
+            {zh ? 'AI Agent 咨询与开发服务。' : 'AI agent consulting and development.'}<br />
+            {zh ? '围绕你的工作方式来建。' : 'Built around the way you work.'}
+          </p>
+          <a href="mailto:support@flowact.net" className="col-start-2 row-start-1 justify-self-end text-xs hover:underline hover:underline-offset-4 md:col-start-3">support@flowact.net</a>
         </div>
 
-        <div className="mt-8 flex flex-col gap-3 border-t border-line/[0.07] pt-5 sm:flex-row sm:items-center sm:justify-between md:mt-10 md:pt-6">
-          <p className="text-sm text-subtle">© 2026 Flowact, Inc. {zh ? '保留所有权利。' : 'All rights reserved.'}</p>
-          <nav className="flex flex-wrap items-center gap-4 text-sm text-subtle">
-            <a href="/terms" className="hover:text-primary transition-colors">{zh ? '服务条款' : 'Terms'}</a>
-            <a href="/privacy" className="hover:text-primary transition-colors">{zh ? '隐私政策' : 'Privacy'}</a>
-            <a href="/refund" className="hover:text-primary transition-colors">{zh ? '退款政策' : 'Refunds'}</a>
+        <div className="flex flex-wrap items-center justify-between gap-x-5 gap-y-3 border-t border-[var(--rule)] pt-[23px] text-[11px] text-subtle">
+          <span>© 2026 Flowact, Inc. {zh ? '保留所有权利。' : 'All rights reserved.'}</span>
+          <nav aria-label={zh ? '法律条款' : 'Legal'} className="flex gap-[23px]">
+            <a href="/terms" className="hover:underline hover:underline-offset-4">{zh ? '服务条款' : 'Terms'}</a>
+            <a href="/privacy" className="hover:underline hover:underline-offset-4">{zh ? '隐私政策' : 'Privacy'}</a>
+            <a href="/refund" className="hover:underline hover:underline-offset-4">{zh ? '退款政策' : 'Refunds'}</a>
           </nav>
+          <button type="button" aria-pressed={paused} onClick={() => setPaused(!paused)} className="py-1 hover:underline hover:underline-offset-4">
+            {paused ? (zh ? '播放动效' : 'Play motion') : (zh ? '暂停动效' : 'Pause motion')}
+          </button>
         </div>
       </div>
     </footer>

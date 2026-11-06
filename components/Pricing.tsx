@@ -15,10 +15,10 @@ export default function Pricing() {
     <main>
       <Section rule={false} className="text-center">
         <p className="section-kicker">{zh ? '产品与价格' : 'Agents and pricing'}</p>
-        <h1 className="mx-auto mt-4 max-w-3xl text-4xl font-medium tracking-tight md:text-6xl">
+        <h1 className="mx-auto mt-4 max-w-3xl text-[40px] font-[450] leading-[1.1] tracking-[-0.05em] md:text-[56px]">
           {zh ? <>选好 Agent，我们来<em className="em-accent">上线</em>。</> : <>Pick your agents. We switch them <em className="em-accent">on</em>.</>}
         </h1>
-        <p className="mx-auto mt-5 max-w-xl text-muted">
+        <p className="mx-auto mt-5 max-w-[470px] text-sm leading-[1.8] text-muted">
           {zh ? '每个 Agent 都在你现有的系统里运行，关键决策由人确认。一个工作日内给出报价。' : 'Every agent runs inside the tools you already use, with a person approving what matters. Pricing within one business day.'}
         </p>
         <div className="mt-8"><OrderButton size="lg" /></div>

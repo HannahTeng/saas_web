@@ -27,7 +27,7 @@ export function PaymentNotice() {
       <div className="card flex max-w-xl items-start gap-4 px-5 py-4 shadow-panel">
         <p className="text-sm text-primary">
           {state === 'paid'
-            ? (zh ? '付款成功，订单已收到。我们会在一个工作日内联系你约 60 分钟的通话。' : 'Payment received and your order is in. We will reach out within one business day to schedule the 60-minute call.')
+            ? (zh ? '付款成功，需求已收到。我们开始做你的演示，做好后连同完整应用的报价一起发给你。' : 'Payment received and your request is in. We are starting on your demo and will send it with a quote for the full app.')
             : (zh ? '付款没有完成，但你的需求我们已经收到，会通过你留的联系方式跟进。' : 'Payment was not completed, but we have your request and will follow up at the contact you left.')}
         </p>
         <button type="button" onClick={close} aria-label={zh ? '关闭' : 'Close'} className="shrink-0 text-muted hover:text-primary">×</button>

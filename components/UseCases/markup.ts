@@ -1,4 +1,4 @@
-// Static markup for the three use-case scenes. Animated by ./engine.ts.
+// Static markup for the four use-case scenes. Animated by ./engine.ts.
 export const USE_CASES_HTML = `<article data-kind="local" class="case demo" data-demo="ja" id="agent-panel-ja" role="tabpanel" aria-labelledby="agent-tab-ja">
         <div class="scene">
           <div class="fit"><div class="canvas">
@@ -137,6 +137,42 @@ export const USE_CASES_HTML = `<article data-kind="local" class="case demo" data
           <li><span class="n" data-en="Filters" data-zh="筛选">Filters</span><b data-en="The platform&#x27;s own filters" data-zh="用平台自带的筛选">The platform's own filters</b><small data-en="Visit after week 12, lab date empty." data-zh="第 12 周之后、化验日期为空。">Visit after week 12, lab date empty.</small></li>
           <li><span class="n" data-en="Verifies" data-zh="核验">Verifies</span><b data-en="Opens the source record" data-zh="打开原始记录">Opens the source record</b><small data-en="Checks the CRF and audit trail first." data-zh="先看 CRF 和审计记录。">Checks the CRF and audit trail first.</small></li>
           <li><span class="n" data-en="Drafts" data-zh="起草">Drafts</span><b data-en="Queries wait for review" data-zh="质询等待审核">Queries wait for review</b><small data-en="Your team decides what goes to sites." data-zh="发不发给中心，由你的团队决定。">Your team decides what goes to sites.</small></li>
+        </ol>
+      </article>
+<article data-kind="chat" class="case demo" data-demo="tc" id="agent-panel-tc" role="tabpanel" aria-labelledby="agent-tab-tc">
+        <div class="scene">
+          <div class="fit"><div class="canvas">
+            <div class="stage-bg"></div>
+            <div class="win ui tc" style="left:140px;top:60px;width:920px;height:620px">
+              <aside class="tc-side">
+                <div class="tc-ws"><i>N</i><b>Northwind Ops</b><span>▾</span></div>
+                <div class="tc-g">Channels</div>
+                <div class="tc-c"># general</div>
+                <div class="tc-c on"># ops-daily</div>
+                <div class="tc-c"># finance-approvals</div>
+                <div class="tc-c"># warehouse-usga01</div>
+                <div class="tc-g">Apps</div>
+                <div class="tc-c app"><i class="tc-fa"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M13 44 H37 C43.5 44 46.5 41.5 48.5 37 L54 19" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></i>Flowact<small>APP</small></div>
+                <div class="tc-g">Direct messages</div>
+                <div class="tc-c dm"><i style="background:#b9785a"></i>Priya Shah</div>
+                <div class="tc-c dm"><i style="background:#7c8f6a"></i>Dan Ortiz</div>
+                <div class="tc-c dm"><i style="background:#8b7aa8"></i>Mei Tanaka</div>
+              </aside>
+              <div class="tc-main">
+                <div class="tc-head"><b># ops-daily</b><span>24 members · Daily shipping and exceptions</span><em><i></i>Flowact is in this channel</em></div>
+                <div class="tc-list" id="tc-list"></div>
+                <div class="tc-comp"><div class="tc-in"><span class="tx" id="tc-tx"></span><b id="tc-send">↑</b></div></div>
+              </div>
+            </div>
+            <div class="cursor"><svg width="20" height="22" viewBox="0 0 20 22"><path d="M2 1.5v17l4.6-4.3 3 6.3 3-1.4-3-6.2h6.4z" fill="#111" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
+          </div></div>
+          <p class="cap"></p>
+        </div>
+        <ol class="strip">
+          <li><span class="n" data-en="Mentions" data-zh="@它">Mentions</span><b data-en="Asked in the channel" data-zh="在群里提问">Asked in the channel</b><small data-en="Like asking any teammate." data-zh="就像 @一位同事。">Like asking any teammate.</small></li>
+          <li><span class="n" data-en="Works" data-zh="干活">Works</span><b data-en="Reads your systems" data-zh="读取你的系统">Reads your systems</b><small data-en="Orders, carrier scans and stock." data-zh="订单、承运商扫描和库存。">Orders, carrier scans and stock.</small></li>
+          <li><span class="n" data-en="Answers" data-zh="回答">Answers</span><b data-en="A card in the thread" data-zh="在群里发卡片">A card in the thread</b><small data-en="The number, the reasons, the list." data-zh="数字、原因、清单。">The number, the reasons, the list.</small></li>
+          <li><span class="n" data-en="Asks you" data-zh="等确认">Asks you</span><b data-en="Approve with one click" data-zh="一键审批">Approve with one click</b><small data-en="Everyone in the channel sees who approved." data-zh="群里所有人都看得到是谁批的。">Everyone in the channel sees who approved.</small></li>
         </ol>
       </article>
 `

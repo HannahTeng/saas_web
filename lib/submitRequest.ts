@@ -25,7 +25,7 @@ export async function submitRequest(req: AgentRequest & { website?: string }): P
 }
 
 /**
- * Start payment for the $39 scoping call. Returns a Stripe Checkout URL, or null when Stripe is not configured
+ * Start payment for the $39 demo. Returns a Stripe Checkout URL, or null when Stripe is not configured
  * (the order is already with support@flowact.net either way).
  */
 export async function startScopingCheckout(orderId: string, contact: string): Promise<string | null> {
@@ -41,7 +41,7 @@ export async function startScopingCheckout(orderId: string, contact: string): Pr
 async function browserRelay(req: AgentRequest & { page?: string }): Promise<string | null> {
   const agents = (req.modules ?? []).filter((m) => !m.startsWith('Plan:'))
   const plan = (req.modules ?? []).find((m) => m.startsWith('Plan:'))?.replace('Plan: ', '') ?? ''
-  const what = req.kind === 'check' ? 'free workflow check' : req.kind === 'consultation' ? 'scoping session' : 'order'
+  const what = req.kind === 'check' ? '$39 demo request' : req.kind === 'consultation' ? 'scoping session' : 'order'
   const body = {
     _subject: `New ${what}${req.company ? ` · ${req.company}` : ''}${agents.length ? ` · ${agents.slice(0, 2).join(' + ')}` : ''} (flowact.net)`,
     _template: 'table',
@@ -50,6 +50,7 @@ async function browserRelay(req: AgentRequest & { page?: string }): Promise<stri
     customer_contact: req.contact,
     name: req.name ?? '',
     company: req.company ?? '',
+    website: req.companyUrl ?? '',
     check: req.profile ? profileText(req.profile).join(' | ') : '',
     agents: agents.join(', '),
     plan,

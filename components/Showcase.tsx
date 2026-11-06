@@ -1,7 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
-import FadeIn from '@/components/FadeIn'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { useLanguage } from '@/components/LanguageProvider'
 import { USE_CASES_HTML } from '@/components/UseCases/markup'
 import { startShowcase } from '@/components/UseCases/engine'
@@ -10,22 +9,49 @@ import Section from '@/components/Section'
 import { onTabKey } from '@/components/tabs'
 
 // The scenes live in UseCases/markup.ts in this order; `demo` names one (#agent-panel-<demo>).
-const SCENE_ORDER = ['ja', 'dp', 'edc'] as const
+const SCENE_ORDER = ['ja', 'dp', 'edc', 'tc'] as const
 type Demo = (typeof SCENE_ORDER)[number]
+type Text = { en: string; zh: string }
 
-type Case = { demo: Demo; en: string; zh: string; enLine: string; zhLine: string; tag: string; zhTag: string }
+type Case = { demo: Demo; tab: Text; short: Text; title: [Text, Text]; line: Text; tag: Text }
 
-// The same agent, delivered three ways. Listed in the order they play.
+// The same agent, delivered four ways. Listed in the order of the tabs.
 const CASES: Case[] = [
-  { demo: 'edc', en: 'Inside your system', zh: '嵌入现有系统', enLine: 'A panel inside the platform you already use. It filters, opens the source record and drafts the reply, right where the work is.', zhLine: '在你现有的平台里多出一个面板：筛选、打开原始记录、起草回复，都在原地完成。', tag: 'Embedded panel · EDC, ERP, CRM', zhTag: '嵌入面板 · EDC / ERP / CRM' },
-  { demo: 'ja', en: 'As a desktop app', zh: '桌面应用', enLine: 'Ask in plain words. It signs in to your systems, pulls the data and answers with the number, the table and the chart.', zhLine: '一句话提问。它登录你的系统取数，用数字、表格和图表回答。', tag: 'Desktop assistant · saves PDFs', zhTag: '桌面助手 · 一键存 PDF' },
-  { demo: 'dp', en: 'In iMessage', zh: '在 iMessage 里', enLine: 'Text it like a colleague. It does the work in the client’s system and asks before anything is booked.', zhLine: '像给同事发消息一样。它在客户系统里完成工作，约车前先问你。', tag: 'Messages · approval by reply', zhTag: '消息对话 · 回复即审批' },
+  {
+    demo: 'edc',
+    tab: { en: 'In your system', zh: '在现有系统里' }, short: { en: 'System', zh: '系统' },
+    title: [{ en: 'Right where', zh: '就在工作' }, { en: 'the work is.', zh: '发生的地方。' }],
+    line: { en: 'Find records, check the source and prepare a response inside the platform your team already uses.', zh: '在团队已经在用的平台里查记录、核对原始数据、起草回复。' },
+    tag: { en: 'Embedded panel · EDC, ERP, CRM', zh: '嵌入面板 · EDC / ERP / CRM' },
+  },
+  {
+    demo: 'ja',
+    tab: { en: 'On your desktop', zh: '在桌面上' }, short: { en: 'Desktop', zh: '桌面' },
+    title: [{ en: 'Ask once.', zh: '问一句，' }, { en: 'Get the whole picture.', zh: '拿到全貌。' }],
+    line: { en: 'Ask in plain words. Your agent signs in to your systems, pulls the data and brings back the number, the table and the chart.', zh: '一句话提问。它登录你的系统取数，用数字、表格和图表回答。' },
+    tag: { en: 'Desktop assistant · saves PDFs', zh: '桌面助手 · 一键存 PDF' },
+  },
+  {
+    demo: 'dp',
+    tab: { en: 'In your messages', zh: '在消息里' }, short: { en: 'Messages', zh: '消息' },
+    title: [{ en: 'A message away.', zh: '发条消息就行，' }, { en: 'Always in the loop.', zh: '全程知情。' }],
+    line: { en: 'Text your agent like a colleague. It works in your systems and asks before anything is booked.', zh: '像给同事发消息一样。它在你的系统里完成工作，约车前先问你。' },
+    tag: { en: 'iMessage · approval by reply', zh: 'iMessage · 回复即审批' },
+  },
+  {
+    demo: 'tc',
+    tab: { en: 'In your team chat', zh: '在办公软件里' }, short: { en: 'Team chat', zh: '办公软件' },
+    title: [{ en: 'Where your team', zh: '就在团队' }, { en: 'already talks.', zh: '每天用的群里。' }],
+    line: { en: 'Mention it in a channel like any teammate. It answers in the thread with the data, and waits for an approval the whole channel can see.', zh: '像 @同事一样在群里 @它。它带着数据在群里回答，关键操作等一次全群可见的审批。' },
+    tag: { en: 'Slack · Feishu · Teams', zh: 'Slack · 飞书 · Teams' },
+  },
 ]
 
-/** One product section: three delivery forms over a single stage that plays the chosen one. */
+/** One product section: four delivery forms on one glass surface, with a single stage that plays the chosen one. */
 export default function Showcase() {
   const { language } = useLanguage()
   const zh = language === 'zh'
+  const t = (x: Text) => (zh ? x.zh : x.en)
   const stage = useRef<HTMLDivElement>(null)
   const ctl = useRef<{ select: (i: number) => void; destroy: () => void } | null>(null)
   const [active, setActive] = useState(0) // index into CASES
@@ -49,64 +75,63 @@ export default function Showcase() {
     })
   }, [zh])
 
+  const now = CASES[active]
+
   return (
-    <Section id="products">
-      <FadeIn>
-        <div className="grid gap-4 md:grid-cols-[2fr_1fr] md:items-end md:gap-12">
-          <div>
-            <p className="section-kicker">{zh ? '交付形式' : 'How it reaches you'}</p>
-            <h2 className="h-section mt-4">
-              {zh ? <>三种入口，<br className="hidden lg:inline" />不用换系统。</> : <>Three ways in. <br className="hidden lg:inline" />No{' '}new system to{' '}learn.</>}
-            </h2>
-          </div>
-          <p className="text-sm leading-relaxed text-muted md:text-base">
-            {zh
-              ? '同一个 Agent，嵌在现有系统里、装成桌面应用，或直接在消息里对话。'
-              : 'The same agent, inside the platform you use, as a desktop app, or in your messages.'}
-          </p>
-        </div>
-      </FadeIn>
+    <Section id="products" className="!pt-4" aria-labelledby="products-heading">
+      <h2 id="products-heading" className="h-section text-center">{zh ? '看看 Agent 怎么工作。' : 'See your agent at work.'}</h2>
+      <p className="lede mx-auto mt-3 max-w-[560px] text-center">
+        {zh
+          ? '在现有平台里、桌面上、消息里，或团队的办公软件里。不用学新系统。'
+          : 'Inside your platform, on your desktop, in your messages or in your team chat. No new system to learn.'}
+      </p>
 
-      {/* Wide screens: the index on the left, a column of three ruled entries that select the scene, and the stage on the right.
-          The open entry is set in the primary text colour, the others in muted.
-          Below that: the three titles in one row, the open entry's line under them, then the stage at full width;
-          on phones the stage's camera frames each panel whole (engine.ts). */}
-      <div className="mt-10 grid gap-6 lg:grid-cols-[280px_minmax(0,1fr)] lg:items-start lg:gap-12">
-        <div>
-          <div className="grid grid-cols-3 gap-2 lg:grid-cols-1 lg:gap-0" role="tablist" aria-label={zh ? '交付形式' : 'Delivery forms'} aria-orientation="vertical">
-            {CASES.map((c, i) => {
-              const on = active === i
-              return (
-                <button
-                  key={c.demo}
-                  type="button"
-                  role="tab"
-                  id={`agent-tab-${c.demo}`}
-                  aria-controls={`agent-panel-${c.demo}`}
-                  aria-selected={on}
-                  tabIndex={on ? 0 : -1}
-                  onClick={() => pick(i)}
-                  onKeyDown={(e) => onTabKey(e, i, CASES.length, pick)}
-                  className="group grid cursor-pointer gap-y-1 border-t border-line/[0.12] py-3 text-left transition-colors lg:grid-cols-[2.5rem_1fr] lg:items-baseline lg:gap-x-2 lg:py-5 lg:last:border-b"
-                >
-                  <span className={`label-caps hidden lg:block ${on ? 'text-primary' : 'text-subtle'}`}>0{i + 1}</span>
-                  <strong className={`text-sm font-medium tracking-tight underline-offset-4 transition-colors group-hover:underline md:text-base lg:text-lg ${on ? 'text-primary' : 'text-muted group-hover:text-primary'}`}>{zh ? c.zh : c.en}</strong>
-                  <span className="hidden text-sm leading-relaxed text-muted lg:col-start-2 lg:block">{zh ? c.zhLine : c.enLine}</span>
-                  <span className="hidden text-xs text-subtle lg:col-start-2 lg:flex lg:items-center lg:justify-between lg:gap-3">
-                    {zh ? c.zhTag : c.tag}
-                    {/* The entry is a control: say so on the ones not playing. */}
-                    {!on && <span className="shrink-0 transition-colors group-hover:text-primary">{zh ? '播放 →' : 'Play →'}</span>}
-                  </span>
-                </button>
-              )
-            })}
-          </div>
-          <p className="mt-3 text-sm leading-relaxed text-muted lg:hidden">{zh ? CASES[active].zhLine : CASES[active].enLine}</p>
+      <div className="card arrive mt-6 p-[18px] sm:p-[23px]">
+        {/* The tabs: a glass track with one lens that slides under the chosen form. */}
+        <div
+          className="glass tabs mx-auto"
+          role="tablist"
+          aria-label={zh ? '交付形式' : 'Agent delivery options'}
+          style={{ '--tab-count': CASES.length, '--active-tab': active } as CSSProperties}
+        >
+          <span className="tab-lens" aria-hidden />
+          {CASES.map((c, i) => {
+            const on = active === i
+            return (
+              <button
+                key={c.demo}
+                type="button"
+                role="tab"
+                id={`agent-tab-${c.demo}`}
+                aria-controls={`agent-panel-${c.demo}`}
+                aria-selected={on}
+                aria-label={t(c.tab)}
+                tabIndex={on ? 0 : -1}
+                onClick={() => pick(i)}
+                onKeyDown={(e) => onTabKey(e, i, CASES.length, pick)}
+              >
+                <span className="hidden sm:inline">{t(c.tab)}</span>
+                <span className="sm:hidden">{t(c.short)}</span>
+              </button>
+            )
+          })}
         </div>
 
-        {/* The animated stage; it only runs while on screen, so it idles when scrolled away. */}
-        <div ref={stage} className="uc" />
+        {/* Wide screens: the open form's story on the left, the stage on the right. Below that the story sits above the stage;
+            on phones the stage's camera frames each panel whole (engine.ts). */}
+        <div className="grid items-center gap-6 lg:grid-cols-[0.65fr_1.75fr] lg:gap-7">
+          <div key={now.demo} className="story px-0.5 lg:px-2 lg:py-2">
+            <h3>{t(now.title[0])} <br className="hidden lg:inline" />{t(now.title[1])}</h3>
+            <p className="lede mt-3.5 max-w-[530px] lg:mt-[18px] lg:max-w-[270px]">{t(now.line)}</p>
+            <p className="mt-4 text-[11px] text-subtle lg:mt-[22px]">{t(now.tag)}</p>
+          </div>
+          {/* The animated stage; it only runs while on screen, so it idles when scrolled away. */}
+          <div ref={stage} className="uc min-w-0" />
+        </div>
       </div>
+      <p className="mt-4 text-center text-[11px] leading-relaxed text-subtle">
+        {zh ? '以上为 Flowact 的产品演示示例。你的演示会照你自己的流程来做。' : 'Illustrative product walkthroughs from Flowact. Your demo is built around your own workflow.'}
+      </p>
     </Section>
   )
 }

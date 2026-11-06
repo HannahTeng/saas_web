@@ -22,6 +22,8 @@ export type AgentRequest = {
   message: string
   name?: string
   company?: string
+  /** The company's own site, so the demo can be built around what they actually do. */
+  companyUrl?: string
   modules?: string[]
   preferredTime?: string
   page?: string
@@ -56,6 +58,7 @@ export function parseRequest(body: unknown): { ok: true; data: AgentRequest } | 
       kind, contact, message, modules,
       name: clip(b.name, 120) || undefined,
       company: clip(b.company, 160) || undefined,
+      companyUrl: clip(b.companyUrl, 200) || undefined,
       preferredTime: clip(b.preferredTime, 80) || undefined,
       page: clip(b.page, 200) || undefined,
       profile,
@@ -110,7 +113,7 @@ export async function setOrderStatus(id: string, status: StoredOrder['status']):
 
 /* ---------- email (Resend) ---------- */
 
-const KIND_LABEL: Record<RequestKind, string> = { check: 'Free workflow check', brief: 'Request', consultation: 'Scoping session', quote: 'Order' }
+const KIND_LABEL: Record<RequestKind, string> = { check: '$39 demo request', brief: 'Request', consultation: 'Scoping session', quote: 'Order' }
 
 export function orderSubject(o: AgentRequest): string {
   const agents = (o.modules ?? []).filter((m) => !m.startsWith('Plan:'))
@@ -128,12 +131,13 @@ function orderText(o: StoredOrder): string {
     `Customer contact: ${o.contact}`,
     o.name ? `Name: ${o.name}` : null,
     o.company ? `Company: ${o.company}` : null,
+    o.companyUrl ? `Website: ${o.companyUrl}` : null,
     '',
     `Agents: ${agents.length ? agents.join(', ') : '—'}`,
     `Plan: ${plan}`,
     o.preferredTime ? `Preferred time: ${o.preferredTime}` : null,
     '',
-    ...(o.profile ? ['Free workflow check:', ...profileText(o.profile), ''] : []),
+    ...(o.profile ? ['Their answers:', ...profileText(o.profile), ''] : []),
     'Message:',
     o.message || '—',
     '',

@@ -55,7 +55,7 @@ class Demo{
     this.instant = true; this.root.classList.add('instant');
     this.sc.reset(this); await this.sc.play(this); this.step(99); this.hideCursor();
     this.instant = false;
-    requestAnimationFrame(() => requestAnimationFrame(() => { this.root.classList.remove('instant'); $$('.ja-chat,.im-body,.as-b', this.root).forEach(b => b.scrollTop = b.scrollHeight); }));
+    requestAnimationFrame(() => requestAnimationFrame(() => { this.root.classList.remove('instant'); $$('.ja-chat,.im-body,.as-b,.tc-list', this.root).forEach(b => b.scrollTop = b.scrollHeight); }));
     if (RM) return;
     for(;;){
       while (!this.visible){ await sleep(250); if (this.st.dead) return; }
@@ -374,8 +374,65 @@ const edc = {
   }
 };
 
+/* ============ CASE · team chat (the agent as an app in the workspace the team already talks in) ============ */
+const TC_MARK = '<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M13 44 H37 C43.5 44 46.5 41.5 48.5 37 L54 19" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+/* One message row. People get initials on their own colour; the agent gets its mark and an APP tag. */
+const tcMsg = (who, time, body, o = {}) => `<div class="tc-m${o.bot ? ' bot' : ''}"><i class="tc-av"${o.bot ? '' : ` style="background:${o.c}"`}>${o.bot ? TC_MARK : o.i}</i><div class="tc-b"><div class="tc-h"><b>${who}</b>${o.bot ? '<small>APP</small>' : ''}<time>${time}</time></div>${body}</div></div>`;
+const tc = {
+  ph:'<span class="ph">Message #ops-daily</span>',
+  reset(d){
+    const r = d.root;
+    $('#tc-list', r).innerHTML = tcMsg('Priya Shah', '9:02 AM', '<div class="tc-t">Morning all. Cutoff moved to 6 PM yesterday, so a few late orders may still be open.</div>', {c:'#b9785a', i:'PS'});
+    $('#tc-tx', r).innerHTML = this.ph; $('#tc-send', r).classList.remove('on');
+    d.step(-1);
+  },
+  add(d, html){ const b = $('#tc-list', d.root); b.insertAdjacentHTML('beforeend', html); d.end(b); return b.lastElementChild; },
+  /* The agent posts like anyone else in the channel: a typing line first, then the message. */
+  async bot(d, time, body){
+    const b = $('#tc-list', d.root);
+    if (!d.instant){ b.insertAdjacentHTML('beforeend', '<div class="tc-typing"><i></i><i></i><i></i>Flowact is typing</div>'); d.end(b); await d.wait(900); b.lastElementChild.remove(); }
+    return this.add(d, tcMsg('Flowact', time, body, {bot:true}));
+  },
+  async play(d){
+    const r = d.root, list = $('#tc-list', r), q = 'which of yesterday\'s orders are still unshipped, and why?';
+    d.step(0, 'Someone mentions the agent in the channel the team already uses.');
+    const tx = $('#tc-tx', r); await d.to(tx, .3); await d.click(tx);
+    tx.innerHTML = '<span class="tc-mn">@Flowact</span> <span></span><i class="caret"></i>'; $('#tc-send', r).classList.add('on');
+    await d.type(tx.children[1], q, 30);
+    await d.tap($('#tc-send', r)); tx.innerHTML = this.ph; $('#tc-send', r).classList.remove('on');
+    this.add(d, tcMsg('Marco Li', '9:41 AM', `<div class="tc-t"><span class="tc-mn">@Flowact</span> ${q}</div>`, {c:'#5f7f9e', i:'ML'}));
+    await d.wait(400);
 
-const scripts = { ja, dp, edc };
+    d.step(1, 'It reads the order system, the carrier scans and the stock on hand.');
+    const m = await this.bot(d, '9:41 AM', '<div class="tc-l"><span class="spin"></span><span>Reading yesterday\'s orders in the WMS</span></div>');
+    const body = $('.tc-b', m), line = $('.tc-l', m);
+    await d.wait(900); line.lastChild.textContent = 'Matching carrier scans and stock on hand';
+    await d.wait(900); line.classList.add('ok'); line.lastChild.textContent = 'Read 1,284 orders · matched carrier scans · checked stock';
+
+    d.step(2, 'The answer lands in the thread as a card: the number, the reasons, the list.');
+    body.insertAdjacentHTML('beforeend', `<div class="tc-card"><h6>Unshipped orders · Sep 30</h6>
+      <p><b>37 of 1,284</b> orders from yesterday have not shipped. Three reasons:</p>
+      <table><tbody><tr><td>Out of stock</td><td>21</td><td>Restock lands Thursday</td></tr><tr><td>Address on hold</td><td>9</td><td>Customer has not confirmed</td></tr><tr><td>Missed carrier pickup</td><td>7</td><td>WH-USGA01 · UPS</td></tr></tbody></table>
+      <div class="tc-card-f"><span>Open the list</span><span>Export CSV</span></div></div>`);
+    d.end(list); await d.wait(1800);
+
+    d.step(3, 'It proposes the next step and waits. One click approves it, in front of the whole channel.');
+    body.insertAdjacentHTML('beforeend', `<div class="tc-card ask"><h6>Needs approval</h6>
+      <p>I can email the 9 customers to confirm their address, and rebook the 7 missed pickups for tomorrow 9:00 AM. Nothing goes out until someone approves.</p>
+      <div class="tc-card-f" id="tc-acts"><span class="pri" id="tc-ok">Approve</span><span>Edit draft</span><span>Skip</span></div></div>`);
+    d.end(list); await d.wait(1400);
+    await d.tap($('#tc-ok', r));
+    $('#tc-acts', r).innerHTML = '<span class="done">✓ Approved by Marco Li · 9:43 AM</span>';
+    d.hideCursor(); await d.wait(500);
+    const done = await this.bot(d, '9:43 AM', '<div class="tc-t">Done. 9 emails sent and 7 pickups rebooked for Oct 2, 9:00 AM. Replies and confirmations will come to this thread.</div>');
+    await d.wait(600);
+    $('.tc-b', done).insertAdjacentHTML('beforeend', '<div class="tc-rx"><span>✓ 3</span><span>Thanks · 2</span></div>'); d.end(list);
+    await d.wait(400); d.step(4);
+  }
+};
+
+
+const scripts = { ja, dp, edc, tc };
 
 /**
  * Product showcase: one stage, one scene at a time.
@@ -393,6 +450,7 @@ const CAMERA = {
   dp: [[880, 66, 270, 560], [68, 120, 754, 446], [68, 120, 754, 446], [880, 66, 270, 560]], // the phone, the dispatch window
   // Columns of the browser under its top bar: the assistant, the listing, then an open drawer beside the assistant.
   edc: [[758, 58, 290, 520], [128, 58, 630, 520], [428, 58, 620, 520], [428, 58, 620, 520]],
+  tc: [[140, 60, 520, 620]], // the conversation alone, narrowed for phones in useCases.css
 };
 const PAD = 12; // canvas px between a shot and the frame edge
 const SHOTS = Object.values(CAMERA).flat();
@@ -402,6 +460,7 @@ const DESK = {
   ja: { x: 136, y: 64, w: 900, h: 680 }, // exactly the assistant window
   dp: { x: 46, y: 50, w: 1118, h: 590 },
   edc: { x: 128, y: 22, w: 920, h: 552 }, // exactly the browser window
+  tc: { x: 140, y: 60, w: 920, h: 620 }, // exactly the workspace window
 };
 const FRAME = 1.5;
 const INSET = 16; // px between the frame edge and the fitted crop
@@ -464,7 +523,7 @@ export function startShowcase(root, { onActive, start = 0 }) {
     d.sc.reset(d); await d.sc.play(d); d.step(99); d.hideCursor(); d.instant = false;
     requestAnimationFrame(() => requestAnimationFrame(() => {
       d.root.classList.remove('instant');
-      $$('.ja-chat,.im-body,.as-b', d.root).forEach((b) => (b.scrollTop = b.scrollHeight));
+      $$('.ja-chat,.im-body,.as-b,.tc-list', d.root).forEach((b) => (b.scrollTop = b.scrollHeight));
     }));
   };
 

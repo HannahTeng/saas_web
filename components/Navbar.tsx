@@ -1,65 +1,65 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import Button from '@/components/Button'
 import { useLanguage } from '@/components/LanguageProvider'
+import { OrderButton } from '@/components/order/OrderButton'
 import styles from './Landing.module.css'
 import { Wordmark } from './Logo'
-import { useOrder } from '@/components/order/OrderProvider'
 
+const LINKS = [
+  { href: '/#products', en: 'Agents', zh: '产品' },
+  { href: '/#how-it-works', en: 'How it works', zh: '工作方式' },
+  { href: '/build', en: 'Pricing', zh: '价格' },
+  { href: '/#faq', en: 'FAQ', zh: '常见问题' },
+]
+
+/** The floating header: wordmark, the four links, the language switch and the one call to action. On phones the links open as a sheet under it. */
 export default function Navbar() {
   const { language, toggleLanguage } = useLanguage()
-  const { openOrder } = useOrder()
   const zh = language === 'zh'
   const [open, setOpen] = useState(false)
+  const header = useRef<HTMLElement>(null)
   const toggle = useRef<HTMLButtonElement>(null)
-  const nav = useRef<HTMLElement>(null)
 
   useEffect(() => {
     if (!open) return
-    const previousOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-    const query = window.matchMedia('(min-width: 768px)')
-    const closeOnResize = () => { if (query.matches) setOpen(false) }
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') { setOpen(false); toggle.current?.focus() }
-      if (event.key === 'Tab') {
-        const links = Array.from(nav.current?.querySelectorAll('a') ?? [])
-        const items = [toggle.current, ...links].filter(Boolean) as HTMLElement[]
-        const first = items[0]
-        const last = items[items.length - 1]
-        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus() }
-        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus() }
-      }
-    }
+    const wide = window.matchMedia('(min-width: 801px)')
+    const closeOnResize = () => { if (wide.matches) setOpen(false) }
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') { setOpen(false); toggle.current?.focus() } }
+    const onDown = (e: PointerEvent) => { if (!header.current?.contains(e.target as Node)) setOpen(false) }
     document.addEventListener('keydown', onKey)
-    query.addEventListener('change', closeOnResize)
+    document.addEventListener('pointerdown', onDown)
+    wide.addEventListener('change', closeOnResize)
     return () => {
-      document.body.style.overflow = previousOverflow
       document.removeEventListener('keydown', onKey)
-      query.removeEventListener('change', closeOnResize)
+      document.removeEventListener('pointerdown', onDown)
+      wide.removeEventListener('change', closeOnResize)
     }
   }, [open])
 
+  const languageSwitch = (
+    <button type="button" className={styles.language} onClick={toggleLanguage} aria-label={zh ? 'Switch site language to English' : '将网站切换为中文'}>
+      <span className={zh ? '' : styles.on}>EN</span><span aria-hidden>/</span><span className={zh ? styles.on : ''}>中文</span>
+    </button>
+  )
+
   return (
-    <header className={`${styles.header} ${open ? styles.menuOpen : ''}`}>
-      <a href="/#top" aria-label="Flowact — home" className={styles.logo} onClick={() => setOpen(false)}>
-        <Wordmark height={24} />
+    <header ref={header} className={`glass ${styles.header} ${open ? styles.menuOpen : ''}`}>
+      <a href="/#top" aria-label="Flowact home" className={styles.logo} onClick={() => setOpen(false)}>
+        <Wordmark height={21} />
       </a>
-      <div className={styles.backdrop} aria-hidden onClick={() => setOpen(false)} />
-      <nav ref={nav} id="site-nav" aria-label={zh ? '主导航' : 'Primary'} className={styles.nav}>
-        <a href="/#products" onClick={() => setOpen(false)}>{zh ? '产品' : 'Products'}</a>
-        <a href="/build" onClick={() => setOpen(false)}>{zh ? '价格' : 'Pricing'}</a>
-        <a href="/#how-it-works" onClick={() => setOpen(false)}>{zh ? '工作方式' : 'How it works'}</a>
+      <nav id="site-nav" aria-label={zh ? '主导航' : 'Primary'} className={styles.nav}>
+        {LINKS.map((l) => (
+          <a key={l.href} href={l.href} onClick={() => setOpen(false)}>{zh ? l.zh : l.en} <span aria-hidden>↗</span></a>
+        ))}
+        {languageSwitch}
       </nav>
       <div className={styles.headerActions}>
-        <button type="button" className={styles.language} onClick={toggleLanguage} aria-label={zh ? 'Switch site language to English' : '将网站切换为中文'}>
-          <span className={zh ? '' : styles.on}>EN</span><span aria-hidden>/</span><span className={zh ? styles.on : ''}>中文</span>
+        {languageSwitch}
+        <button ref={toggle} type="button" className={styles.menuButton} aria-controls="site-nav" aria-expanded={open} onClick={() => setOpen(!open)}>
+          {open ? (zh ? '关闭' : 'Close') : (zh ? '菜单' : 'Menu')}
         </button>
-        <Button variant="ghost" className="hidden sm:inline-flex" onClick={() => { setOpen(false); openOrder() }}>{zh ? '免费体检' : 'Free check'}</Button>
-        <button ref={toggle} type="button" className={styles.burger} aria-controls="site-nav" aria-expanded={open} aria-label={open ? (zh ? '关闭菜单' : 'Close menu') : (zh ? '打开菜单' : 'Open menu')} onClick={() => setOpen(!open)}>
-          <span /><span /><span />
-        </button>
+        <OrderButton />
       </div>
     </header>
   )

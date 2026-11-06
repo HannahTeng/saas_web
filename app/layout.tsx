@@ -4,11 +4,11 @@ import { LanguageProvider } from '@/components/LanguageProvider'
 import { OrderProvider } from '@/components/order/OrderProvider'
 import OrderPanel from '@/components/order/OrderPanel'
 import { PaymentNotice } from '@/components/order/PaymentNotice'
-import { StickyOrderBar, StickyOrderSpacer } from '@/components/order/OrderButton'
+import GlassShine from '@/components/GlassShine'
 import './globals.css'
 
 const SITE = 'https://flowact.net'
-const TITLE = 'Flowact — AI Agents Built Around Your Work'
+const TITLE = 'Flowact · AI agents built for your small business'
 const DESCRIPTION = 'Flowact builds AI agents that run inside the systems a company already uses: they analyze, act and answer, and wait for a person on every decision that matters.'
 
 export const metadata: Metadata = {
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 }
 
-export const viewport: Viewport = { themeColor: '#080808', colorScheme: 'dark' }
+export const viewport: Viewport = { themeColor: '#e8f0f1', colorScheme: 'light' }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -30,11 +30,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <LanguageProvider>
           <OrderProvider>
             {children}
-            <StickyOrderSpacer />
             <OrderPanel />
-            <StickyOrderBar />
             <PaymentNotice />
           </OrderProvider>
+          <GlassShine />
         </LanguageProvider>
       </body>
     </html>

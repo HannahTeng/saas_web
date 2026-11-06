@@ -4,7 +4,7 @@
 .uc p{margin:0}
 
 
-.uc .scene{position:relative;border-radius:16px;overflow:clip;background:var(--panel-bg);border:1px solid rgb(var(--line-rgb) / .1)}
+.uc .scene{position:relative;border-radius:17px;overflow:clip;background:#101516;box-shadow:0 7px 20px rgb(23 49 55 / .08)} /* a dark stage, so the client's light screens read as screens */
 .uc .fit{position:relative;overflow:clip} /* clip, not hidden: nothing (a click, a focus) can scroll the stage sideways */
 .uc .canvas{position:absolute;left:0;top:0;width:1200px;height:790px;transform-origin:0 0}
 .uc .stage-bg{position:absolute;inset:0;background:linear-gradient(180deg,#151514 0%,#0e0e0d 100%)}
@@ -472,3 +472,65 @@
 .uc [data-demo="ja"] .fit.cam .win.ja{width:540px!important;height:620px!important}
 /* One frame for every scene: the frame's own surface is the floor, so a view that runs past the canvas edge shows no seam. */
 .uc .stage-bg{display:none}
+
+/* ---------- team chat (the agent as an app in the team's workspace: Slack, Feishu, Teams) ---------- */
+.uc .win.tc{flex-direction:row;background:#fff}
+.uc .tc-side{flex:none;width:200px;background:#1d2a33;color:#aab8c2;padding:12px 8px;display:flex;flex-direction:column;gap:1px;font-size:12px}
+.uc .tc-ws{display:flex;align-items:center;gap:8px;padding:2px 6px 12px;color:#fff;font-weight:700;font-size:13px}
+.uc .tc-ws i{width:22px;height:22px;border-radius:6px;background:#3f8794;color:#fff;font-style:normal;font-size:11px;display:grid;place-items:center}
+.uc .tc-ws span{margin-left:auto;color:#7f8f9a;font-weight:400}
+.uc .tc-g{padding:10px 8px 4px;font-size:10.5px;color:#7f8f9a}
+.uc .tc-c{display:flex;align-items:center;gap:7px;padding:5px 8px;border-radius:6px;white-space:nowrap}
+.uc .tc-c.on{background:#2f6f7c;color:#fff;font-weight:600}
+.uc .tc-c small{margin-left:auto;font-size:8.5px;font-weight:700;letter-spacing:.04em;padding:1px 4px;border-radius:3px;background:rgba(255,255,255,.12);color:#c9d4db}
+.uc .tc-c.dm i{width:8px;height:8px;border-radius:50%}
+.uc .tc-fa{width:16px;height:16px;border-radius:4px;background:#236b78;display:grid;place-items:center}
+.uc .tc-fa svg{width:12px;height:12px}
+.uc .tc-main{flex:1;min-width:0;display:flex;flex-direction:column}
+.uc .tc-head{flex:none;height:48px;display:flex;align-items:center;gap:10px;padding:0 18px;border-bottom:1px solid #E6EAED}
+.uc .tc-head b{font-size:14px;color:#17212a}
+.uc .tc-head span{font-size:11px;color:#7a8791;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.uc .tc-head em{margin-left:auto;flex:none;font-style:normal;display:flex;align-items:center;gap:5px;font-size:10.5px;color:#236b78;background:#E3F1F3;border-radius:999px;padding:3px 9px}
+.uc .tc-head em i{width:6px;height:6px;border-radius:50%;background:#2f8f6b}
+.uc .tc-list{flex:1;min-height:0;overflow:hidden;padding:14px 18px 6px;display:flex;flex-direction:column;gap:12px}
+.uc .tc-list > *{flex-shrink:0}
+.uc .tc-m{display:grid;grid-template-columns:30px 1fr;gap:10px;animation:fi .25s ease-out}
+.uc .tc-av{width:30px;height:30px;border-radius:7px;color:#fff;font-style:normal;font-size:10.5px;font-weight:700;display:grid;place-items:center}
+.uc .tc-m.bot .tc-av{background:#236b78}
+.uc .tc-m.bot .tc-av svg{width:19px;height:19px}
+.uc .tc-b{min-width:0;display:grid;gap:5px}
+.uc .tc-h{display:flex;align-items:baseline;gap:6px;line-height:1.2}
+.uc .tc-h b{font-size:12.5px;color:#17212a}
+.uc .tc-h small{font-size:8.5px;font-weight:700;letter-spacing:.04em;padding:1px 4px;border-radius:3px;background:#E8EDF0;color:#5d6b75}
+.uc .tc-h time{font-size:10px;color:#93a0a9}
+.uc .tc-t{font-size:12.5px;line-height:1.5;color:#27323a}
+.uc .tc-at{color:#1f6f7d;background:#E3F1F3;border-radius:4px;padding:0 3px;font-weight:500}
+.uc .tc-l{display:flex;align-items:center;gap:7px;font-size:11px;color:#6b7882}
+.uc .tc-l.ok .spin{border-color:#2f8f6b;background:#2f8f6b;animation:none}
+.uc .tc-card{max-width:520px;border:1px solid #DFE5E9;border-left:3px solid #2f7f8c;border-radius:8px;background:#fff;padding:10px 12px;display:grid;gap:7px;font-size:12px;color:#27323a;animation:fi .3s ease-out}
+.uc .tc-card.ask{border-left-color:#c58a1e;background:#FFFCF4}
+.uc .tc-card h6{margin:0;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6b7882}
+.uc .tc-card.ask h6{color:#9a6a10}
+.uc .tc-card p b,.uc .tc-card td b{font-weight:700;color:#17212a}
+.uc .tc-card table{font-size:11.5px;font-variant-numeric:tabular-nums}
+.uc .tc-card td{padding:4px 0;border-top:1px solid #EEF1F3;color:#27323a}
+.uc .tc-card td:nth-child(2){width:44px;text-align:right;font-weight:600;padding-right:16px}
+.uc .tc-card td:last-child{color:#7a8791}
+.uc .tc-card-f{display:flex;align-items:center;gap:7px;padding-top:2px}
+.uc .tc-card-f span{font-size:11px;padding:5px 11px;border-radius:6px;border:1px solid #D3DADF;background:#fff;color:#27323a}
+.uc .tc-card-f .pri{background:#236b78;border-color:#236b78;color:#fff;font-weight:600}
+.uc .tc-card-f .done{border-color:#BFE0D2;background:#EAF6F0;color:#1f7a4d;font-weight:600}
+.uc .tc-rx{display:flex;gap:5px}
+.uc .tc-rx span{font-size:10.5px;padding:1px 7px;border-radius:999px;background:#EEF4F6;border:1px solid #D5E3E7;color:#27323a;animation:fi .25s ease-out}
+.uc .tc-typing{display:flex;align-items:center;gap:4px;margin-left:40px;font-size:10.5px;color:#93a0a9}
+.uc .tc-typing i{width:5px;height:5px;border-radius:50%;background:#93a0a9;animation:td 1.2s infinite}
+.uc .tc-typing i:nth-child(2){animation-delay:.15s}.uc .tc-typing i:nth-child(3){animation-delay:.3s;margin-right:4px}
+.uc .tc-comp{flex:none;padding:8px 18px 16px}
+.uc .tc-in{min-height:40px;border:1px solid #CBD3D9;border-radius:9px;padding:7px 8px 7px 12px;display:flex;align-items:center;gap:8px;font-size:12.5px}
+.uc .tc-in .tx{flex:1;min-width:0}
+.uc .tc-in .ph{color:#9aa6ae}
+.uc .tc-in b{flex:none;width:26px;height:26px;border-radius:7px;background:#E3E8EB;color:#93a0a9;display:grid;place-items:center;font-size:13px;transition:background .2s,color .2s}
+.uc .tc-in b.on{background:#236b78;color:#fff}
+/* Phones: only the conversation, at the width the camera frames (CAMERA.tc in engine.ts). */
+.uc [data-demo="tc"] .fit.cam .win.tc{width:520px!important}
+.uc [data-demo="tc"] .fit.cam .tc-side,.uc [data-demo="tc"] .fit.cam .tc-head span{display:none}
