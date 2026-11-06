@@ -534,3 +534,27 @@
 /* Phones: only the conversation, at the width the camera frames (CAMERA.tc in engine.ts). */
 .uc [data-demo="tc"] .fit.cam .win.tc{width:520px!important}
 .uc [data-demo="tc"] .fit.cam .tc-side,.uc [data-demo="tc"] .fit.cam .tc-head span{display:none}
+
+/* Evidence and the now/proposed table in the team-chat cards: what was read, and exactly what would change. */
+.uc .tc-src{display:flex;flex-wrap:wrap;gap:5px}
+.uc .tc-src span{font-size:10px;padding:2px 7px;border-radius:5px;background:#F1F5F7;border:1px solid #E0E7EB;color:#52616b}
+.uc .tc-src span::before{content:"✓ ";color:#2f8f6b}
+.uc .tc-card .tc-diff th{text-align:left;font-size:9.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#9a6a10;padding:0 0 3px}
+.uc .tc-card .tc-diff td{padding:4px 12px 4px 0;border-top:1px solid #F0E6CC;width:auto;text-align:left;font-weight:400;color:#27323a}
+.uc .tc-card .tc-diff td:nth-child(2){color:#7a8791;text-decoration:line-through;text-decoration-color:#c9b98f}
+.uc .tc-card .tc-diff td:last-child{color:#17212a}
+
+/* The pointer is part of the recording: you see where the agent goes before it clicks. */
+.uc .cursor{display:block}
+.uc.paused .spin,.uc.paused .caret,.uc.paused .typing i,.uc.paused .tc-typing i{animation-play-state:paused}
+
+/* The four steps under the stage, lit as the scene reaches them. */
+.uc .strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0 14px;margin:14px 2px 0}
+.uc .strip li{padding:10px 0 0;border-top:2px solid rgb(var(--line-rgb) / .12);gap:2px;transition:border-color .4s}
+.uc .strip li.active,.uc .strip li.done{border-top-color:var(--accent)}
+.uc .strip .n{font-size:10.5px;letter-spacing:.07em;color:var(--text-subtle)}
+.uc .strip li.active .n{color:var(--accent)}
+.uc .strip b{font-size:13px;font-weight:500;color:var(--text-subtle);transition:color .4s}
+.uc .strip li.active b,.uc .strip li.done b{color:var(--text-primary)}
+.uc .strip small{display:none}
+@media (max-width:767px){.uc .strip{grid-template-columns:1fr 1fr;gap:10px 12px}.uc .strip b{font-size:12px}}

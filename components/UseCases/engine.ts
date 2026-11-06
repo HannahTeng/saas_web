@@ -5,7 +5,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const STOP = new Error('stopped');
-let STATE = { dead: false };
+let STATE = { dead: false, paused: false };
 let RM = false;
 
 const n0 = v => Math.round(v).toLocaleString('en-US');
@@ -22,7 +22,7 @@ class Demo{
     this.fit = $('.fit', root); this.canvas = $('.canvas', root); this.cursor = $('.cursor', root);
     new IntersectionObserver(e => this.visible = e[0].isIntersecting, {threshold:.3}).observe($('.scene', root));
   }
-  async wait(ms){ if (this.instant) return; const g = this.gen; await sleep(ms); if (this.st.dead || g !== this.gen) throw STOP; while (!this.visible){ await sleep(250); if (this.st.dead || g !== this.gen) throw STOP; } }
+  async wait(ms){ if (this.instant) return; const g = this.gen; await sleep(ms); if (this.st.dead || g !== this.gen) throw STOP; while (!this.visible || this.st.paused){ await sleep(250); if (this.st.dead || g !== this.gen) throw STOP; } }
   step(i, cap){
     if (this.onStep) this.onStep(i, this.items.length);
     this.items.forEach((s,j) => { s.classList.toggle('done', j < i); s.classList.toggle('active', j === i); });
@@ -413,18 +413,20 @@ const tc = {
     body.insertAdjacentHTML('beforeend', `<div class="tc-card"><h6>Unshipped orders · Sep 30</h6>
       <p><b>37 of 1,284</b> orders from yesterday have not shipped. Three reasons:</p>
       <table><tbody><tr><td>Out of stock</td><td>21</td><td>Restock lands Thursday</td></tr><tr><td>Address on hold</td><td>9</td><td>Customer has not confirmed</td></tr><tr><td>Missed carrier pickup</td><td>7</td><td>WH-USGA01 · UPS</td></tr></tbody></table>
+      <div class="tc-src"><span>WMS · 1,284 orders</span><span>UPS scans · Sep 30</span><span>Stock on hand · 9:40 AM</span></div>
       <div class="tc-card-f"><span>Open the list</span><span>Export CSV</span></div></div>`);
     d.end(list); await d.wait(1800);
 
     d.step(3, 'It proposes the next step and waits. One click approves it, in front of the whole channel.');
     body.insertAdjacentHTML('beforeend', `<div class="tc-card ask"><h6>Needs approval</h6>
-      <p>I can email the 9 customers to confirm their address, and rebook the 7 missed pickups for tomorrow 9:00 AM. Nothing goes out until someone approves.</p>
+      <p>Two changes are ready. Nothing goes out until someone approves.</p>
+      <table class="tc-diff"><thead><tr><th>Change</th><th>Now</th><th>Proposed</th></tr></thead><tbody><tr><td>9 address holds</td><td>On hold</td><td><b>Email each customer to confirm</b></td></tr><tr><td>7 missed pickups</td><td>No pickup booked</td><td><b>UPS · Oct 2, 9:00 AM</b></td></tr></tbody></table>
       <div class="tc-card-f" id="tc-acts"><span class="pri" id="tc-ok">Approve</span><span>Edit draft</span><span>Skip</span></div></div>`);
     d.end(list); await d.wait(1400);
     await d.tap($('#tc-ok', r));
     $('#tc-acts', r).innerHTML = '<span class="done">✓ Approved by Marco Li · 9:43 AM</span>';
     d.hideCursor(); await d.wait(500);
-    const done = await this.bot(d, '9:43 AM', '<div class="tc-t">Done. 9 emails sent and 7 pickups rebooked for Oct 2, 9:00 AM. Replies and confirmations will come to this thread.</div>');
+    const done = await this.bot(d, '9:43 AM', '<div class="tc-t">Done. 9 emails sent and 7 pickups rebooked.</div><div class="tc-l ok"><span class="spin"></span><span>Re-read the WMS: all 7 orders now show pickup Oct 2, 9:00 AM</span></div>');
     await d.wait(600);
     $('.tc-b', done).insertAdjacentHTML('beforeend', '<div class="tc-rx"><span>✓ 3</span><span>Thanks · 2</span></div>'); d.end(list);
     await d.wait(400); d.step(4);
@@ -479,7 +481,7 @@ const room = () => {
 };
 
 export function startShowcase(root, { onActive, start = 0 }) {
-  STATE = { dead: false };
+  STATE = { dead: false, paused: false };
   const mine = STATE;
   RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const arts = $$('article.demo', root);
@@ -575,6 +577,7 @@ export function startShowcase(root, { onActive, start = 0 }) {
 
   return {
     select: (i) => { started = true; select(i, true); },
+    pause: (on) => { mine.paused = on; root.classList.toggle('paused', on); },
     destroy: () => { mine.dead = true; demos.forEach((d) => d.gen++); ros.forEach((r) => r.disconnect()); io && io.disconnect(); root.removeEventListener('click', onClick); window.removeEventListener('resize', onResize); },
   };
 }

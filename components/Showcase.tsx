@@ -53,7 +53,8 @@ export default function Showcase() {
   const zh = language === 'zh'
   const t = (x: Text) => (zh ? x.zh : x.en)
   const stage = useRef<HTMLDivElement>(null)
-  const ctl = useRef<{ select: (i: number) => void; destroy: () => void } | null>(null)
+  const ctl = useRef<{ select: (i: number) => void; pause: (on: boolean) => void; destroy: () => void } | null>(null)
+  const [paused, setPaused] = useState(false)
   const [active, setActive] = useState(0) // index into CASES
 
   useEffect(() => {
@@ -67,7 +68,8 @@ export default function Showcase() {
     return () => ctl.current?.destroy()
   }, [])
 
-  const pick = (i: number) => { setActive(i); ctl.current?.select(SCENE_ORDER.indexOf(CASES[i].demo)) }
+  const pick = (i: number) => { setActive(i); setPaused(false); ctl.current?.pause(false); ctl.current?.select(SCENE_ORDER.indexOf(CASES[i].demo)) }
+  const togglePause = () => { ctl.current?.pause(!paused); setPaused(!paused) }
 
   useEffect(() => {
     stage.current?.querySelectorAll<HTMLElement>('[data-en]').forEach((el) => {
@@ -124,6 +126,9 @@ export default function Showcase() {
             <h3>{t(now.title[0])} <br className="hidden lg:inline" />{t(now.title[1])}</h3>
             <p className="lede mt-3.5 max-w-[530px] lg:mt-[18px] lg:max-w-[300px]">{t(now.line)}</p>
             <p className="mt-4 text-[13px] text-subtle lg:mt-[22px]">{t(now.tag)}</p>
+            <button type="button" onClick={togglePause} aria-pressed={paused} className="link-action mt-3 !text-[13px]">
+              <svg aria-hidden width="11" height="11" viewBox="0 0 12 12" fill="currentColor">{paused ? <path d="M2.5 1.2v9.6L11 6z" /> : <path d="M2 1h3v10H2zM7 1h3v10H7z" />}</svg>{paused ? (zh ? '继续播放' : 'Play') : (zh ? '暂停' : 'Pause')}
+            </button>
           </div>
           {/* The animated stage; it only runs while on screen, so it idles when scrolled away. */}
           <div ref={stage} className="uc min-w-0" />
