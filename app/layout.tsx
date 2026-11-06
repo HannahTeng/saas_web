@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next'
+import { Analytics } from '@vercel/analytics/next'
 import '@fontsource-variable/inter'
 import { LanguageProvider } from '@/components/LanguageProvider'
 import { OrderProvider } from '@/components/order/OrderProvider'
@@ -35,6 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </OrderProvider>
           <GlassShine />
         </LanguageProvider>
+        <Analytics />
       </body>
     </html>
   )
