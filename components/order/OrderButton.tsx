@@ -10,7 +10,7 @@ export function OrderButton({ preset, variant = 'solid', size = 'md', className 
   const { openOrder } = useOrder()
   return (
     <Button variant={variant} size={size} className={className} aria-haspopup="dialog" onClick={() => openOrder(preset)}>
-      {language === 'zh' ? '$39 演示' : '$39 demo'} <span aria-hidden>↗</span>
+      {language === 'zh' ? '$39 演示' : '$39 demo'} <span aria-hidden className="btn-arrow">↗</span>
     </Button>
   )
 }

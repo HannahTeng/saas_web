@@ -557,4 +557,4 @@
 .uc .strip b{font-size:13px;font-weight:500;color:var(--text-subtle);transition:color .4s}
 .uc .strip li.active b,.uc .strip li.done b{color:var(--text-primary)}
 .uc .strip small{display:none}
-@media (max-width:767px){.uc .strip{grid-template-columns:1fr 1fr;gap:10px 12px}.uc .strip b{font-size:12px}}
+@media (max-width:767px){.uc .strip{display:none}} /* phones: the scene alone; the rail would be taller than the stage */
