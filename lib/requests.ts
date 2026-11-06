@@ -22,7 +22,7 @@ export type AgentRequest = {
   message: string
   name?: string
   company?: string
-  /** The company's own site, so the demo can be built around what they actually do. */
+  /** The company's own site, so the assessment can be based on what they actually do. */
   companyUrl?: string
   modules?: string[]
   preferredTime?: string
@@ -113,7 +113,7 @@ export async function setOrderStatus(id: string, status: StoredOrder['status']):
 
 /* ---------- email (Resend) ---------- */
 
-const KIND_LABEL: Record<RequestKind, string> = { check: '$39 demo request', brief: 'Request', consultation: 'Scoping session', quote: 'Order' }
+const KIND_LABEL: Record<RequestKind, string> = { check: 'Free assessment request', brief: 'Request', consultation: 'Scoping session', quote: 'Order' }
 
 export function orderSubject(o: AgentRequest): string {
   const agents = (o.modules ?? []).filter((m) => !m.startsWith('Plan:'))

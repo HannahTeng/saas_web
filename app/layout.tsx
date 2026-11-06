@@ -4,7 +4,6 @@ import '@fontsource-variable/inter'
 import { LanguageProvider } from '@/components/LanguageProvider'
 import { OrderProvider } from '@/components/order/OrderProvider'
 import OrderPanel from '@/components/order/OrderPanel'
-import { PaymentNotice } from '@/components/order/PaymentNotice'
 import GlassShine from '@/components/GlassShine'
 import './globals.css'
 
@@ -32,7 +31,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <OrderProvider>
             {children}
             <OrderPanel />
-            <PaymentNotice />
           </OrderProvider>
           <GlassShine />
         </LanguageProvider>

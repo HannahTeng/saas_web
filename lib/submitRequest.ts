@@ -24,24 +24,10 @@ export async function submitRequest(req: AgentRequest & { website?: string }): P
   return { error: relayed, id: relayed ? undefined : `web-${Date.now().toString(36)}` }
 }
 
-/**
- * Start payment for the $39 demo. Returns a Stripe Checkout URL, or null when Stripe is not configured
- * (the order is already with support@flowact.net either way).
- */
-export async function startScopingCheckout(orderId: string, contact: string): Promise<string | null> {
-  try {
-    const res = await fetch('/api/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ orderId, contact }) })
-    const json = await res.json().catch(() => ({}))
-    return res.ok && typeof json.url === 'string' ? json.url : null
-  } catch {
-    return null
-  }
-}
-
 async function browserRelay(req: AgentRequest & { page?: string }): Promise<string | null> {
   const agents = (req.modules ?? []).filter((m) => !m.startsWith('Plan:'))
   const plan = (req.modules ?? []).find((m) => m.startsWith('Plan:'))?.replace('Plan: ', '') ?? ''
-  const what = req.kind === 'check' ? '$39 demo request' : req.kind === 'consultation' ? 'scoping session' : 'order'
+  const what = req.kind === 'check' ? 'free assessment request' : req.kind === 'consultation' ? 'scoping session' : 'order'
   const body = {
     _subject: `New ${what}${req.company ? ` · ${req.company}` : ''}${agents.length ? ` · ${agents.slice(0, 2).join(' + ')}` : ''} (flowact.net)`,
     _template: 'table',

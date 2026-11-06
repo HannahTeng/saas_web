@@ -130,7 +130,7 @@ export default function Showcase() {
         </div>
       </div>
       <p className="mt-4 text-center text-[13px] leading-relaxed text-subtle">
-        {zh ? '以上为 Flowact 的产品演示示例。你的演示会照你自己的流程来做。' : 'Illustrative product walkthroughs from Flowact. Your demo is built around your own workflow.'}
+        {zh ? '以上为 Flowact 的产品演示示例。你的 Agent 会照你自己的流程来做。' : 'Illustrative product walkthroughs from Flowact. Your agent is built around your own workflow.'}
       </p>
     </Section>
   )

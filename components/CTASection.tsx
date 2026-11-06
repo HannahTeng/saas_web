@@ -58,7 +58,7 @@ export default function CTASection() {
             {zh ? <>把重复的工作<em className="em-accent">交出去。</em></> : <>Hand off the <em className="em-accent">repetition.</em></>}
           </h2>
           <p className="lede mt-3 sm:mt-4">
-            {zh ? '$39，换一个跑在你自己流程上的演示，外加完整应用的报价。' : '$39 gets you a working demo on your own workflow, and a quote for the full app.'}
+            {zh ? '免费评估你的流程：哪些事最值得自动化，每件大概能省多少时间。' : 'A free assessment of your workflow: what is most worth automating, and roughly what each job would save.'}
           </p>
           <OrderButton size="lg" className="mt-6" />
         </div>

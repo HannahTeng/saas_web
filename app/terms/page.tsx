@@ -7,15 +7,15 @@ export default function TermsPage() {
   return (
     <LegalPage
       title="Terms of Service"
-      updated="October 13, 2026"
-      intro="These Terms govern your use of flowact.net and the services provided by Flowact, Inc. (“Flowact”, “we”, “us”). Flowact provides AI agent consulting and development services to businesses. By booking a call, accepting a quote or using our website, you agree to these Terms."
+      updated="November 6, 2026"
+      intro="These Terms govern your use of flowact.net and the services provided by Flowact, Inc. (“Flowact”, “we”, “us”). Flowact provides AI agent consulting and development services to businesses. By requesting an assessment, accepting a quote or using our website, you agree to these Terms."
       sections={[
         { h: 'Our services', p: [
-          'Flowact provides AI agent consulting and development services: scoping calls, workflow analysis, and the design, build, deployment and maintenance of AI agents for your business. We work directly with you as the service provider.',
+          'Flowact provides AI agent consulting and development services: workflow assessments and the design, build, deployment and maintenance of AI agents for your business. We work directly with you as the service provider.',
           'The specific deliverables, timeline and price for any build are set out in a written quote or statement of work (“Quote”). If a Quote conflicts with these Terms, the Quote controls for that engagement.',
         ] },
-        { h: 'Scoping calls', p: [
-          'A scoping call is a paid, 60-minute consultation (currently $39 USD) in which we review your workflow and systems. After the call we send a written plan and a fixed quote. You are under no obligation to accept the quote.',
+        { h: 'Workflow assessments', p: [
+          'A workflow assessment is free. We review the workflow and systems you describe and send a written result. If you want to go ahead, we send a fixed quote. You are under no obligation to accept the quote.',
         ] },
         { h: 'Fees and payment', p: [
           'Fees are stated in US dollars in the Quote or on our website. We invoice for services; payment terms are stated on each invoice. Ongoing maintenance or managed-service plans are billed monthly or annually as stated in the Quote and may be cancelled as described there.',

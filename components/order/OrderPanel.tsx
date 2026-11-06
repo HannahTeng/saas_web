@@ -5,7 +5,7 @@ import Button from '@/components/Button'
 import { useLanguage } from '@/components/LanguageProvider'
 import { useOrder } from './OrderProvider'
 import { ADDON_AGENTS, CORE_AGENTS, PLANS } from '@/lib/catalog'
-import { startScopingCheckout, submitRequest } from '@/lib/submitRequest'
+import { submitRequest } from '@/lib/submitRequest'
 import { DAILY_ORDERS, PAINS, WAREHOUSES, WMS } from '@/lib/check'
 
 const FOCUSABLE = 'a[href], button:not([disabled]), input, textarea, select, [tabindex]:not([tabindex="-1"])'
@@ -35,9 +35,9 @@ function Chips({ options, value, onChange, multi = false, zh }: { options: reado
 }
 
 /**
- * The one entry panel: a $39 demo. Three short steps, mostly taps: what takes the team's time (with room to describe
- * the workflow), which systems and volume, and where to reach them (with their website). Then Stripe takes the $39;
- * we come back with a working demo and a quote for the full build.
+ * The one entry panel: a free workflow assessment. Three short steps, mostly taps: what takes the team's time (with room
+ * to describe the workflow), which systems and volume, and where to reach them (with their website). No payment; we reply
+ * in writing within one business day, and quote the full build if they want to go ahead.
  */
 export default function OrderPanel() {
   const { language } = useLanguage()
@@ -118,7 +118,7 @@ export default function OrderPanel() {
     if (answerError) { setError(answerError); return }
     if (contactError || busy) return
     setStatus('sending')
-    const { error: err, id } = await submitRequest({
+    const { error: err } = await submitRequest({
       kind: 'check',
       contact,
       name: name || undefined,
@@ -131,9 +131,6 @@ export default function OrderPanel() {
     })
     if (err) { setError(zh ? '没有发送成功，请稍后重试，或发邮件到 support@flowact.net。' : err); setStatus('idle'); return }
     setError('')
-    // The request is already with us. Payment comes next; if Stripe is not reachable we follow up with a link instead.
-    const pay = id ? await startScopingCheckout(id, contact) : null
-    if (pay) { window.location.assign(pay); return }
     setStatus('sent')
   }
 
@@ -155,7 +152,7 @@ export default function OrderPanel() {
       >
         <div className="flex items-center justify-between border-b border-line/10 px-6 py-4">
           <div>
-            <h2 id="order-title" className="h-card">{zh ? '$39 做一个演示' : 'A demo for $39'}</h2>
+            <h2 id="order-title" className="h-card">{zh ? '免费流程评估' : 'Free workflow assessment'}</h2>
             {status !== 'sent' && (
               <p className="mt-1 text-xs text-subtle" aria-live="polite">
                 {zh ? `第 ${step}/3 步 · ${STEP_TITLES[step - 1]} · 约 60 秒` : `Step ${step} of 3 · ${STEP_TITLES[step - 1]} · About 60 seconds`}
@@ -175,10 +172,10 @@ export default function OrderPanel() {
             <h3 className="text-3xl font-medium tracking-tight">{zh ? '收到了。' : 'Got it.'}</h3>
             <p className="text-muted">
               {zh
-                ? '需求已收到。在线付款暂时没有打开，我们会在一个工作日内把 $39 的付款链接发给你，然后开始做演示。'
-                : 'We have your request. Online payment did not open, so we will send you the $39 payment link within one business day and start on the demo.'}
+                ? '需求已收到。我们会在一个工作日内把书面评估发给你：最值得自动化的 2–3 件事，以及每件大概能省多少时间。'
+                : 'We have your request. Within one business day we will send your written assessment: the 2–3 jobs most worth automating, and roughly how much time each would save.'}
             </p>
-            <p className="text-sm text-subtle">{zh ? '演示做好后，会连同完整应用的报价一起发给你。' : 'The demo comes with a written quote for the full working app.'}</p>
+            <p className="text-sm text-subtle">{zh ? '想继续的话，我们再给完整应用的固定报价。你点头才开工。' : 'If you want to go ahead, we follow with a fixed quote for the full build. Work starts only when you say yes.'}</p>
             <Button className="mt-4 justify-self-start" onClick={closeOrder}>{zh ? '关闭' : 'Done'}</Button>
           </div>
         ) : (
@@ -229,7 +226,7 @@ export default function OrderPanel() {
               {step === 3 && (
                 <div className="grid gap-5">
                   <div className="grid gap-2">
-                    <label htmlFor="order-contact" className={label} data-step-start tabIndex={-1}>{zh ? '演示和报价发到哪里？' : 'Where should we send the demo and quote?'}</label>
+                    <label htmlFor="order-contact" className={label} data-step-start tabIndex={-1}>{zh ? '评估结果发到哪里？' : 'Where should we send your assessment?'}</label>
                     <input id="order-contact" value={contact} onChange={(e) => setContact(e.target.value)} autoComplete="email" className="field" placeholder={zh ? '工作邮箱、电话或微信号' : 'Work email, phone or WeChat ID'} />
                     {tried && contactError && <p className="text-xs text-danger" role="alert">{contactError}</p>}
                   </div>
@@ -246,13 +243,13 @@ export default function OrderPanel() {
                   <div className="grid gap-2">
                     <label htmlFor="check-url" className={label}>{zh ? '公司网站（选填）' : 'Company website (optional)'}</label>
                     <input id="check-url" value={companyUrl} onChange={(e) => setCompanyUrl(e.target.value)} inputMode="url" autoComplete="url" className="field" placeholder="yourcompany.com" />
-                    <p className={hint}>{zh ? '我们会照着你们的实际业务来做演示。' : 'We use it to build the demo around what you actually do.'}</p>
+                    <p className={hint}>{zh ? '我们会照着你们的实际业务来做评估。' : 'We use it to base the assessment on what you actually do.'}</p>
                   </div>
                   <fieldset className="grid gap-3">
                     <legend className={`${label} mb-3`}>{zh ? '用哪种语言回复你？' : 'Reply in'}</legend>
                     <Chips options={[{ id: 'zh', en: '中文', zh: '中文' }, { id: 'en', en: 'English', zh: 'English' }]} value={[replyIn]} onChange={(v) => v[0] && setReplyIn(v[0] as 'zh' | 'en')} zh={zh} />
                   </fieldset>
-                  <p className={hint}>{zh ? '下一步用 Stripe 支付 $39。之后我们发给你一个可运行的演示，以及完整应用的报价。' : 'Next you pay $39 through Stripe. Then we send you a working demo and a quote for the full app.'}</p>
+                  <p className={hint}>{zh ? '不收费，不用绑卡。一个工作日内收到书面评估。' : 'Free, no card needed. Your written assessment arrives within one business day.'}</p>
                 </div>
               )}
               {error && <p className="mt-4 text-sm text-danger" role="alert">{error}</p>}
@@ -265,7 +262,7 @@ export default function OrderPanel() {
                 <button type="button" onClick={() => go(3)} className="text-sm text-muted underline underline-offset-4 hover:text-primary">{zh ? '跳过，直接留联系方式' : 'Skip to contact'}</button>
               )}
               <Button type="submit" disabled={busy} aria-disabled={busy}>
-                {step < 3 ? (zh ? '下一步' : 'Next') : busy ? (zh ? '发送中…' : 'Sending…') : zh ? '去支付 $39' : 'Continue to pay $39'}
+                {step < 3 ? (zh ? '下一步' : 'Next') : busy ? (zh ? '发送中…' : 'Sending…') : zh ? '获取免费评估' : 'Get my free assessment'}
               </Button>
             </div>
           </form>

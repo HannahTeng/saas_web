@@ -8,7 +8,7 @@ import Section from '@/components/Section'
 // The path from this page to a working agent, in the order it happens.
 const STEPS = [
   { en: 'Tell us the workflow.', zh: '告诉我们你的流程。', enLine: 'About 60 seconds: what takes time and which systems. Add a description and your website if you like.', zhLine: '约 60 秒：哪些事占时间、用什么系统。愿意的话再写几句流程、留下公司网站。' },
-  { en: 'Get a demo for $39.', zh: '$39 拿到一个演示。', enLine: 'We build a working demo of an agent on your workflow and send it with a quote for the full app.', zhLine: '我们照你的流程做一个可运行的 Agent 演示，连同完整应用的报价一起发给你。' },
+  { en: 'Get a free assessment.', zh: '拿到免费评估。', enLine: 'Within one business day, in writing: the 2–3 jobs most worth automating and roughly what each would save.', zhLine: '一个工作日内书面发给你：最值得自动化的 2–3 件事，以及每件大概能省多少。' },
   { en: 'Build it, at a fixed quote.', zh: '按固定报价开工。', enLine: 'The work starts only when you say yes, and you pay only if it passes acceptance.', zhLine: '你点头才开工，验收通过才付钱。' },
 ]
 
@@ -48,7 +48,7 @@ export default function Process() {
     <Section id="how-it-works" aria-labelledby="process-heading">
       <h2 id="process-heading" className="h-section text-center">{zh ? '从一个流程，到一个上岗的 Agent。' : 'From one workflow to a working agent.'}</h2>
       <p className="lede mx-auto mt-3 max-w-[640px] text-center">
-        {zh ? '从这一页到上线，只有三步。先花 $39 看一个真实的演示。' : 'Three steps from this page to a working agent. It starts with a $39 demo.'}
+        {zh ? '从这一页到上线，只有三步。从一次免费评估开始。' : 'Three steps from this page to a working agent. It starts with a free assessment.'}
       </p>
       <div ref={route} id="process-route" className="process-route">
         <svg viewBox="0 0 1150 155" aria-hidden>
