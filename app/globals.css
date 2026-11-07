@@ -242,11 +242,70 @@ a, button {
   }
 }
 
-/* How it works: the route between the steps. */
-.process-route { margin: 22px 0 12px; }
-.process-route svg { display: block; width: 100%; height: 105px; overflow: visible; }
-.route-track { fill: none; stroke: rgb(17 20 22 / 0.18); stroke-width: 0.85; }
-.route-line { fill: none; stroke: var(--text-primary); stroke-width: 1.1; stroke-linecap: round; stroke-dasharray: 1000; stroke-dashoffset: 1000; }
+/* The stage: the one coloured surface on the site, a deep teal that lightens toward the floor. Demos, drawings and
+   step illustrations sit on it; the ground and the chrome stay neutral. */
+.stage {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-card);
+  color: #fff;
+  background:
+    radial-gradient(90% 60% at 50% 115%, rgb(176 212 220 / 0.9), transparent 70%),
+    linear-gradient(180deg, #0a2228 0%, #123c45 48%, #2d6d7b 82%, #6fa6b2 100%);
+}
+.stage::after { content: ''; position: absolute; inset: 0; pointer-events: none; border-radius: inherit; box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.12); }
+
+/* The menu on a stage: outlined pills, the chosen one filled white. */
+.stage-menu { display: flex; flex-direction: column; gap: 8px; }
+.stage-menu button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 9px 18px;
+  border: 1px solid rgb(255 255 255 / 0.3);
+  border-radius: 999px;
+  font-size: 14px;
+  color: rgb(255 255 255 / 0.82);
+  white-space: nowrap;
+  transition: background-color 0.25s, color 0.25s, border-color 0.25s;
+}
+.stage-menu button:hover { border-color: rgb(255 255 255 / 0.6); color: #fff; }
+.stage-menu button[aria-selected='true'] { background: #fff; border-color: #fff; color: var(--text-primary); font-weight: 500; }
+@media (max-width: 1023px) {
+  .stage-menu { flex-direction: row; overflow-x: auto; scrollbar-width: none; margin-inline: -4px; padding-inline: 4px; }
+  .stage-menu::-webkit-scrollbar { display: none; }
+  .stage-menu button { min-height: 38px; padding: 7px 14px; font-size: 13px; }
+}
+
+/* Illustrations on a stage (How it works): white cards, stacked, one shown. */
+.art { position: absolute; inset: 0; display: grid; place-items: center; padding: 28px; opacity: 0; transform: translateY(14px) scale(0.985); transition: opacity 0.5s, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); pointer-events: none; }
+.art[data-on='true'] { opacity: 1; transform: none; pointer-events: auto; }
+.art-card { width: min(100%, 380px); padding: 22px 22px 20px; border-radius: 20px; background: #fff; color: var(--text-primary); box-shadow: 0 30px 70px -20px rgb(0 0 0 / 0.55); }
+.art-card h4 { font-size: 15px; font-weight: 500; letter-spacing: -0.01em; }
+.art-card .k { margin-top: 14px; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-subtle); }
+.art-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.art-chips span { padding: 6px 11px; border: 1px solid var(--rule); border-radius: 999px; font-size: 13px; color: var(--text-muted); }
+.art-chips span[data-on] { background: var(--text-primary); border-color: var(--text-primary); color: #fff; }
+.art-rows { display: grid; margin-top: 10px; }
+.art-rows div { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid var(--rule); font-size: 14px; }
+.art-rows div:first-child { border-top: 0; }
+.art-rows b { font-weight: 500; color: var(--text-primary); white-space: nowrap; }
+.art-rows span { color: var(--text-muted); }
+.art-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--rule); font-size: 13px; color: var(--text-muted); }
+.art-sum { margin-top: 10px; font-family: var(--font-display); font-size: 40px; font-weight: 400; letter-spacing: -0.02em; line-height: 1; }
+.art-sum small { font-size: 14px; color: var(--text-muted); letter-spacing: 0; }
+.art-mini { display: grid; gap: 4px; margin-top: 12px; font-size: 13px; color: var(--text-muted); }
+@media (max-width: 1023px) { .art { position: relative; inset: auto; opacity: 1; transform: none; padding: 22px; pointer-events: auto; } }
+
+/* The control drawing on the stage: white nodes, a white agent, light along the lines. */
+.stage .flow-node { background: rgb(255 255 255 / 0.1); border: 1px solid rgb(255 255 255 / 0.28); color: #fff; }
+.stage .flow-agent { background: #fff; color: var(--text-primary); }
+.stage .flow-agent svg { color: var(--text-primary); }
+.stage .flow-agent small { color: var(--text-muted); }
+.stage .flow-track { stroke: rgb(255 255 255 / 0.28); }
+.stage .flow-light { stroke: #fff; }
+.stage .flow-light-out { stroke: #9fe9c4; }
+.stage .flow-gate { background: #fff; border-color: #fff; box-shadow: 0 0 0 5px rgb(255 255 255 / 0.14); }
 
 /* Questions: ruled entries, a plus that becomes a minus. */
 .faq details { margin: 0 0 18px; padding: 0 0 18px; border-bottom: 1px solid var(--rule); }
@@ -260,9 +319,6 @@ a, button {
 /* The closing card: a field of lines behind the words. */
 .closing > svg { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.5; pointer-events: none; }
 .closing > svg path { fill: none; stroke: rgb(17 20 22 / 0.2); stroke-width: 0.75; vector-effect: non-scaling-stroke; }
-
-@media (max-width: 800px) { .process-route svg { height: 85px; } }
-@media (max-width: 480px) { .process-route svg { height: 75px; } }
 
 /* Control drawing (PrivateAgentBanner): sources, the agent, one approval gate, results. Everything sits on the centre line. */
 .flow-stage { position: relative; height: 360px; margin: 6px 0 14px; }

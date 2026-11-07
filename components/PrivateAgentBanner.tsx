@@ -4,7 +4,7 @@ import { useLanguage } from '@/components/LanguageProvider'
 import Section from '@/components/Section'
 
 /**
- * "Your systems, your control": one symmetric drawing on a glass surface. Three sources on the left feed the Action
+ * "Your systems, your control": one symmetric drawing on the stage. Three sources on the left feed the Action
  * agent in the middle; everything it prepares stops at one approval gate, and only then fans out to three results on
  * the right. Light runs along the lines in that order. Positions are percentages, so the drawing keeps its shape at any width.
  */
@@ -37,8 +37,8 @@ export default function PrivateAgentBanner() {
         </p>
       </div>
 
-      <div className="card arrive mt-6 overflow-hidden">
-        <p className="pt-6 text-center text-sm text-muted sm:pt-7">{zh ? '一点自主，一条清楚的边界。' : 'A little autonomy. A clear boundary.'}</p>
+      <div className="stage arrive mt-6">
+        <p className="pt-6 text-center text-sm text-white/65 sm:pt-7">{zh ? '一点自主，一条清楚的边界。' : 'A little autonomy. A clear boundary.'}</p>
 
         <div className="flow-stage" role="img" aria-label={zh ? '邮箱、系统和办公软件的信息汇入 Action Agent；它准备好的操作要等你批准，然后才发出报表、更新记录、开具发票' : 'Inbox, systems and team chat feed the Action agent; what it prepares waits for your approval, then reports are sent, records updated and invoices issued'}>
           <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden>
@@ -50,9 +50,9 @@ export default function PrivateAgentBanner() {
             {ROWS.map((y, i) => <path key={`lo${y}`} className="flow-light flow-light-out" pathLength={100} style={{ animationDelay: `${i * -1.1 - 1.6}s` }} d={out(y)} />)}
           </svg>
 
-          {SOURCES.map((s, i) => <span key={s.en} className="glass flow-node" style={{ left: `${SIDE}%`, top: `${ROWS[i]}%` }}>{t(s)}</span>)}
+          {SOURCES.map((s, i) => <span key={s.en} className="flow-node" style={{ left: `${SIDE}%`, top: `${ROWS[i]}%` }}>{t(s)}</span>)}
 
-          <div className="glass flow-agent" style={{ left: `${MID}%`, top: '50%' }}>
+          <div className="flow-agent" style={{ left: `${MID}%`, top: '50%' }}>
             <svg viewBox="0 0 64 64" aria-hidden><path d="M13 44 H37 C43.5 44 46.5 41.5 48.5 37 L54 19" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" /></svg>
             <strong>{zh ? 'Action Agent' : 'Action agent'}</strong>
             <small>{zh ? '读取 · 准备 · 等待' : 'Reads. Prepares. Waits.'}</small>
@@ -63,14 +63,14 @@ export default function PrivateAgentBanner() {
             <span>{zh ? '你批准' : 'You approve'}</span>
           </span>
 
-          {RESULTS.map((s, i) => <span key={s.en} className="glass flow-node" style={{ left: `${100 - SIDE}%`, top: `${ROWS[i]}%` }}>{t(s)}</span>)}
+          {RESULTS.map((s, i) => <span key={s.en} className="flow-node" style={{ left: `${100 - SIDE}%`, top: `${ROWS[i]}%` }}>{t(s)}</span>)}
         </div>
 
-        <dl className="grid gap-5 border-t border-white/60 px-6 py-6 text-center sm:grid-cols-3 sm:gap-8 sm:px-10 sm:py-7">
+        <dl className="grid gap-5 border-t border-white/15 px-6 py-6 text-center sm:grid-cols-3 sm:gap-8 sm:px-10 sm:py-7">
           {FACTS.map((f) => (
             <div key={f.title.en}>
               <dt className="text-[15px] font-medium">{t(f.title)}</dt>
-              <dd className="lede mx-auto mt-1.5 max-w-[280px] !text-sm">{t(f.line)}</dd>
+              <dd className="lede mx-auto mt-1.5 max-w-[280px] !text-sm !text-white/65">{t(f.line)}</dd>
             </div>
           ))}
         </dl>
