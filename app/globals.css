@@ -7,7 +7,7 @@
    read them directly. Colour comes from the stage panels alone, never from the ground or the chrome. */
 :root {
   color-scheme: light;
-  --page-bg: #f2f4f4;
+  --page-bg: #e8f0f1;
   --panel-rgb: 255 255 255;
   --panel-bg: rgb(var(--panel-rgb));
   --field-bg: #ffffff;
@@ -33,6 +33,17 @@
   /* Radii: pills for controls, 12px for small fields, 28px for cards and panels. */
   --r-card: 28px;
   --r-field: 12px;
+  --font-serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  --serif-ink: #367787;
+}
+
+/* Headline emphasis face, for the hero alone. */
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/instrument-serif-italic.ttf') format('truetype');
 }
 
 html {

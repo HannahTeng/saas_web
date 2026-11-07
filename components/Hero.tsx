@@ -20,7 +20,11 @@ export default function Hero() {
           </span>
           <span>
             <span className={styles.appear}>
-              {zh ? '把 Agent ' : 'agents '}<em>{zh ? '建好。' : 'for you.'}</em>
+              {zh ? '把 Agent ' : 'agents '}
+              <em key={language} className={styles.typed}>
+                <span className={styles.typeMeasure}>{zh ? '建好。' : 'for you.'}</span>
+                <span className={styles.typeText} aria-hidden="true">{zh ? '建好。' : 'for you.'}</span>
+              </em>
             </span>
           </span>
         </h1>
