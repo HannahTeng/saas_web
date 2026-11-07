@@ -37,7 +37,7 @@ export default function PrivateAgentBanner() {
         </p>
       </div>
 
-      <div className="card arrive flow-card mt-6 overflow-hidden">
+      <div className="card arrive mt-6 overflow-hidden">
         <p className="pt-6 text-center text-sm text-muted sm:pt-7">{zh ? '一点自主，一条清楚的边界。' : 'A little autonomy. A clear boundary.'}</p>
 
         <div className="flow-stage" role="img" aria-label={zh ? '邮箱、系统和办公软件的信息汇入 Action Agent；它准备好的操作要等你批准，然后才发出报表、更新记录、开具发票' : 'Inbox, systems and team chat feed the Action agent; what it prepares waits for your approval, then reports are sent, records updated and invoices issued'}>

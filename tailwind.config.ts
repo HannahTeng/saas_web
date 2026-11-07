@@ -7,7 +7,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: ['Inter Variable', 'Inter', 'system-ui', 'sans-serif'],
-        serif: ['Instrument Serif', 'Georgia', 'Times New Roman', 'serif'],
+        display: ['var(--font-geist-sans)', 'Inter Variable', 'Inter', 'system-ui', 'sans-serif'],
       },
       colors: {
         page: 'var(--page-bg)',
@@ -26,7 +26,7 @@ const config: Config = {
         danger: 'rgb(var(--danger-rgb) / <alpha-value>)',
       },
       boxShadow: {
-        panel: '0 20px 60px rgb(35 73 85 / 0.18)',
+        panel: '0 20px 60px rgb(17 20 22 / 0.12)',
       },
     },
   },

@@ -20,11 +20,7 @@ export default function Hero() {
           </span>
           <span>
             <span className={styles.appear}>
-              {zh ? '把 Agent ' : 'agents '}
-              <em key={language} className={styles.typed}>
-                <span className={styles.typeMeasure}>{zh ? '建好。' : 'for you.'}</span>
-                <span className={styles.typeText} aria-hidden="true">{zh ? '建好。' : 'for you.'}</span>
-              </em>
+              {zh ? '把 Agent ' : 'agents '}<em>{zh ? '建好。' : 'for you.'}</em>
             </span>
           </span>
         </h1>
@@ -35,7 +31,7 @@ export default function Hero() {
         </p>
         <div className={`${styles.actions} ${styles.appear}`}>
           <OrderButton size="lg" />
-          <Button size="lg" variant="ghost" href="#products">{zh ? '查看产品' : 'See the agents'} <span aria-hidden>↓</span></Button>
+          <Button size="lg" variant="ghost" href="#products">{zh ? '查看产品' : 'See the agents'} <span aria-hidden className="btn-arrow">↓</span></Button>
         </div>
       </div>
     </section>
