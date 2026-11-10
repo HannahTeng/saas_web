@@ -32,7 +32,7 @@ export default function FAQ() {
       <div className="grid gap-7 md:grid-cols-[0.75fr_1.25fr] md:gap-[85px]">
         <div>
           <h2 id="faq-heading" className="h-section md:max-w-[300px]">{zh ? '常见问题，一次说清。' : 'Questions, answered.'}</h2>
-          <p className="lede mt-3.5 !text-sm md:mt-[18px]">
+          <p className="lede mt-4 !text-[15px] md:mt-5">
             {zh ? '还有更具体的问题？' : 'Something more specific?'}<br />
             <a className="underline underline-offset-4 hover:text-primary" href="mailto:support@flowact.net">support@flowact.net</a>
           </p>

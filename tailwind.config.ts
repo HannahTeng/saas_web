@@ -6,8 +6,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter Variable', 'Inter', 'system-ui', 'sans-serif'],
-        display: ['var(--font-geist-sans)', 'Inter Variable', 'Inter', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-geist-sans)', 'system-ui', 'sans-serif'],
+        display: ['var(--font-geist-sans)', 'system-ui', 'sans-serif'],
       },
       colors: {
         page: 'var(--page-bg)',
@@ -26,7 +26,7 @@ const config: Config = {
         danger: 'rgb(var(--danger-rgb) / <alpha-value>)',
       },
       boxShadow: {
-        panel: '0 20px 60px rgb(17 20 22 / 0.12)',
+        panel: '0 20px 60px rgb(20 40 44 / 0.14)',
       },
     },
   },

@@ -11,7 +11,7 @@ type Props = Omit<HTMLAttributes<HTMLElement>, 'className' | 'children'> & {
 /** The one section wrapper: same gutters, same vertical rhythm, same 1152px column, and rules that span that column, not the viewport. */
 export default function Section({ children, rule = false, className = '', ...rest }: Props) {
   return (
-    <section className={`px-6 py-[46px] min-[801px]:py-14 sm:px-10 lg:px-14 ${className}`.trim()} {...rest}>
+    <section className={`px-6 py-16 min-[801px]:py-[104px] sm:px-10 lg:px-14 ${className}`.trim()} {...rest}>
       <div className={`mx-auto max-w-[1120px] ${rule ? 'border-t border-line/10 pt-12' : ''}`.trim()}>{children}</div>
     </section>
   )

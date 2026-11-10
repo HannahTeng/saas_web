@@ -6,6 +6,8 @@ import { USE_CASES_HTML } from '@/components/UseCases/markup'
 import { startShowcase } from '@/components/UseCases/engine'
 import '@/components/UseCases/useCases.css'
 import Section from '@/components/Section'
+import Reveal from '@/components/Reveal'
+import Scape from '@/components/Scape'
 import { onTabKey } from '@/components/tabs'
 
 // The scenes live in UseCases/markup.ts in this order; `demo` names one (#agent-panel-<demo>).
@@ -50,7 +52,7 @@ const CASES: Case[] = [
 const WIDE = '(min-width: 1024px)'
 
 /**
- * One product section. On wide screens it pins: the stage with its menu on the left, the scene on the right, and the
+ * One product section. On wide screens it pins: the media tile with its menu on the left, the scene on the right, and the
  * page's scroll through the tall wrapper picks the case (a click scrolls there). Below that it is a plain stack.
  */
 export default function Showcase() {
@@ -116,23 +118,26 @@ export default function Showcase() {
   const now = CASES[active]
 
   return (
-    <Section id="products" className="!pt-4 !pb-0" aria-labelledby="products-heading">
-      <h2 id="products-heading" className="h-section text-center">{zh ? '看看 Agent 怎么工作。' : 'See your agent at work.'}</h2>
-      <p className="lede mx-auto mt-3 max-w-[640px] text-center">
-        {zh
-          ? '在现有平台里、桌面上、消息里，或团队的办公软件里。不用学新系统。'
-          : 'Inside your platform, on your desktop, in your messages or in your team chat. No new system to learn.'}
-      </p>
+    <Section id="products" aria-labelledby="products-heading">
+      <Reveal>
+        <h2 id="products-heading" className="h-section text-center">{zh ? '看看 Agent 怎么工作。' : 'See your agent at work.'}</h2>
+        <p className="lede mx-auto mt-4 max-w-[600px] text-center">
+          {zh
+            ? '在现有平台里、桌面上、消息里，或团队的办公软件里。不用学新系统。'
+            : 'Inside your platform, on your desktop, in your messages or in your team chat. No new system to learn.'}
+        </p>
+      </Reveal>
 
       {/* The tall wrapper gives the pinned screen its scroll; one viewport per case, plus the one it stays on. */}
-      <div ref={wrap} className="mt-8 lg:h-[380vh]">
-        <div className="grid gap-4 lg:sticky lg:top-[96px] lg:h-[calc(100svh-112px)] lg:grid-cols-[360px_1fr] lg:gap-5">
-          <div className="stage flex flex-col justify-between gap-6 p-6 lg:p-7">
+      <div ref={wrap} className="mt-12 lg:h-[380vh]">
+        <div className="grid gap-3 lg:sticky lg:top-[88px] lg:h-[calc(100svh-104px)] lg:grid-cols-[360px_1fr]">
+          <div className="tile-media flex flex-col justify-between gap-8 p-6 lg:p-7">
+            <Scape className="scape-deep" />
             <div key={now.demo} className="story">
-              <p className="text-[12px] font-medium uppercase tracking-[0.12em] text-white/55">{String(active + 1).padStart(2, '0')} / 0{CASES.length} · {zh ? '交付形式' : 'Delivery'}</p>
-              <h3 className="mt-4 text-white">{t(now.title[0])} <br className="hidden lg:inline" />{t(now.title[1])}</h3>
-              <p className="lede mt-3 !text-[15px] !text-white/70">{t(now.line)}</p>
-              <p className="mt-3 text-[13px] text-white/50">{t(now.tag)}</p>
+              <p className="text-[13px] text-white/60">{String(active + 1).padStart(2, '0')} / 0{CASES.length} · {zh ? '交付形式' : 'Delivery'}</p>
+              <h3 className="mt-4">{t(now.title[0])} <br className="hidden lg:inline" />{t(now.title[1])}</h3>
+              <p className="mt-3 text-[15px] leading-[1.55] text-white/80">{t(now.line)}</p>
+              <p className="mt-3 text-[13px] text-white/55">{t(now.tag)}</p>
             </div>
             <div className="stage-menu" role="tablist" aria-label={zh ? '交付形式' : 'Agent delivery options'}>
               {CASES.map((c, i) => {
@@ -156,13 +161,13 @@ export default function Showcase() {
             </div>
           </div>
 
-          {/* The animated stage in a white frame; it only runs while on screen, so it idles when scrolled away. */}
-          <div className="card arrive flex min-w-0 items-center p-[14px] sm:p-[18px]">
+          {/* The animated scene on a quiet tile; it only runs while on screen, so it idles when scrolled away. */}
+          <div className="tile flex min-w-0 items-center p-[14px] sm:p-[18px]">
             <div ref={stage} className="uc min-w-0 flex-1" />
           </div>
         </div>
       </div>
-      <p className="mt-4 text-center text-[13px] leading-relaxed text-subtle">
+      <p className="mt-5 text-center text-[13px] leading-relaxed text-subtle">
         {zh ? '以上为 Flowact 的产品演示示例。你的 Agent 会照你自己的流程来做。' : 'Illustrative product walkthroughs from Flowact. Your agent is built around your own workflow.'}
       </p>
     </Section>

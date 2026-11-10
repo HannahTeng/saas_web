@@ -9,11 +9,11 @@ export default function Footer() {
   const zh = language === 'zh'
   const [paused, setPaused] = useState(false)
 
-  // The sculpture, the closing lines and the scroll-in surfaces all read this one switch.
+  // The image, the hero card, the control drawing and the arrivals all read this one switch.
   useEffect(() => { document.body.dataset.motion = paused ? 'paused' : 'running' }, [paused])
 
   return (
-    <footer className="relative z-[1] px-6 pb-7 sm:px-10 lg:px-14">
+    <footer className="relative z-[1] bg-[var(--sand)] px-6 pb-8 pt-14 sm:px-10 lg:px-14">
       <div className="mx-auto max-w-[1120px]">
         <div className="grid grid-cols-[1fr_auto] items-center gap-x-6 gap-y-5 pb-7 md:grid-cols-[1fr_1.4fr_auto]">
           <a href="/#top" aria-label="Flowact home" className="col-start-1 row-start-1 justify-self-start"><Logo height={22} /></a>

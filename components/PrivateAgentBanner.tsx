@@ -2,9 +2,10 @@
 
 import { useLanguage } from '@/components/LanguageProvider'
 import Section from '@/components/Section'
+import Reveal from '@/components/Reveal'
 
 /**
- * "Your systems, your control": one symmetric drawing on the stage. Three sources on the left feed the Action
+ * "Your systems, your control": one symmetric drawing on a tile. Three sources on the left feed the Action
  * agent in the middle; everything it prepares stops at one approval gate, and only then fans out to three results on
  * the right. Light runs along the lines in that order. Positions are percentages, so the drawing keeps its shape at any width.
  */
@@ -30,15 +31,15 @@ export default function PrivateAgentBanner() {
 
   return (
     <Section id="control" aria-labelledby="control-heading">
-      <div className="mx-auto max-w-3xl text-center">
+      <Reveal className="mx-auto max-w-3xl text-center">
         <h2 id="control-heading" className="h-section">{zh ? '你的系统，你说了算。' : <>Your systems. Your control.</>}</h2>
-        <p className="lede mx-auto mt-3 max-w-[640px]">
+        <p className="lede mx-auto mt-4 max-w-[600px]">
           {zh ? 'Agent 私有部署在你的环境里，关键步骤等人批准，每一步都留有记录。' : 'Privately deployed in your environment, with approval points and a record of what happened.'}
         </p>
-      </div>
+      </Reveal>
 
-      <div className="stage arrive mt-6">
-        <p className="pt-6 text-center text-sm text-white/65 sm:pt-7">{zh ? '一点自主，一条清楚的边界。' : 'A little autonomy. A clear boundary.'}</p>
+      <Reveal className="tile mt-12" delay={80}>
+        <p className="pt-7 text-center text-sm text-muted">{zh ? '一点自主，一条清楚的边界。' : 'A little autonomy. A clear boundary.'}</p>
 
         <div className="flow-stage" role="img" aria-label={zh ? '邮箱、系统和办公软件的信息汇入 Action Agent；它准备好的操作要等你批准，然后才发出报表、更新记录、开具发票' : 'Inbox, systems and team chat feed the Action agent; what it prepares waits for your approval, then reports are sent, records updated and invoices issued'}>
           <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden>
@@ -66,15 +67,17 @@ export default function PrivateAgentBanner() {
           {RESULTS.map((s, i) => <span key={s.en} className="flow-node" style={{ left: `${100 - SIDE}%`, top: `${ROWS[i]}%` }}>{t(s)}</span>)}
         </div>
 
-        <dl className="grid gap-5 border-t border-white/15 px-6 py-6 text-center sm:grid-cols-3 sm:gap-8 sm:px-10 sm:py-7">
-          {FACTS.map((f) => (
-            <div key={f.title.en}>
-              <dt className="text-[15px] font-medium">{t(f.title)}</dt>
-              <dd className="lede mx-auto mt-1.5 max-w-[280px] !text-sm !text-white/65">{t(f.line)}</dd>
-            </div>
-          ))}
-        </dl>
-      </div>
+      </Reveal>
+
+      {/* What the drawing means, as three captions under it. */}
+      <dl className="mt-8 grid gap-7 px-1 sm:grid-cols-3 sm:gap-10">
+        {FACTS.map((f, i) => (
+          <Reveal key={f.title.en} delay={i * 90}>
+            <dt className="text-base">{t(f.title)}</dt>
+            <dd className="mt-1.5 max-w-[300px] text-[15px] leading-[1.55] text-muted">{t(f.line)}</dd>
+          </Reveal>
+        ))}
+      </dl>
     </Section>
   )
 }

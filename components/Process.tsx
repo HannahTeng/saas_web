@@ -5,6 +5,7 @@ import { useLanguage } from '@/components/LanguageProvider'
 import { OrderButton } from '@/components/order/OrderButton'
 import Button from '@/components/Button'
 import Section from '@/components/Section'
+import Reveal from '@/components/Reveal'
 
 type Text = { en: string; zh: string }
 const T = (en: string, zh: string): Text => ({ en, zh })
@@ -16,7 +17,7 @@ const STEPS: { title: Text; line: Text }[] = [
   { title: T('Build it, at a fixed quote.', '按固定报价开工。'), line: T('The work starts only when you say yes, and you pay only if it passes acceptance.', '你点头才开工，验收通过才付钱。') },
 ]
 
-/** The three illustrations: the form, the written assessment, the quote. One white card each, on the stage. */
+/** The three illustrations: the form, the written assessment, the quote. One white sheet each, on the tile. */
 function Art({ i, on, zh }: { i: number; on: boolean; zh: boolean }) {
   const t = (x: Text) => (zh ? x.zh : x.en)
   return (
@@ -62,7 +63,7 @@ function Art({ i, on, zh }: { i: number; on: boolean; zh: boolean }) {
 }
 
 /**
- * How it works: the three steps scroll past on the left while the stage on the right stays put and shows the step
+ * How it works: the three steps scroll past on the left while the tile on the right stays put and shows the step
  * that is in view. Below the wide breakpoint each step carries its own illustration.
  */
 export default function Process() {
@@ -84,31 +85,33 @@ export default function Process() {
 
   return (
     <Section id="how-it-works" aria-labelledby="process-heading">
-      <h2 id="process-heading" className="h-section text-center">{zh ? '从一个流程，到一个上岗的 Agent。' : 'From one workflow to a working agent.'}</h2>
-      <p className="lede mx-auto mt-3 max-w-[640px] text-center">
-        {zh ? '从这一页到上线，只有三步。从一次免费评估开始。' : 'Three steps from this page to a working agent. It starts with a free assessment.'}
-      </p>
+      <Reveal>
+        <h2 id="process-heading" className="h-section text-center">{zh ? '从一个流程，到一个上岗的 Agent。' : 'From one workflow to a working agent.'}</h2>
+        <p className="lede mx-auto mt-4 max-w-[600px] text-center">
+          {zh ? '从这一页到上线，只有三步。从一次免费评估开始。' : 'Three steps from this page to a working agent. It starts with a free assessment.'}
+        </p>
+      </Reveal>
 
-      <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_1.1fr] lg:gap-14">
+      <div className="mt-12 grid gap-6 lg:grid-cols-[1fr_1.1fr] lg:gap-14">
         <ol ref={list} className="grid gap-8 lg:gap-0">
           {STEPS.map((s, i) => (
             <li key={s.title.en} className="grid gap-5 lg:min-h-[62vh] lg:content-center lg:py-10">
               <div className="lg:max-w-[440px]">
-                <span className="text-[13px] text-subtle">0{i + 1}</span>
-                <h3 className="h-card mt-2 !text-[28px]">{t(s.title)}</h3>
-                <p className="lede mt-3 !text-[15.5px]">{t(s.line)}</p>
+                <span className="text-sm text-subtle">0{i + 1}</span>
+                <h3 className="h-card mt-3 !text-[30px] !leading-[1.15]">{t(s.title)}</h3>
+                <p className="lede mt-3">{t(s.line)}</p>
                 {i === STEPS.length - 1 && (
-                  <div className="mt-7 flex flex-wrap items-center gap-3">
+                  <div className="mt-8 flex flex-wrap items-center gap-2.5">
                     <OrderButton size="lg" />
-                    <Button size="lg" variant="ghost" href="/build">{zh ? '方案与价格' : 'Agents and pricing'} <span aria-hidden className="btn-arrow">↗</span></Button>
+                    <Button size="lg" variant="ghost" href="/build">{zh ? '方案与价格' : 'Agents and pricing'}</Button>
                   </div>
                 )}
               </div>
-              <div className="stage min-h-[300px] lg:hidden"><Art i={i} on zh={zh} /></div>
+              <div className="tile min-h-[300px] lg:hidden"><Art i={i} on zh={zh} /></div>
             </li>
           ))}
         </ol>
-        <div className="stage hidden lg:sticky lg:top-[112px] lg:block lg:h-[calc(100svh-150px)] lg:max-h-[720px]" aria-hidden>
+        <div className="tile hidden lg:sticky lg:top-[104px] lg:block lg:h-[calc(100svh-136px)] lg:max-h-[720px]" aria-hidden>
           {STEPS.map((_, i) => <Art key={i} i={i} on={active === i} zh={zh} />)}
         </div>
       </div>
