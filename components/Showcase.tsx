@@ -135,7 +135,7 @@ export default function Showcase() {
             <Scape className="scape-deep" />
             <div key={now.demo} className="story">
               <p className="text-[13px] text-white/60">{String(active + 1).padStart(2, '0')} / 0{CASES.length} · {zh ? '交付形式' : 'Delivery'}</p>
-              <h3 className="mt-4">{t(now.title[0])} <br className="hidden lg:inline" />{t(now.title[1])}</h3>
+              <h3 className="mt-4">{t(now.title[0])}{zh ? '' : ' '}<br className="hidden lg:inline" />{t(now.title[1])}</h3>
               <p className="mt-3 text-[15px] leading-[1.55] text-white/80">{t(now.line)}</p>
               <p className="mt-3 text-[13px] text-white/55">{t(now.tag)}</p>
             </div>
